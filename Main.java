@@ -9,7 +9,7 @@ public class Main {
     private static void createJFrame() {
         JFrame jFrame = new JFrame("Online Shop");
         jFrame.setSize(1000,700);
-        jFrame.setBackground(Color.CYAN);
+        jFrame.setBackground(Color.CYAN);//Color is different from panels to figure possible bugs
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.add(new SignRegPanel());
         jFrame.setVisible(true);
