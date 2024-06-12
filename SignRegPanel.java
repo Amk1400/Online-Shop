@@ -1,24 +1,48 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class SignRegPanel extends JPanel {
+public class SignRegPanel extends JPanel implements ActionListener{
+
+    JButton register    = new JButton("register");
+    JButton sign        = new JButton("Sign-in");
+
     public SignRegPanel(){
         super();
+
         this.setSize(1000,700);
         this.setLayout(new GridLayout(4,3,100,100));
         this.setBackground(Color.GREEN);
-        this.add(new JLabel(" "));
-        this.add(new JLabel(" "));
-        this.add(new JLabel(" "));
-        this.add(new JLabel(" "));
-        this.add(new JButton("Sign-in"));
-        this.add(new JLabel(" "));
-        this.add(new JLabel(" "));
-        this.add(new JButton("register"));
-        this.add(new JLabel(" "));
-        this.add(new JLabel(" "));
-        this.add(new JLabel(" "));
-        this.add(new JLabel(" "));
+
+        sign.addActionListener(this);
+        register.addActionListener(this);
+
+        addButtonsToPanel();
         this.setVisible(true);
+    }
+
+    private void addButtonsToPanel() {
+        this.add(new JLabel(" "));//these values are added due to layout work!
+        this.add(new JLabel(" "));
+        this.add(new JLabel(" "));
+        this.add(new JLabel(" "));
+        this.add(sign);
+        this.add(new JLabel(" "));
+        this.add(new JLabel(" "));
+        this.add(register);
+        this.add(new JLabel(" "));
+        this.add(new JLabel(" "));
+        this.add(new JLabel(" "));
+        this.add(new JLabel(" "));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource().equals(register)){
+            //TODO
+        } else if (e.getSource().equals(sign)) {
+            //TODO
+        }
     }
 }
