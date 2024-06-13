@@ -40,7 +40,7 @@ public class SignRegPanel extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(register)){
-            //TODO
+            new RegPanel(this);
         } else if (e.getSource().equals(sign)) {
             //TODO
         }
