@@ -13,12 +13,12 @@ public class RegPanel implements ActionListener{
             p.removeAll();
 
             p.setSize(1000,700);
-            p.setLayout(new GridLayout(1,3));
+            p.setLayout(new BorderLayout());
             p.setBackground(Color.GREEN);
 
-            p.add(new JLabel(""));
-            p.add(infoPanel());
-            p.add(new JLabel(""));
+
+            p.add(infoPanel(),BorderLayout.CENTER);
+
 
             p.repaint();
             p.revalidate();
@@ -36,16 +36,16 @@ public class RegPanel implements ActionListener{
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.gridx = 0;
             gbc.gridy = 0;
-            panel.add(new JLabel("Please register "),gbc);
+            panel.add(new JLabel("                              "),gbc);
             gbc.gridx = 1;
             gbc.gridy = 0;
-            panel.add(new JLabel("with a unique "),gbc);
+            panel.add(new JLabel("                              "),gbc);
             gbc.gridx = 2;
             gbc.gridy = 0;
-            panel.add(new JLabel("username and "),gbc);
+            panel.add(new JLabel("                              "),gbc);
             gbc.gridx = 3;
             gbc.gridy = 0;
-            panel.add(new JLabel("a password "),gbc);
+            panel.add(new JLabel("                              "),gbc);
 
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.gridx = 0;
@@ -94,9 +94,9 @@ public class RegPanel implements ActionListener{
             gbc.gridx = 1;
             gbc.gridy = 5;
             gbc.ipady = 15;
-            gbc.gridwidth= 2;
+            gbc.gridwidth= 3;
             ImageIcon imageIcon = new ImageIcon("kindpng_3112748.png");
-            Image image = imageIcon.getImage().getScaledInstance(100,50,0);
+            Image image = imageIcon.getImage().getScaledInstance(150,50,0);
             registerButton = new JButton(new ImageIcon());
             registerButton.setIcon(new ImageIcon(image));
             registerButton.setBackground(Color.GREEN);
