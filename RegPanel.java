@@ -3,30 +3,47 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegPanel extends JPanel implements ActionListener{
+public class RegPanel implements ActionListener{
         JTextField passwordAgainField;
         JTextField passwordField;
         JTextField usernameField;
         JButton registerButton;
+        JButton backButton;
+        JPanel headerPanel;
+        JPanel p;
 
-        public RegPanel(){
+        public RegPanel(JPanel p){
             super();
-            this.removeAll();
+            this.p = p;
+            p.removeAll();
 
-            this.setSize(1000,700);
-            this.setLayout(new BorderLayout());
-            this.setBackground(Color.GREEN);
+            p.setSize(1000,700);
+            p.setLayout(new BorderLayout());
+            p.setBackground(Color.GREEN);
 
+            headerPanel = new JPanel();
+            p.add(headerPanel,BorderLayout.NORTH);
+            headerPanel.setLayout(new BorderLayout());
+            headerPanel.setBackground(Color.GREEN);
 
-            this.add(infoPanel(),BorderLayout.CENTER);
+            backButton=new JButton();
+            ImageIcon imageIcon = new ImageIcon("54716.png");
+            Image image = imageIcon.getImage().getScaledInstance(50,50,0);
+            backButton = new JButton(new ImageIcon());
+            backButton.setIcon(new ImageIcon(image));
+            backButton.setBackground(Color.GREEN);
+            backButton.setBorderPainted(false);
+            backButton.addActionListener(this);
+            headerPanel.add(backButton,BorderLayout.WEST);
 
+            p.add(infoPanel(p),BorderLayout.CENTER);
 
-            this.repaint();
-            this.revalidate();
-            this.setVisible(true);
+            p.repaint();
+            p.revalidate();
+            p.setVisible(true);
         }
 
-        private JPanel infoPanel() {
+        private JPanel infoPanel(JPanel p) {
             JPanel panel = new JPanel();
             panel.setSize(500,600);
             panel.setLayout(new GridBagLayout());
@@ -37,22 +54,22 @@ public class RegPanel extends JPanel implements ActionListener{
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.gridx = 0;
             gbc.gridy = 0;
-            panel.add(new JLabel("                              "),gbc);
+            panel.add(new JLabel("                         "),gbc);
             gbc.gridx = 1;
             gbc.gridy = 0;
-            panel.add(new JLabel("                              "),gbc);
+            panel.add(new JLabel("                         "),gbc);
             gbc.gridx = 2;
             gbc.gridy = 0;
-            panel.add(new JLabel("                              "),gbc);
+            panel.add(new JLabel("                         "),gbc);
             gbc.gridx = 3;
             gbc.gridy = 0;
-            panel.add(new JLabel("                              "),gbc);
+            panel.add(new JLabel("                         "),gbc);
 
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.gridx = 0;
             gbc.gridy = 1;
             gbc.gridwidth= 1;
-            panel.add(new JLabel("username: "),gbc);
+            panel.add(new JLabel("Username: "),gbc);
             gbc.gridx = 1;
             gbc.gridy = 1;
             gbc.gridwidth = 3;
@@ -64,7 +81,7 @@ public class RegPanel extends JPanel implements ActionListener{
             gbc.gridx = 0;
             gbc.gridy = 2;
             gbc.gridwidth= 1;
-            panel.add(new JLabel("password: "),gbc);
+            panel.add(new JLabel("Password: "),gbc);
             gbc.gridx = 1;
             gbc.gridy = 2;
             gbc.gridwidth = 3;
@@ -76,7 +93,7 @@ public class RegPanel extends JPanel implements ActionListener{
             gbc.gridx = 0;
             gbc.gridy = 3;
             gbc.gridwidth= 1;
-            panel.add(new JLabel("password again: "),gbc);
+            panel.add(new JLabel("Repeat password: "),gbc);
             gbc.gridx = 1;
             gbc.gridy = 3;
             gbc.gridwidth = 3;
@@ -112,6 +129,12 @@ public class RegPanel extends JPanel implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             if(e.getSource().equals(registerButton)){
                 //TODO
+            }
+            else if(e.getSource().equals(backButton)){
+                p.removeAll();
+                p.add(new SignRegPanel());
+                p.repaint();
+                p.revalidate();
             }
         }
     }
