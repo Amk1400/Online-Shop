@@ -3,26 +3,27 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegPanel implements ActionListener{
+public class RegPanel extends JPanel implements ActionListener{
         JTextField passwordAgainField;
         JTextField passwordField;
         JTextField usernameField;
         JButton registerButton;
 
-        public RegPanel(JPanel p){
-            p.removeAll();
+        public RegPanel(){
+            super();
+            this.removeAll();
 
-            p.setSize(1000,700);
-            p.setLayout(new BorderLayout());
-            p.setBackground(Color.GREEN);
-
-
-            p.add(infoPanel(),BorderLayout.CENTER);
+            this.setSize(1000,700);
+            this.setLayout(new BorderLayout());
+            this.setBackground(Color.GREEN);
 
 
-            p.repaint();
-            p.revalidate();
-            p.setVisible(true);
+            this.add(infoPanel(),BorderLayout.CENTER);
+
+
+            this.repaint();
+            this.revalidate();
+            this.setVisible(true);
         }
 
         private JPanel infoPanel() {
