@@ -1,7 +1,9 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class RegPanel implements ActionListener{
         JTextField passwordAgainField;
@@ -11,10 +13,20 @@ public class RegPanel implements ActionListener{
         JButton backButton;
         JPanel headerPanel;
         JPanel p;
+        ArrayList<String> errors = new ArrayList<>();
 
         public RegPanel(JPanel p){
-            super();
             this.p = p;
+            setPanel();
+        }
+
+        RegPanel(JPanel p, ArrayList<String> errors){
+            this.errors = errors;
+            this.p = p;
+            setPanel();
+        }
+
+        public void setPanel(){
             p.removeAll();
 
             p.setSize(1000,700);
@@ -75,6 +87,7 @@ public class RegPanel implements ActionListener{
             gbc.gridwidth = 3;
             gbc.ipady = 30;
             usernameField = new JTextField();
+            usernameField.setBorder(new LineBorder(Color.BLACK,3));
             panel.add(usernameField,gbc);
 
             gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -87,6 +100,7 @@ public class RegPanel implements ActionListener{
             gbc.gridwidth = 3;
             gbc.ipady = 30;
             passwordField = new JTextField();
+            passwordField.setBorder(new LineBorder(Color.BLACK,3));
             panel.add(passwordField,gbc);
 
             gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -99,18 +113,30 @@ public class RegPanel implements ActionListener{
             gbc.gridwidth = 3;
             gbc.ipady = 30;
             passwordAgainField = new JTextField();
+            passwordAgainField.setBorder(new LineBorder(Color.BLACK,3));
             panel.add(passwordAgainField,gbc);
 
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-            gbc.gridx = 1;
-            gbc.gridy = 4;
-            gbc.ipady = 15;
-            gbc.gridwidth= 2;
-            panel.add(new JLabel(""),gbc);
+            int errorsNum = errors.size();
+            for (int i=0; i<=errorsNum; i++) {
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.gridx = 1;
+                gbc.gridy = 4+i;
+                gbc.ipady = 5;
+                gbc.gridwidth = 2;
+                try {
+                    JLabel label = new JLabel(STR."*\{errors.get(i)}");
+                    label.setFont(new Font("Arial Rounded MT Bold",Font.PLAIN,12));
+                    panel.add(label, gbc);
+                }
+                catch (Exception e){
+                    panel.add(new JLabel(""), gbc);
+                }
+
+            }
 
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.gridx = 1;
-            gbc.gridy = 5;
+            gbc.gridy = errorsNum+5;
             gbc.ipady = 15;
             gbc.gridwidth= 3;
             ImageIcon imageIcon = new ImageIcon("kindpng_3112748.png");
@@ -128,7 +154,15 @@ public class RegPanel implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource().equals(registerButton)){
-                //TODO
+                errors = Validators.passwordValidator(passwordField.getText());
+                if (!passwordField.getText().equals(passwordAgainField.getText())){
+                    errors.add("You have repeated your password wrongly");
+                }
+                if (errors.isEmpty()) {
+                    //TODO
+                } else {
+                    new RegPanel(p,errors);
+                }
             }
             else if(e.getSource().equals(backButton)){
                 p.removeAll();
