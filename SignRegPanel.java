@@ -13,7 +13,7 @@ public class SignRegPanel extends JPanel implements ActionListener{
 
         this.setSize(1000,700);
         this.setLayout(new GridLayout(4,3,100,100));
-        this.setBackground(Color.GREEN);
+        this.setBackground(Color.pink);
 
         sign.addActionListener(this);
         register.addActionListener(this);

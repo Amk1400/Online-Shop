@@ -15,7 +15,7 @@ public class SignIn extends JFrame {
 
         SignInpanel.setSize(1000, 700);
         SignInpanel.setLayout(null);
-        SignInpanel.setBackground(Color.GREEN);
+        SignInpanel.setBackground(Color.pink);
         UIManager.put("Label.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
         UIManager.put("Button.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
         UIManager.put("TextField.font", new Font("Arial Rounded MT Bold",Font.PLAIN,14));

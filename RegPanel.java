@@ -31,19 +31,19 @@ public class RegPanel implements ActionListener{
 
             p.setSize(1000,700);
             p.setLayout(new BorderLayout());
-            p.setBackground(Color.GREEN);
+            p.setBackground(Color.pink);
 
             headerPanel = new JPanel();
             p.add(headerPanel,BorderLayout.NORTH);
             headerPanel.setLayout(new BorderLayout());
-            headerPanel.setBackground(Color.GREEN);
+            headerPanel.setBackground(Color.pink);
 
             backButton=new JButton();
-            ImageIcon imageIcon = new ImageIcon("54716.png");
+            ImageIcon imageIcon = new ImageIcon("pictures\\54716.png");
             Image image = imageIcon.getImage().getScaledInstance(50,50,0);
             backButton = new JButton(new ImageIcon());
             backButton.setIcon(new ImageIcon(image));
-            backButton.setBackground(Color.GREEN);
+            backButton.setBackground(Color.pink);
             backButton.setBorderPainted(false);
             backButton.addActionListener(this);
             headerPanel.add(backButton,BorderLayout.WEST);
@@ -59,7 +59,7 @@ public class RegPanel implements ActionListener{
             JPanel panel = new JPanel();
             panel.setSize(500,600);
             panel.setLayout(new GridBagLayout());
-            panel.setBackground(Color.GREEN);
+            panel.setBackground(Color.pink);
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.insets = new Insets(5,0,5,0);
 
@@ -139,11 +139,11 @@ public class RegPanel implements ActionListener{
             gbc.gridy = errorsNum+5;
             gbc.ipady = 15;
             gbc.gridwidth= 3;
-            ImageIcon imageIcon = new ImageIcon("kindpng_3112748.png");
+            ImageIcon imageIcon = new ImageIcon("pictures\\kindpng_3112748.png");
             Image image = imageIcon.getImage().getScaledInstance(150,50,0);
             registerButton = new JButton(new ImageIcon());
             registerButton.setIcon(new ImageIcon(image));
-            registerButton.setBackground(Color.GREEN);
+            registerButton.setBackground(Color.pink);
             registerButton.setBorderPainted(false);
             registerButton.addActionListener(this);
             panel.add(registerButton,gbc);
@@ -159,7 +159,7 @@ public class RegPanel implements ActionListener{
                     errors.add("You have repeated your password wrongly");
                 }
                 if (errors.isEmpty()) {
-                    //TODO
+                    new buyPanel(p);
                 } else {
                     new RegPanel(p,errors);
                 }
