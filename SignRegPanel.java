@@ -40,15 +40,9 @@ public class SignRegPanel extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(register)){
-            new RegPanel(this);
-            /*
-                 We are considering this panel as a base panel which our JFrame can recognize
-                 we will remove all containing components of this panel
-                 and replace next panel we want
-                 in this case it will be RegPanel
-            */
+            Main.setCurrentPanel(Main.REG_PANEL);
         } else if (e.getSource().equals(sign)) {
-            //TODO
+            Main.setCurrentPanel(Main.SIGN_PANEL);
         }
     }
 }

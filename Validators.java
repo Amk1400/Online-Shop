@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class Validators {
+
+    public static final String TEST_PASSWORD = "kj";
+
     public static ArrayList<String> passwordValidator(String password){
         ArrayList<String> errors = new ArrayList<>();
         if(Pattern.matches("[^A-Z]+",password)){
@@ -22,7 +25,8 @@ public class Validators {
         return errors;
     }
     public static void main(String[] args){
-        ArrayList<String> errors = passwordValidator("kj");
+        //TEST:
+        ArrayList<String> errors = passwordValidator(TEST_PASSWORD);
         System.out.println(errors);
     }
 
