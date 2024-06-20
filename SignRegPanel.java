@@ -15,9 +15,6 @@ public class SignRegPanel extends JPanel implements ActionListener{
         this.setLayout(new GridLayout(4,3,100,100));
         this.setBackground(Color.pink);
 
-        sign.addActionListener(this);
-        register.addActionListener(this);
-
         addButtonsToPanel();
         this.setVisible(true);
     }
@@ -35,12 +32,21 @@ public class SignRegPanel extends JPanel implements ActionListener{
         this.add(new JLabel(" "));
         this.add(new JLabel(" "));
         this.add(new JLabel(" "));
+
+        sign.addActionListener(this);
+        register.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(register)){
             new RegPanel(this);
+            /*
+                 We are considering this panel as a base panel which our JFrame can recognize
+                 we will remove all containing components of this panel
+                 and replace next panel we want
+                 in this case it will be RegPanel
+            */
         } else if (e.getSource().equals(sign)) {
             //TODO
         }

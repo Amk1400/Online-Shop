@@ -123,10 +123,10 @@ public class RegPanel implements ActionListener{
                 gbc.gridy = 4+i;
                 gbc.ipady = 5;
                 gbc.gridwidth = 2;
-                try {
+                try {/*     commented due to error of STR
                     JLabel label = new JLabel(STR."*\{errors.get(i)}");
                     label.setFont(new Font("Arial Rounded MT Bold",Font.PLAIN,12));
-                    panel.add(label, gbc);
+                    panel.add(label, gbc);*/
                 }
                 catch (Exception e){
                     panel.add(new JLabel(""), gbc);
