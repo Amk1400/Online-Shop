@@ -2,14 +2,12 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
-public class RegPanel extends JPanel implements ActionListener{
+public class RegPanel extends MyPanel{
     JTextField passwordAgainField;
     JTextField passwordField;
     JTextField usernameField;
@@ -41,20 +39,6 @@ public class RegPanel extends JPanel implements ActionListener{
 
         this.repaint();
         this.revalidate();
-    }
-
-    private void createButton(JButton button, String path, int width, int height, String name) {
-        try {
-            BufferedImage bufferedImage = ImageIO.read(new File(path));
-            ImageIcon imageIcon = new ImageIcon(bufferedImage.getScaledInstance(width, height, 0));
-            button.setIcon(imageIcon);
-            button.setBackground(Color.pink);
-            button.setBorderPainted(false);
-        } catch (IOException e) {
-            button.setName(name);
-            throw new RuntimeException("couldn't find " + name + " icon in: " + path);
-        }
-        button.addActionListener(this);
     }
 
     private void createHeaderPanel() {

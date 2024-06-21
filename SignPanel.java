@@ -1,9 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class SignPanel extends JPanel {
+public class SignPanel extends MyPanel {
+
+    JButton signInButton;
 
     public SignPanel(JPanel lastPanel){
         super();
@@ -15,15 +16,9 @@ public class SignPanel extends JPanel {
     }
 
     private void createSignInButton() {
-        JButton SignInbutton = new JButton("SignIn");
-        SignInbutton.setBounds(450, 500, 100, 60);
-        SignInbutton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO
-            }
-        });
-        this.add(SignInbutton);
+        //TODO asssign path,width,height of sign in icon
+        createButton(signInButton,"",0,0,"Sign-in");
+        this.add(signInButton);
     }
 
     private void createPasswordSection() {
@@ -65,5 +60,10 @@ public class SignPanel extends JPanel {
         this.setSize(1000, 700);
         this.setLayout(null);
         this.setBackground(Color.pink);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 }
