@@ -94,7 +94,7 @@ public class buyPanel implements ActionListener {
 
         for(int a=0; a<2; a++){
             for (int b=0; b<4; b++){
-                panelHolder[a][b].add(createProduct("pictures\\11506.jpg","banana","100000"));
+                panelHolder[a][b].add(createProduct("pictures\\banana.jpg","banana","100000"));
             }
         }
 

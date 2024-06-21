@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 public class Main {
 

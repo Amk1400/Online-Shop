@@ -7,7 +7,7 @@ public class SignPanel extends MyPanel {
     JButton signInButton;
 
     public SignPanel(JPanel lastPanel){
-        super();
+        super(lastPanel);
         createFrontend();
         createUsernameSection();
         createPasswordSection();
@@ -16,8 +16,9 @@ public class SignPanel extends MyPanel {
     }
 
     private void createSignInButton() {
+        signInButton = new JButton();
         //TODO asssign path,width,height of sign in icon
-        createButton(signInButton,"",0,0,"Sign-in");
+        createButton(signInButton,"pictures\\banana.jpg",50,50,"Sign-in");
         this.add(signInButton);
     }
 

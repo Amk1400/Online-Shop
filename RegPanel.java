@@ -8,132 +8,22 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class RegPanel extends MyPanel{
+
     JTextField passwordAgainField;
-    JTextField passwordField;
-    JTextField usernameField;
-    JButton registerButton = new JButton();
-    JButton backButton = new JButton();
-    JPanel headerPanel;
-    JPanel lastPanel;
+    JButton registerButton;
     ArrayList<String> errors = new ArrayList<>();
 
     public RegPanel(JPanel lastPanel){
-        super();
-        this.lastPanel = lastPanel;
-        createThis();
+        super(lastPanel);
     }
 
     RegPanel(JPanel lastPanel, ArrayList<String> errors){
+        super(lastPanel);
         this.errors = errors;
         this.lastPanel = lastPanel;
-        createThis();
     }
 
-    private void createThis(){
-        this.setSize(1000,700);
-        this.setLayout(new BorderLayout());
-        this.setBackground(Color.pink);
-
-        createHeaderPanel();
-        createBodyPanel();
-
-        this.repaint();
-        this.revalidate();
-    }
-
-    private void createHeaderPanel() {
-        headerPanel = new JPanel();
-        this.add(headerPanel,BorderLayout.NORTH);
-        headerPanel.setLayout(new BorderLayout());
-        headerPanel.setBackground(Color.pink);
-
-        createButton(backButton,"pictures\\backButton.png",50,50, "Back");
-        headerPanel.add(backButton,BorderLayout.WEST);
-    }
-
-    private void createBodyPanel() {
-        JPanel bodyPanel = new JPanel();
-        bodyPanel.setSize(500,600);
-        bodyPanel.setLayout(new GridBagLayout());
-        bodyPanel.setBackground(Color.pink);
-        GridBagConstraints gbcLayout = new GridBagConstraints();
-        gbcLayout.insets = new Insets(5,0,5,0);
-        gbcLayout.fill = GridBagConstraints.HORIZONTAL;
-        gbcLayout.gridx = 0;
-        gbcLayout.gridy = 0;
-        bodyPanel.add(new JLabel("                         "),gbcLayout);
-        gbcLayout.gridx = 1;
-        gbcLayout.gridy = 0;
-        bodyPanel.add(new JLabel("                         "),gbcLayout);
-        gbcLayout.gridx = 2;
-        gbcLayout.gridy = 0;
-        bodyPanel.add(new JLabel("                         "),gbcLayout);
-        gbcLayout.gridx = 3;
-        gbcLayout.gridy = 0;
-        bodyPanel.add(new JLabel("                         "),gbcLayout);
-        gbcLayout.fill = GridBagConstraints.HORIZONTAL;
-        gbcLayout.gridx = 0;
-        gbcLayout.gridy = 1;
-        gbcLayout.gridwidth= 1;
-        bodyPanel.add(new JLabel("Username: "),gbcLayout);
-        gbcLayout.gridx = 1;
-        gbcLayout.gridy = 1;
-        gbcLayout.gridwidth = 3;
-        gbcLayout.ipady = 30;
-        usernameField = new JTextField();
-        usernameField.setBorder(new LineBorder(Color.BLACK,3));
-        bodyPanel.add(usernameField,gbcLayout);
-        gbcLayout.fill = GridBagConstraints.HORIZONTAL;
-        gbcLayout.gridx = 0;
-        gbcLayout.gridy = 2;
-        gbcLayout.gridwidth= 1;
-        bodyPanel.add(new JLabel("Password: "),gbcLayout);
-        gbcLayout.gridx = 1;
-        gbcLayout.gridy = 2;
-        gbcLayout.gridwidth = 3;
-        gbcLayout.ipady = 30;
-        passwordField = new JTextField();
-        passwordField.setBorder(new LineBorder(Color.BLACK,3));
-        bodyPanel.add(passwordField,gbcLayout);
-        gbcLayout.fill = GridBagConstraints.HORIZONTAL;
-        gbcLayout.gridx = 0;
-        gbcLayout.gridy = 3;
-        gbcLayout.gridwidth= 1;
-        bodyPanel.add(new JLabel("Repeat password: "),gbcLayout);
-        gbcLayout.gridx = 1;
-        gbcLayout.gridy = 3;
-        gbcLayout.gridwidth = 3;
-        gbcLayout.ipady = 30;
-        passwordAgainField = new JTextField();
-        passwordAgainField.setBorder(new LineBorder(Color.BLACK,3));
-        bodyPanel.add(passwordAgainField,gbcLayout);
-        int errorsNum = errors.size();
-        for (int i=0; i<=errorsNum; i++) {
-            gbcLayout.fill = GridBagConstraints.HORIZONTAL;
-            gbcLayout.gridx = 1;
-            gbcLayout.gridy = 4+i;
-            gbcLayout.ipady = 5;
-            gbcLayout.gridwidth = 2;
-            try {/*     commented due to error of STR
-                   JLabel label = new JLabel(STR."*\{errors.get(i)}");
-                   label.setFont(new Font("Arial Rounded MT Bold",Font.PLAIN,12));
-                   panel.add(label, gbc);*/
-            }
-            catch (Exception e){
-                bodyPanel.add(new JLabel(""), gbcLayout);
-            }
-        }
-        gbcLayout.fill = GridBagConstraints.HORIZONTAL;
-        gbcLayout.gridx = 1;
-        gbcLayout.gridy = errorsNum+5;
-        gbcLayout.ipady = 15;
-        gbcLayout.gridwidth= 3;
-        createButton(registerButton,"pictures\\regButton.png",150,50, "Register");
-        bodyPanel.add(registerButton,gbcLayout);
-        this.add(bodyPanel,BorderLayout.CENTER);
-    }
-
-        @Override
+    @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(registerButton)){
 
@@ -164,6 +54,46 @@ public class RegPanel extends MyPanel{
         String inputPass = passwordField.getText();
         String repeatPass = passwordAgainField.getText();
         return inputPass.equals(repeatPass);
+    }
+
+    protected void createBodyPanel() {
+        super.createBodyPanel();
+        createRepeatPasswordSection();
+        /*
+        int errorsNum = errors.size();
+        for (int i=0; i<=errorsNum; i++) {
+            gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+            gridConstraints.gridx = 1;
+            gridConstraints.gridy = 4+i;
+            gridConstraints.ipady = 5;
+            gridConstraints.gridwidth = 2;
+            try {
+                   JLabel label = new JLabel(STR."*\{errors.get(i)}");
+                   label.setFont(new Font("Arial Rounded MT Bold",Font.PLAIN,12));
+                   panel.add(label, gbc);
+            }
+            catch (Exception e){
+                bodyPanel.add(new JLabel(""), gridConstraints);
+            }
+        }*/
+        registerButton = new JButton();
+        createButton(registerButton,"pictures\\regButton.png",150,50, "Register");
+        bodyPanel.add(registerButton,gridConstraints);
+        this.add(bodyPanel,BorderLayout.CENTER);
+    }
+
+    private void createRepeatPasswordSection() {
+        gridConstraints.gridy = 3;
+        gridConstraints.gridx = 0;
+        gridConstraints.gridwidth= 1;
+        bodyPanel.add(new JLabel("Repeat password: "),gridConstraints);
+        gridConstraints.gridx = 1;
+        gridConstraints.gridy = 3;
+        gridConstraints.gridwidth = 3;
+        gridConstraints.ipady = 30;
+        passwordAgainField = new JTextField();
+        passwordAgainField.setBorder(new LineBorder(Color.BLACK,3));
+        bodyPanel.add(passwordAgainField,gridConstraints);
     }
 }
 
