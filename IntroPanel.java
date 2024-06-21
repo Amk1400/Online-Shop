@@ -3,12 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SignRegPanel extends JPanel implements ActionListener{
+public class IntroPanel extends JPanel implements ActionListener{
 
     JButton register    = new JButton("register");
     JButton sign        = new JButton("Sign-in");
 
-    public SignRegPanel(){
+    public IntroPanel(){
         super();
 
         this.setSize(1000,700);

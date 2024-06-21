@@ -2,69 +2,63 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class SignPanel extends MyPanel {
+public class SignPanel extends SignAndRegPanel {
 
     JButton signInButton;
 
     public SignPanel(JPanel lastPanel){
         super(lastPanel);
-        createFrontend();
-        createUsernameSection();
-        createPasswordSection();
-        createSignInButton();
-
     }
 
-    private void createSignInButton() {
+    protected void createBodyPanel() {
+        super.createBodyPanel();
+        putSignButtonInPlace();
+        this.add(bodyPanel, BorderLayout.CENTER);
+    }
+
+    @Override
+    protected void fillBlankOrRepeat() {
+        fillBlankRowOf(4,bodyPanel);
+    }
+
+    private void putSignButtonInPlace() {
         signInButton = new JButton();
-        //TODO asssign path,width,height of sign in icon
+        //TODO assign path,width,height of sign in icon
         createButton(signInButton,"pictures\\banana.jpg",50,50,"Sign-in");
-        this.add(signInButton);
-    }
-
-    private void createPasswordSection() {
-        createPasswordLabel();
-        createPasswordField();
-    }
-
-    private void createUsernameSection() {
-        createUserNameLabel();
-        createUsernameField();
-    }
-
-    private void createPasswordField() {
-        TextField passwordfield = new TextField();
-        passwordfield.setBounds(540, 350, 90, 20);
-        this.add(passwordfield);
-        //TODO saving the USERNAME AND PASS FOR FUTURE
-    }
-
-    private void createUsernameField() {
-        TextField usernamefield = new TextField();
-        usernamefield.setBounds(540, 250, 90, 20);
-        this.add(usernamefield);
-    }
-
-    private void createPasswordLabel() {
-        JLabel Passwordlable = new JLabel("Password:");
-        Passwordlable.setBounds(350, 350, 105, 20);
-        this.add(Passwordlable);
-    }
-
-    private void createUserNameLabel() {
-        JLabel usernamelable = new JLabel("Username:");
-        usernamelable.setBounds(350, 250, 105, 20);
-        this.add(usernamelable);
-    }
-
-    private void createFrontend() {
-        this.setSize(1000, 700);
-        this.setLayout(null);
-        this.setBackground(Color.pink);
+        bodyPanel.add(signInButton,gridConstraints);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        super.actionPerformed(e);
+        if(e.getSource().equals(signInButton)){
+            if(infoIsCorrect()){
+                //TODO go to profile
+            }else {//info wrong
+                if(DBcontainsUserName()){
+                    //TODO password is not correct
+                }else {
+                    //TODO please register first, there is no account with this username
+                }
+            }
+        }
+    }
 
+    private boolean infoIsCorrect() {
+        return DBcontainsUserName() && passwordMatchesThisUser();
+    }
+
+    private boolean DBcontainsUserName() {
+        //TODO check if it contains
+        return true;
+    }
+
+    private boolean passwordMatchesThisUser() {
+        if(DBcontainsUserName()){
+            //TODO check if it matches
+            return true;
+        }else {
+            return false;
+        }
     }
 }

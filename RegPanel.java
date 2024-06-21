@@ -1,13 +1,10 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
 import java.util.ArrayList;
 
-public class RegPanel extends MyPanel{
+public class RegPanel extends SignAndRegPanel {
 
     JTextField passwordAgainField;
     JButton registerButton;
@@ -25,6 +22,7 @@ public class RegPanel extends MyPanel{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        super.actionPerformed(e);
         if(e.getSource().equals(registerButton)){
 
             assignErrors();
@@ -37,9 +35,6 @@ public class RegPanel extends MyPanel{
                 //TODO
             }
 
-        }
-        else if(e.getSource().equals(backButton)){
-            Main.setCurrentPanel(lastPanel);
         }
     }
 
@@ -58,7 +53,6 @@ public class RegPanel extends MyPanel{
 
     protected void createBodyPanel() {
         super.createBodyPanel();
-        createRepeatPasswordSection();
         /*
         int errorsNum = errors.size();
         for (int i=0; i<=errorsNum; i++) {
@@ -76,10 +70,14 @@ public class RegPanel extends MyPanel{
                 bodyPanel.add(new JLabel(""), gridConstraints);
             }
         }*/
+        putRegButtonInPlace();
+        this.add(bodyPanel,BorderLayout.CENTER);
+    }
+
+    private void putRegButtonInPlace() {
         registerButton = new JButton();
         createButton(registerButton,"pictures\\regButton.png",150,50, "Register");
         bodyPanel.add(registerButton,gridConstraints);
-        this.add(bodyPanel,BorderLayout.CENTER);
     }
 
     private void createRepeatPasswordSection() {
@@ -88,12 +86,16 @@ public class RegPanel extends MyPanel{
         gridConstraints.gridwidth= 1;
         bodyPanel.add(new JLabel("Repeat password: "),gridConstraints);
         gridConstraints.gridx = 1;
-        gridConstraints.gridy = 3;
         gridConstraints.gridwidth = 3;
         gridConstraints.ipady = 30;
         passwordAgainField = new JTextField();
         passwordAgainField.setBorder(new LineBorder(Color.BLACK,3));
         bodyPanel.add(passwordAgainField,gridConstraints);
+    }
+
+    @Override
+    protected void fillBlankOrRepeat() {
+        createRepeatPasswordSection();
     }
 }
 
