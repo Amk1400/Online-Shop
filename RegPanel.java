@@ -13,8 +13,8 @@ public class RegPanel extends JPanel implements ActionListener{
     JTextField passwordAgainField;
     JTextField passwordField;
     JTextField usernameField;
-    JButton registerButton;
-    JButton backButton;
+    JButton registerButton = new JButton();
+    JButton backButton = new JButton();
     JPanel headerPanel;
     JPanel lastPanel;
     ArrayList<String> errors = new ArrayList<>();
@@ -37,24 +37,24 @@ public class RegPanel extends JPanel implements ActionListener{
         this.setBackground(Color.pink);
 
         createHeaderPanel();
-        createBodyPanel(lastPanel);
+        createBodyPanel();
 
         this.repaint();
         this.revalidate();
     }
 
-    private void createBackButton() {
+    private void createButton(JButton button, String path, int width, int height, String name) {
         try {
-            BufferedImage bufferedImage = ImageIO.read(new File("pictures\\backButton.png"));
-            ImageIcon imageIcon = new ImageIcon(bufferedImage.getScaledInstance(50, 50, 0));
-            backButton = new JButton(imageIcon);
-            backButton.setBackground(Color.pink);
-            backButton.setBorderPainted(false);
+            BufferedImage bufferedImage = ImageIO.read(new File(path));
+            ImageIcon imageIcon = new ImageIcon(bufferedImage.getScaledInstance(width, height, 0));
+            button.setIcon(imageIcon);
+            button.setBackground(Color.pink);
+            button.setBorderPainted(false);
         } catch (IOException e) {
-            backButton = new JButton("Back");
-            throw new RuntimeException("couldn't find backButton icon in: pictures\\backButton.png");
+            button.setName(name);
+            throw new RuntimeException("couldn't find " + name + " icon in: " + path);
         }
-        backButton.addActionListener(this);
+        button.addActionListener(this);
     }
 
     private void createHeaderPanel() {
@@ -63,11 +63,11 @@ public class RegPanel extends JPanel implements ActionListener{
         headerPanel.setLayout(new BorderLayout());
         headerPanel.setBackground(Color.pink);
 
-        createBackButton();
+        createButton(backButton,"pictures\\backButton.png",50,50, "Back");
         headerPanel.add(backButton,BorderLayout.WEST);
     }
 
-    private void createBodyPanel(JPanel lastPanel) {
+    private void createBodyPanel() {
         JPanel bodyPanel = new JPanel();
         bodyPanel.setSize(500,600);
         bodyPanel.setLayout(new GridBagLayout());
@@ -144,13 +144,7 @@ public class RegPanel extends JPanel implements ActionListener{
         gbcLayout.gridy = errorsNum+5;
         gbcLayout.ipady = 15;
         gbcLayout.gridwidth= 3;
-        ImageIcon imageIcon = new ImageIcon("pictures\\kindpng_3112748.png");
-        Image image = imageIcon.getImage().getScaledInstance(150,50,0);
-        registerButton = new JButton(new ImageIcon());
-        registerButton.setIcon(new ImageIcon(image));
-        registerButton.setBackground(Color.pink);
-        registerButton.setBorderPainted(false);
-        registerButton.addActionListener(this);
+        createButton(registerButton,"pictures\\regButton.png",150,50, "Register");
         bodyPanel.add(registerButton,gbcLayout);
         this.add(bodyPanel,BorderLayout.CENTER);
     }

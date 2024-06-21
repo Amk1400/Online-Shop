@@ -4,37 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SignPanel extends JPanel {
-    static JFrame frame = new JFrame("SIGN IN");
-    static JPanel SignInpanel = new JPanel();
 
-    public static void main(String[] args) {
-        frame.setSize(1000, 700);
-        frame.setResizable(false);
+    public SignPanel(JPanel lastPanel){
+        super();
+        createFrontend();
+        createUsernameSection();
+        createPasswordSection();
+        createSignInButton();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
-        SignInpanel.setSize(1000, 700);
-        SignInpanel.setLayout(null);
-        SignInpanel.setBackground(Color.pink);
-        UIManager.put("Label.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
-        UIManager.put("Button.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
-        UIManager.put("TextField.font", new Font("Arial Rounded MT Bold",Font.PLAIN,14));
-
-        JLabel usernamelable = new JLabel("Username:");
-        usernamelable.setBounds(350, 250, 105, 20);
-        SignInpanel.add(usernamelable);
-        JLabel Passwordlable = new JLabel("Password:");
-        Passwordlable.setBounds(350, 350, 105, 20);
-        SignInpanel.add(Passwordlable);
-
-        TextField usernamefield = new TextField();
-        usernamefield.setBounds(540, 250, 90, 20);
-        SignInpanel.add(usernamefield);
-        TextField passwordfield = new TextField();
-        passwordfield.setBounds(540, 350, 90, 20);
-        SignInpanel.add(passwordfield);
-        //TODO saving the USERNAME AND PASS FOR FUTURE
-
+    private void createSignInButton() {
         JButton SignInbutton = new JButton("SignIn");
         SignInbutton.setBounds(450, 500, 100, 60);
         SignInbutton.addActionListener(new ActionListener() {
@@ -43,9 +23,47 @@ public class SignPanel extends JPanel {
                 //TODO
             }
         });
-        SignInpanel.add(SignInbutton);
+        this.add(SignInbutton);
+    }
 
-        frame.add(SignInpanel);
-        frame.setVisible(true);
+    private void createPasswordSection() {
+        createPasswordLabel();
+        createPasswordField();
+    }
+
+    private void createUsernameSection() {
+        createUserNameLabel();
+        createUsernameField();
+    }
+
+    private void createPasswordField() {
+        TextField passwordfield = new TextField();
+        passwordfield.setBounds(540, 350, 90, 20);
+        this.add(passwordfield);
+        //TODO saving the USERNAME AND PASS FOR FUTURE
+    }
+
+    private void createUsernameField() {
+        TextField usernamefield = new TextField();
+        usernamefield.setBounds(540, 250, 90, 20);
+        this.add(usernamefield);
+    }
+
+    private void createPasswordLabel() {
+        JLabel Passwordlable = new JLabel("Password:");
+        Passwordlable.setBounds(350, 350, 105, 20);
+        this.add(Passwordlable);
+    }
+
+    private void createUserNameLabel() {
+        JLabel usernamelable = new JLabel("Username:");
+        usernamelable.setBounds(350, 250, 105, 20);
+        this.add(usernamelable);
+    }
+
+    private void createFrontend() {
+        this.setSize(1000, 700);
+        this.setLayout(null);
+        this.setBackground(Color.pink);
     }
 }

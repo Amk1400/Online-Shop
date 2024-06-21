@@ -8,7 +8,7 @@ public class Main {
     static JFrame jFrame = new JFrame("Online Shop");
     static final SignRegPanel SIGN_REG_PANEL = new SignRegPanel();
     static final RegPanel REG_PANEL = new RegPanel(SIGN_REG_PANEL);
-    static final SignPanel SIGN_PANEL = new SignPanel();
+    static final SignPanel SIGN_PANEL = new SignPanel(SIGN_REG_PANEL);
 
     public static void main(String[] args) {
         createJFrame();
