@@ -4,9 +4,9 @@ import java.awt.*;
 public class Main {
 
     static JFrame jFrame = new JFrame("Online Shop");
-    static final IntroPanel SIGN_REG_PANEL = new IntroPanel();
-    static final RegPanel REG_PANEL = new RegPanel(SIGN_REG_PANEL);
-    static final SignPanel SIGN_PANEL = new SignPanel(SIGN_REG_PANEL);
+    static IntroPanel SIGN_REG_PANEL;
+    static RegPanel REG_PANEL;
+    static SignPanel SIGN_PANEL;
 
     public static void main(String[] args) {
         createJFrame();
@@ -15,6 +15,9 @@ public class Main {
     private static void createJFrame() {
         createBackend();
         createFrontend();
+        SIGN_REG_PANEL = new IntroPanel();
+        REG_PANEL = new RegPanel(SIGN_REG_PANEL);
+        SIGN_PANEL = new SignPanel(SIGN_REG_PANEL);
         setCurrentPanel(SIGN_REG_PANEL);
         jFrame.setVisible(true);
     }

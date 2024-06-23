@@ -12,12 +12,14 @@ public class RegPanel extends SignAndRegPanel {
 
     public RegPanel(JPanel lastPanel){
         super(lastPanel);
+        putRegButtonInPlace(0);
     }
 
     RegPanel(JPanel lastPanel, ArrayList<String> errors){
         super(lastPanel);
         this.errors = errors;
-        this.lastPanel = lastPanel;
+        putRegButtonInPlace(errors.size());
+        setErrors(errors);
     }
 
     @Override
@@ -28,10 +30,10 @@ public class RegPanel extends SignAndRegPanel {
             assignErrors();
 
             if (errors.isEmpty()) {
-                //new buyPanel(lastPanel);
                 //TODO
             } else {
-                //new RegPanel(lastPanel,errors);
+                Main.REG_PANEL = new RegPanel(lastPanel,errors);
+                Main.setCurrentPanel(Main.REG_PANEL);
                 //TODO
             }
 
@@ -53,34 +55,40 @@ public class RegPanel extends SignAndRegPanel {
 
     protected void createBodyPanel() {
         super.createBodyPanel();
-        /*
-        int errorsNum = errors.size();
-        for (int i=0; i<=errorsNum; i++) {
-            gridConstraints.fill = GridBagConstraints.HORIZONTAL;
-            gridConstraints.gridx = 1;
-            gridConstraints.gridy = 4+i;
-            gridConstraints.ipady = 5;
-            gridConstraints.gridwidth = 2;
-            try {
-                   JLabel label = new JLabel(STR."*\{errors.get(i)}");
-                   label.setFont(new Font("Arial Rounded MT Bold",Font.PLAIN,12));
-                   panel.add(label, gbc);
-            }
-            catch (Exception e){
-                bodyPanel.add(new JLabel(""), gridConstraints);
-            }
-        }*/
-        putRegButtonInPlace();
+
         this.add(bodyPanel,BorderLayout.CENTER);
     }
 
-    private void putRegButtonInPlace() {
+    private void setErrors(ArrayList<String> errors){
+        int errorsNum = errors.size();
+        for (int i = 0; i <= errorsNum; i++) {
+            gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+            gridConstraints.gridx = 0;
+            gridConstraints.gridy = 4 + i;
+            gridConstraints.ipady = 5;
+            gridConstraints.gridwidth = 2;
+            try {
+                JLabel label = new JLabel("*"+errors.get(i));
+                label.setFont(new Font("Arial Rounded MT Bold",Font.PLAIN,12));
+                bodyPanel.add(label, gridConstraints);
+            } catch (Exception e) {
+                bodyPanel.add(new JLabel(""), gridConstraints);
+            }
+        }
+    }
+
+    private void putRegButtonInPlace(int errorsNum) {
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         registerButton = new JButton();
         createButton(registerButton,"pictures\\regButton.png",150,50, "Register");
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = errorsNum+4;
+        gridConstraints.gridwidth = 4;
         bodyPanel.add(registerButton,gridConstraints);
     }
 
     private void createRepeatPasswordSection() {
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridConstraints.gridy = 3;
         gridConstraints.gridx = 0;
         gridConstraints.gridwidth= 1;

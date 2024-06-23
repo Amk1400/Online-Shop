@@ -19,7 +19,6 @@ public abstract class SignAndRegPanel extends ParentPanel{
         createUserNameSection();
         createPasswordSection();
         fillBlankOrRepeat();
-        pointToButtonInset();
     }
 
     protected void fillBlankOrRepeat() {
@@ -27,6 +26,7 @@ public abstract class SignAndRegPanel extends ParentPanel{
     }
 
     private static void pointToButtonInset() {
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridConstraints.gridx = 1;
         gridConstraints.gridy = 5;
         gridConstraints.ipady = 15;
@@ -34,6 +34,7 @@ public abstract class SignAndRegPanel extends ParentPanel{
     }
 
     private void createPasswordSection() {
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridConstraints.gridy = 2;
         gridConstraints.gridx = 0;
         gridConstraints.gridwidth = 1;
@@ -47,6 +48,7 @@ public abstract class SignAndRegPanel extends ParentPanel{
     }
 
     private void createUserNameSection() {
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridConstraints.gridy = 1;
         gridConstraints.gridx = 0;
         gridConstraints.gridwidth= 1;
@@ -60,10 +62,12 @@ public abstract class SignAndRegPanel extends ParentPanel{
     }
 
     protected static void fillBlankRowOf(int rowNumber, JPanel bodyPanel) {
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridConstraints.gridwidth = 1;
         for (int j = 0; j < 4; j++) {
             gridConstraints.gridy = rowNumber;
             gridConstraints.gridx = j;
-            bodyPanel.add(new JLabel("                         "), gridConstraints);
+            bodyPanel.add(new JLabel("                   "), gridConstraints);
         }
     }
 }

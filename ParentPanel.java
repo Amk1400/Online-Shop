@@ -34,9 +34,7 @@ public abstract class ParentPanel extends JPanel implements ActionListener {
         bodyPanel = new JPanel();
         bodyPanel.setSize(500,600);
         bodyPanel.setBackground(Color.pink);
-
         bodyPanel.setLayout(new GridBagLayout());
-        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
     }
 
     private void createHeaderPanel() {
