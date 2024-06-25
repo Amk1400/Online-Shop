@@ -15,9 +15,6 @@ public class Main {
     private static void createJFrame() {
         createBackend();
         createFrontend();
-        SIGN_REG_PANEL = new IntroPanel();
-        REG_PANEL = new RegPanel(SIGN_REG_PANEL);
-        SIGN_PANEL = new SignPanel(SIGN_REG_PANEL);
         setCurrentPanel(SIGN_REG_PANEL);
         jFrame.setVisible(true);
     }
@@ -27,6 +24,10 @@ public class Main {
         UIManager.put("Label.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
         UIManager.put("Button.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
         UIManager.put("TextField.font", new Font("Arial Rounded MT Bold",Font.PLAIN,18));
+
+        SIGN_REG_PANEL = new IntroPanel();
+        REG_PANEL = new RegPanel(SIGN_REG_PANEL);
+        SIGN_PANEL = new SignPanel(SIGN_REG_PANEL);
     }
 
     private static void createBackend() {
