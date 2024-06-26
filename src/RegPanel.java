@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class RegPanel extends SignAndRegPanel {
@@ -30,7 +31,11 @@ public class RegPanel extends SignAndRegPanel {
             assignErrors();
 
             if (errors.isEmpty()) {
-                //TODO
+                try {
+                    Main.setCurrentPanel(new buyPanel());
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             } else {
                 Main.REG_PANEL = new RegPanel(lastPanel,errors);
                 Main.setCurrentPanel(Main.REG_PANEL);
