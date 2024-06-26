@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class Main {
 
@@ -7,18 +8,19 @@ public class Main {
     static IntroPanel SIGN_REG_PANEL;
     static RegPanel REG_PANEL;
     static SignPanel SIGN_PANEL;
+    static buyPanel BUY_PANEL;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         createJFrame();
     }
 
-    private static void createJFrame() {
+    private static void createJFrame() throws SQLException {
         createBackend();
         createFrontend();
         DataBase db = new DataBase();
     }
 
-    private static void createFrontend() {
+    private static void createFrontend() throws SQLException {
         jFrame.setBackground(Color.CYAN);//Color is different from panels to figure possible bugs
         UIManager.put("Label.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
         UIManager.put("Button.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
@@ -27,6 +29,7 @@ public class Main {
         SIGN_REG_PANEL = new IntroPanel();
         REG_PANEL = new RegPanel(SIGN_REG_PANEL);
         SIGN_PANEL = new SignPanel(SIGN_REG_PANEL);
+        BUY_PANEL = new buyPanel(SIGN_REG_PANEL);
         setCurrentPanel(SIGN_REG_PANEL);
         jFrame.setVisible(true);
     }

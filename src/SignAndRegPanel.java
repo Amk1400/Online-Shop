@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.sql.SQLException;
 
 public abstract class SignAndRegPanel extends ParentPanel{
 
@@ -8,11 +9,11 @@ public abstract class SignAndRegPanel extends ParentPanel{
     JTextField usernameField, passwordField;
 
 
-    public SignAndRegPanel(JPanel lastPanel){
+    public SignAndRegPanel(JPanel lastPanel) throws SQLException {
         super(lastPanel);
     }
 
-    protected void createBodyPanel() {
+    protected void createBodyPanel() throws SQLException {
         super.createBodyPanel();
         gridConstraints.insets = new Insets(5,0,5,0);
         fillBlankRowOf(0,bodyPanel);

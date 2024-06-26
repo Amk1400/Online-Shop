@@ -11,12 +11,12 @@ public class RegPanel extends SignAndRegPanel {
     JButton registerButton;
     ArrayList<String> errors = new ArrayList<>();
 
-    public RegPanel(JPanel lastPanel){
+    public RegPanel(JPanel lastPanel) throws SQLException {
         super(lastPanel);
         putRegButtonInPlace(0);
     }
 
-    RegPanel(JPanel lastPanel, ArrayList<String> errors){
+    RegPanel(JPanel lastPanel, ArrayList<String> errors) throws SQLException {
         super(lastPanel);
         this.errors = errors;
         putRegButtonInPlace(errors.size());
@@ -31,13 +31,13 @@ public class RegPanel extends SignAndRegPanel {
             assignErrors();
 
             if (errors.isEmpty()) {
+                Main.setCurrentPanel(Main.BUY_PANEL);
+            } else {
                 try {
-                    Main.setCurrentPanel(new buyPanel());
+                    Main.REG_PANEL = new RegPanel(lastPanel,errors);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-            } else {
-                Main.REG_PANEL = new RegPanel(lastPanel,errors);
                 Main.setCurrentPanel(Main.REG_PANEL);
                 //TODO
             }
@@ -58,7 +58,7 @@ public class RegPanel extends SignAndRegPanel {
         return inputPass.equals(repeatPass);
     }
 
-    protected void createBodyPanel() {
+    protected void createBodyPanel() throws SQLException {
         super.createBodyPanel();
 
         this.add(bodyPanel,BorderLayout.CENTER);

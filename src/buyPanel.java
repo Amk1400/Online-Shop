@@ -1,82 +1,40 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 
-public class buyPanel extends JPanel implements ActionListener {
+public class buyPanel extends AfterLoginPanel implements ActionListener {
 
     JPanel productsPanel;
-    JPanel headerPanel;
-    JPanel headerButtonsPanel;
-    JPanel footerPanel;
-    JPanel footerButtonsPanel;
     JButton productButton;
-    JButton backButton;
-    JButton profileButton;
-    JButton prevPageButton;
-    JButton cartButton;
-    JButton nextPageButton;
     JPanel[][] panelHolder;
+    int pageNumber = 1;
+    int maxPageNumber = maxPageNumber();
     Statement statement;
     ResultSet rs;
 
-    public buyPanel() throws SQLException {
-        setPanel();
+    public buyPanel(JPanel lastPanel) throws SQLException {
+        super(lastPanel);
     }
 
-    public void setPanel() throws SQLException {
-        this.removeAll();
+    protected void createFooterPanel(){
+        super.createFooterPanel();
+    }
 
-        this.setSize(1000,700);
-        this.setLayout(new BorderLayout());
-        this.setBackground(Color.pink);
-
-        headerPanel = new JPanel();
-        this.add(headerPanel,BorderLayout.NORTH);
-        headerPanel.setLayout(new BorderLayout());
-        headerPanel.setBackground(Color.pink);
-
-        headerButtonsPanel = new JPanel();
-        headerPanel.add(headerButtonsPanel,BorderLayout.EAST);
-        headerButtonsPanel.setLayout(new FlowLayout());
-        headerButtonsPanel.setBackground(Color.pink);
-
-        backButton=new JButton();
-        ImageIcon imageIcon = new ImageIcon("pictures\\introButton.png");
-        Image image = imageIcon.getImage().getScaledInstance(40,40,0);
-        backButton = new JButton(new ImageIcon());
-        backButton.setIcon(new ImageIcon(image));
-        backButton.setBackground(Color.pink);
-        backButton.setBorderPainted(false);
-        backButton.addActionListener(this);
-        headerPanel.add(backButton,BorderLayout.WEST);
-
-        cartButton=new JButton();
-        imageIcon = new ImageIcon("pictures\\cartButton.png");
-        image = imageIcon.getImage().getScaledInstance(40,40,0);
-        cartButton = new JButton(new ImageIcon());
-        cartButton.setIcon(new ImageIcon(image));
-        cartButton.setBackground(Color.pink);
-        cartButton.setBorderPainted(false);
-        cartButton.addActionListener(this);
-        headerButtonsPanel.add(cartButton);
-
-        profileButton=new JButton();
-        imageIcon = new ImageIcon("pictures\\profileButton.png");
-        image = imageIcon.getImage().getScaledInstance(40,40,0);
-        profileButton = new JButton(new ImageIcon());
-        profileButton.setIcon(new ImageIcon(image));
-        profileButton.setBackground(Color.pink);
-        profileButton.setBorderPainted(false);
-        profileButton.addActionListener(this);
-        headerButtonsPanel.add(profileButton);
+    protected void createBodyPanel() throws SQLException {
+        super.createBodyPanel();
+        bodyPanel.setLayout(new BorderLayout());
 
         productsPanel = new JPanel();
         productsPanel.setLayout(new GridLayout(2,4));
         productsPanel.setBackground(Color.pink);
-        this.add(productsPanel,BorderLayout.CENTER);
+        bodyPanel.add(productsPanel,BorderLayout.CENTER);
 
         int i = 2;
         int j = 4;
@@ -92,48 +50,12 @@ public class buyPanel extends JPanel implements ActionListener {
 
         statement = connectDB();
         rs = statement.executeQuery("select * from Products");
-        for(int a=0; a<2; a++){
-            for (int b=0; b<4; b++){
-                if(rs.next()) {
-                    panelHolder[a][b].add(createProduct("pictures\\banana.jpg", rs.getString(1), rs.getInt(2), String.valueOf(rs.getDouble(3))));
-                }
-            }
-        }
+        fillProducts();
 
-        footerPanel = new JPanel();
-        footerPanel.setBackground(Color.pink);
-        footerPanel.setLayout(new BorderLayout());
-        footerButtonsPanel = new JPanel();
-        footerPanel.add(footerButtonsPanel,BorderLayout.CENTER);
-        footerButtonsPanel.setLayout(new BorderLayout());
-        footerButtonsPanel.setBackground(Color.pink);
-
-        imageIcon = new ImageIcon("pictures\\nextPageButton.png");
-        image = imageIcon.getImage().getScaledInstance(40,40,0);
-        nextPageButton = new JButton(new ImageIcon());
-        nextPageButton.setIcon(new ImageIcon(image));
-        nextPageButton.setBackground(Color.pink);
-        nextPageButton.setBorderPainted(false);
-        nextPageButton.addActionListener(this);
-        footerButtonsPanel.add(nextPageButton,BorderLayout.EAST);
-
-        imageIcon = new ImageIcon("pictures\\prevPageButton.png");
-        image = imageIcon.getImage().getScaledInstance(40,40,0);
-        prevPageButton = new JButton(new ImageIcon());
-        prevPageButton.setIcon(new ImageIcon(image));
-        prevPageButton.setBackground(Color.pink);
-        prevPageButton.setBorderPainted(false);
-        prevPageButton.addActionListener(this);
-        footerButtonsPanel.add(prevPageButton,BorderLayout.WEST);
-
-        this.add(footerPanel,BorderLayout.SOUTH);
-
-        this.revalidate();
-        this.repaint();
-        this.setVisible(true);
+        this.add(bodyPanel,BorderLayout.CENTER);
     }
 
-    public JPanel createProduct(String imagePath, String name, int stock ,String price){
+    public JPanel createProduct(Blob blob, String name, int stock ,String price) throws SQLException, IOException {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         panel.setBackground(Color.pink);
@@ -144,7 +66,9 @@ public class buyPanel extends JPanel implements ActionListener {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipady = 5;
-        ImageIcon imageIcon = new ImageIcon(imagePath);
+        InputStream in = blob.getBinaryStream();
+        BufferedImage bufferedImage = ImageIO.read(in);
+        ImageIcon imageIcon = new ImageIcon(bufferedImage);
         Image image = imageIcon.getImage().getScaledInstance(100,120,0);
         productButton  = new JButton(new ImageIcon());
         productButton.setIcon(new ImageIcon(image));
@@ -221,51 +145,58 @@ public class buyPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(nextPageButton)){
-            for(int a=0; a<2; a++){
-                for (int b=0; b<4; b++){
-                    try {
-                        if(rs.next()) {
-                            panelHolder[a][b].removeAll();
-                            panelHolder[a][b].add(createProduct("pictures\\banana.jpg", rs.getString(1), rs.getInt(2), String.valueOf(rs.getDouble(3))));
-                            panelHolder[a][b].repaint();
-                            panelHolder[a][b].revalidate();
-                        }
-                        else {
-                            panelHolder[a][b].removeAll();
-                            panelHolder[a][b].repaint();
-                            panelHolder[a][b].revalidate();
-                        }
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
+            if(pageNumber+1 <= maxPageNumber) {
+                pageNumber++;
             }
-        }
-        else if (e.getSource().equals(prevPageButton)){
             try {
-                rs.absolute(rs.getRow()-6);
+                rs.absolute(((pageNumber-1)*8));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
-            for(int a=0; a<2; a++){
-                for (int b=0; b<4; b++){
-                    try {
-                        if(rs.previous()) {
-                            panelHolder[a][b].removeAll();
-                            panelHolder[a][b].add(createProduct("pictures\\banana.jpg", rs.getString(1), rs.getInt(2), String.valueOf(rs.getDouble(3))));
-                            panelHolder[a][b].repaint();
-                            panelHolder[a][b].revalidate();
-                        }
-                        else {
-                            panelHolder[a][b].removeAll();
-                            panelHolder[a][b].repaint();
-                            panelHolder[a][b].revalidate();
-                        }
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
+            fillProducts();
+        }
+        else if (e.getSource().equals(prevPageButton)){
+            if(pageNumber-1 >= 1) {
+                pageNumber--;
+            }
+            try {
+                rs.absolute(((pageNumber-1)*8));
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            fillProducts();
+        }
+    }
+
+    private void fillProducts(){
+        for(int a=0; a<2; a++){
+            for (int b=0; b<4; b++){
+                try {
+                    if(rs.next()) {
+                        panelHolder[a][b].removeAll();
+                        panelHolder[a][b].add(createProduct(rs.getBlob(4) , rs.getString(1), rs.getInt(2), String.valueOf(rs.getDouble(3))));
+                        panelHolder[a][b].repaint();
+                        panelHolder[a][b].revalidate();
                     }
+                    else {
+                        panelHolder[a][b].removeAll();
+                        panelHolder[a][b].repaint();
+                        panelHolder[a][b].revalidate();
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
+    }
+
+    private int maxPageNumber() throws SQLException {
+        Statement statement = connectDB();
+        ResultSet resultSet = statement.executeQuery("select count(*) from Products");
+        resultSet.next();
+        int rowsNumber = resultSet.getInt(1);
+        return (rowsNumber/8) + 1;
     }
 }

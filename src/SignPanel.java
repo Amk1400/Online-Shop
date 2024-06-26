@@ -1,16 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 public class SignPanel extends SignAndRegPanel {
 
     JButton signInButton;
 
-    public SignPanel(JPanel lastPanel){
+    public SignPanel(JPanel lastPanel) throws SQLException {
         super(lastPanel);
     }
 
-    protected void createBodyPanel() {
+    protected void createBodyPanel() throws SQLException {
         super.createBodyPanel();
         putSignButtonInPlace();
         this.add(bodyPanel, BorderLayout.CENTER);
