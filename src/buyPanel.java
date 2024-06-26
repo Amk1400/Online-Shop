@@ -3,9 +3,10 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
-public class buyPanel implements ActionListener {
-    JPanel p;
+public class buyPanel extends JPanel implements ActionListener {
+
     JPanel productsPanel;
     JPanel headerPanel;
     JPanel headerButtonsPanel;
@@ -18,22 +19,22 @@ public class buyPanel implements ActionListener {
     JButton cartButton;
     JButton nextPageButton;
     JPanel[][] panelHolder;
-    production banana;
+    Statement statement;
+    ResultSet rs;
 
-    public buyPanel(JPanel p){
-        this.p = p;
+    public buyPanel() throws SQLException {
         setPanel();
     }
 
-    public void setPanel(){
-        p.removeAll();
+    public void setPanel() throws SQLException {
+        this.removeAll();
 
-        p.setSize(1000,700);
-        p.setLayout(new BorderLayout());
-        p.setBackground(Color.pink);
+        this.setSize(1000,700);
+        this.setLayout(new BorderLayout());
+        this.setBackground(Color.pink);
 
         headerPanel = new JPanel();
-        p.add(headerPanel,BorderLayout.NORTH);
+        this.add(headerPanel,BorderLayout.NORTH);
         headerPanel.setLayout(new BorderLayout());
         headerPanel.setBackground(Color.pink);
 
@@ -43,7 +44,7 @@ public class buyPanel implements ActionListener {
         headerButtonsPanel.setBackground(Color.pink);
 
         backButton=new JButton();
-        ImageIcon imageIcon = new ImageIcon("pictures\\—Pngtree—logout vector icon_4236995.png");
+        ImageIcon imageIcon = new ImageIcon("pictures\\introButton.png");
         Image image = imageIcon.getImage().getScaledInstance(40,40,0);
         backButton = new JButton(new ImageIcon());
         backButton.setIcon(new ImageIcon(image));
@@ -53,7 +54,7 @@ public class buyPanel implements ActionListener {
         headerPanel.add(backButton,BorderLayout.WEST);
 
         cartButton=new JButton();
-        imageIcon = new ImageIcon("pictures\\computer-icons-basket-shopping-cart-icon-basket-ab2de23c5d2704ea1bb31b2cd82be34a.png");
+        imageIcon = new ImageIcon("pictures\\cartButton.png");
         image = imageIcon.getImage().getScaledInstance(40,40,0);
         cartButton = new JButton(new ImageIcon());
         cartButton.setIcon(new ImageIcon(image));
@@ -63,7 +64,7 @@ public class buyPanel implements ActionListener {
         headerButtonsPanel.add(cartButton);
 
         profileButton=new JButton();
-        imageIcon = new ImageIcon("pictures\\favpng_user-profile-button.png");
+        imageIcon = new ImageIcon("pictures\\profileButton.png");
         image = imageIcon.getImage().getScaledInstance(40,40,0);
         profileButton = new JButton(new ImageIcon());
         profileButton.setIcon(new ImageIcon(image));
@@ -75,7 +76,7 @@ public class buyPanel implements ActionListener {
         productsPanel = new JPanel();
         productsPanel.setLayout(new GridLayout(2,4));
         productsPanel.setBackground(Color.pink);
-        p.add(productsPanel,BorderLayout.CENTER);
+        this.add(productsPanel,BorderLayout.CENTER);
 
         int i = 2;
         int j = 4;
@@ -89,12 +90,13 @@ public class buyPanel implements ActionListener {
             }
         }
 
-        banana = new production();
-        banana.number=3;
-
+        statement = connectDB();
+        rs = statement.executeQuery("select * from Products");
         for(int a=0; a<2; a++){
             for (int b=0; b<4; b++){
-                panelHolder[a][b].add(createProduct("pictures\\banana.jpg","banana","100000"));
+                if(rs.next()) {
+                    panelHolder[a][b].add(createProduct("pictures\\banana.jpg", rs.getString(1), rs.getInt(2), String.valueOf(rs.getDouble(3))));
+                }
             }
         }
 
@@ -106,7 +108,7 @@ public class buyPanel implements ActionListener {
         footerButtonsPanel.setLayout(new BorderLayout());
         footerButtonsPanel.setBackground(Color.pink);
 
-        imageIcon = new ImageIcon("pictures\\noun-next-button-967110.png");
+        imageIcon = new ImageIcon("pictures\\nextPageButton.png");
         image = imageIcon.getImage().getScaledInstance(40,40,0);
         nextPageButton = new JButton(new ImageIcon());
         nextPageButton.setIcon(new ImageIcon(image));
@@ -115,7 +117,7 @@ public class buyPanel implements ActionListener {
         nextPageButton.addActionListener(this);
         footerButtonsPanel.add(nextPageButton,BorderLayout.EAST);
 
-        imageIcon = new ImageIcon("pictures\\noun-next-button-967105.png");
+        imageIcon = new ImageIcon("pictures\\prevPageButton.png");
         image = imageIcon.getImage().getScaledInstance(40,40,0);
         prevPageButton = new JButton(new ImageIcon());
         prevPageButton.setIcon(new ImageIcon(image));
@@ -124,14 +126,14 @@ public class buyPanel implements ActionListener {
         prevPageButton.addActionListener(this);
         footerButtonsPanel.add(prevPageButton,BorderLayout.WEST);
 
-        p.add(footerPanel,BorderLayout.SOUTH);
+        this.add(footerPanel,BorderLayout.SOUTH);
 
-        p.revalidate();
-        p.repaint();
-        p.setVisible(true);
+        this.revalidate();
+        this.repaint();
+        this.setVisible(true);
     }
 
-    public JPanel createProduct(String imagePath, String name, String price){
+    public JPanel createProduct(String imagePath, String name, int stock ,String price){
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         panel.setBackground(Color.pink);
@@ -179,7 +181,7 @@ public class buyPanel implements ActionListener {
         plusButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 int number = Integer.parseInt(countLabel.getText());
-                if(number+1 <= banana.number) {
+                if(number+1 <= stock) {
                     number++;
                     countLabel.setText(String.valueOf(number));
                 }
@@ -209,12 +211,61 @@ public class buyPanel implements ActionListener {
         return panel;
     }
 
+    public Statement connectDB() throws SQLException {
+        String host = "jdbc:derby://localhost:1527/Shop";
+        String username="shopadmin", password="shopadmin";
+        Connection con = DriverManager.getConnection( host, username, password );
+        return con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if(e.getSource().equals(nextPageButton)){
+            for(int a=0; a<2; a++){
+                for (int b=0; b<4; b++){
+                    try {
+                        if(rs.next()) {
+                            panelHolder[a][b].removeAll();
+                            panelHolder[a][b].add(createProduct("pictures\\banana.jpg", rs.getString(1), rs.getInt(2), String.valueOf(rs.getDouble(3))));
+                            panelHolder[a][b].repaint();
+                            panelHolder[a][b].revalidate();
+                        }
+                        else {
+                            panelHolder[a][b].removeAll();
+                            panelHolder[a][b].repaint();
+                            panelHolder[a][b].revalidate();
+                        }
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        }
+        else if (e.getSource().equals(prevPageButton)){
+            try {
+                rs.absolute(rs.getRow()-6);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            for(int a=0; a<2; a++){
+                for (int b=0; b<4; b++){
+                    try {
+                        if(rs.previous()) {
+                            panelHolder[a][b].removeAll();
+                            panelHolder[a][b].add(createProduct("pictures\\banana.jpg", rs.getString(1), rs.getInt(2), String.valueOf(rs.getDouble(3))));
+                            panelHolder[a][b].repaint();
+                            panelHolder[a][b].revalidate();
+                        }
+                        else {
+                            panelHolder[a][b].removeAll();
+                            panelHolder[a][b].repaint();
+                            panelHolder[a][b].revalidate();
+                        }
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        }
     }
-}
-
-class production{
-    int number;
 }
