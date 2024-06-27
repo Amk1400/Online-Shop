@@ -60,11 +60,25 @@ public class DataBase {
     }
 
 
-    private static void insertUser(User user){
-            //TODO
+    private static void insertUser(User user) throws SQLException {
+        rs.moveToInsertRow();
+        rs.updateString("USERNAME", user.userName);
+        rs.updateString("PASSWORD", user.userName);
+
+        rs.insertRow();
+        rs.close();
+        rs = STMT.executeQuery(SQL_USERS);
     }
 
-    private static void insertProduct(Product product){
-            //TODO
+    private static void insertProduct(Product product) throws SQLException {
+        rs.moveToInsertRow();
+        rs.updateString("NAME", product.name);
+        rs.updateInt("STOCK", product.stock);
+        rs.updateDouble("PRICE", product.price);
+        rs.updateBlob("IMAGE",(Blob) product.imageIcon);
+
+        rs.insertRow();
+        rs.close();
+        rs = STMT.executeQuery(SQL_PRODUCTS);
     }
 }
