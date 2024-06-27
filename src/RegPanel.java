@@ -38,7 +38,7 @@ public class RegPanel extends SignAndRegPanel {
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-                //TODO
+                Main.setCurrentPanel(Main.REG_PANEL);
             }
 
         }
@@ -46,6 +46,7 @@ public class RegPanel extends SignAndRegPanel {
 
     private void assignErrors() {
         errors = Validators.passwordValidator(passwordField.getText());
+        errors.addAll(Validators.userNameValidator(usernameField.getText()));
         if (!repeatedPassMatches()){
             errors.add("You have repeated your password wrongly");
         }
