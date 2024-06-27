@@ -33,7 +33,6 @@ public class Main {
         SIGN_PANEL = new SignPanel(INTRO_PANEL);
         //BUY_PANEL = new BuyPanel(INTRO_PANEL);
         //MANAGER_BUY_PANEL = new ManagerBuyPanel(SIGN_PANEL);
-        PROFILE_PANEL = new ProfilePanel(SIGN_PANEL);
 
         setCurrentPanel(INTRO_PANEL);
         JFRAME.setVisible(true);

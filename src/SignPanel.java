@@ -6,6 +6,7 @@ import java.sql.SQLException;
 public class SignPanel extends SignAndRegPanel {
 
     JButton signInButton;
+    final private User ADMIN = new User("Admin1","Admin1");
 
     public SignPanel(JPanel lastPanel) throws SQLException {
         super(lastPanel);
@@ -32,6 +33,13 @@ public class SignPanel extends SignAndRegPanel {
         bodyPanel.add(signInButton,gridConstraints);
     }
 
+    protected void assignErrors(User inputUser) {
+        super.assignErrors(inputUser);
+        if(!alreadyRegistered()){
+            errors.add("There is no such user, please register first!");
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);//backButton
@@ -41,9 +49,18 @@ public class SignPanel extends SignAndRegPanel {
             assignErrors(inputUser);
 
             if (errors.isEmpty()) {
-                Main.setCurrentPanel(Main.BUY_PANEL);
+                try {
+                    Main.PROFILE_PANEL = new ProfilePanel(Main.SIGN_PANEL, inputUser);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                Main.setCurrentPanel(Main.PROFILE_PANEL);
             } else {
-                this.bodyPanel.remove(signInButton);
+                while (this.bodyPanel.getComponents().length > 10){
+                    System.out.println(this.bodyPanel.getComponent(this.bodyPanel.getComponents().length-1).getBounds());
+                    this.bodyPanel.remove(this.bodyPanel.getComponents().length-1);
+                }
+
                 putSignButtonInPlace(errors.size());
                 setErrors(errors);
                 this.repaint();

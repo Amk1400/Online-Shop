@@ -7,4 +7,9 @@ public class User {
         this.userName = userName;
         this.password = password;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }
