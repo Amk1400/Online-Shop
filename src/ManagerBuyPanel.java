@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 
-public class ManagerBuyPanel extends buyPanel{
+public class ManagerBuyPanel extends BuyPanel{
 
     JFileChooser fileChooser = new JFileChooser();
     File file;
