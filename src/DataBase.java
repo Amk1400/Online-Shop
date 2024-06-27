@@ -20,11 +20,11 @@ public class DataBase {
         return null;//TODO
     }
 
-    private static void insertUser(){
+    private static void insertUser(User user){
             //TODO
     }
 
-    private static void insertProduct(){
+    private static void insertProduct(Product product){
             //TODO
     }
 }

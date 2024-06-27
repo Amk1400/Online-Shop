@@ -7,7 +7,7 @@ public class CreateTabels {
     static PreparedStatement ps;
     static ResultSet rs;
 
-    public static void main(String args[]) throws SQLException, IOException {
+    public static void main(String[] args) throws SQLException, IOException {
         fillProductsTable();
     }
 
