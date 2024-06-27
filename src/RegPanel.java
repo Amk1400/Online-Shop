@@ -7,6 +7,8 @@ import java.sql.SQLException;
 public class RegPanel extends SignAndRegPanel {
 
     JTextField passwordAgainField;
+    JTextField adress;
+    JTextField phonenumber;
     JButton registerButton;
 
 
@@ -75,8 +77,8 @@ public class RegPanel extends SignAndRegPanel {
         registerButton = new JButton();
         createButton(registerButton,"pictures\\regButton.png",150,50, "Register");
         gridConstraints.gridx = 0;
-        gridConstraints.gridy = errorsNum+4;
-        gridConstraints.gridwidth = 4;
+        gridConstraints.gridy = errorsNum+6;
+        gridConstraints.gridwidth = 6;
         bodyPanel.add(registerButton,gridConstraints);
     }
 
@@ -93,10 +95,39 @@ public class RegPanel extends SignAndRegPanel {
         passwordAgainField.setBorder(new LineBorder(Color.BLACK,3));
         bodyPanel.add(passwordAgainField,gridConstraints);
     }
+    private void createAdressSection() {
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridConstraints.gridy = 4;
+        gridConstraints.gridx = 0;
+        gridConstraints.gridwidth= 1;
+        bodyPanel.add(new JLabel("Adress: "),gridConstraints);
+        gridConstraints.gridx = 1;
+        gridConstraints.gridwidth = 4;
+        gridConstraints.ipady = 30;
+        passwordAgainField = new JTextField();
+        passwordAgainField.setBorder(new LineBorder(Color.BLACK,3));
+        bodyPanel.add(passwordAgainField,gridConstraints);
+    }
+    private void createPhoneNumberSection() {
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridConstraints.gridy = 5;
+        gridConstraints.gridx = 0;
+        gridConstraints.gridwidth= 1;
+        bodyPanel.add(new JLabel("Phonenumber: "),gridConstraints);
+        gridConstraints.gridx = 1;
+        gridConstraints.gridwidth = 5;
+        gridConstraints.ipady = 30;
+        passwordAgainField = new JTextField();
+        passwordAgainField.setBorder(new LineBorder(Color.BLACK,3));
+        bodyPanel.add(passwordAgainField,gridConstraints);
+    }
+
 
     @Override
     protected void fillBlankOrRepeat() {
         createRepeatPasswordSection();
+        createAdressSection();
+        createPhoneNumberSection();
     }
 }
 
