@@ -25,7 +25,7 @@ public class SignPanel extends SignAndRegPanel {
     private void putSignButtonInPlace() {
         signInButton = new JButton();
         //TODO assign path,width,height of sign in icon
-        createButton(signInButton,"pictures\\banana.jpg",50,50,"Sign-in");
+        createButton(signInButton,"pictures\\signinButton.png",100,50,"Sign-in");
         bodyPanel.add(signInButton,gridConstraints);
     }
 
