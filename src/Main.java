@@ -4,11 +4,12 @@ import java.sql.SQLException;
 
 public class Main {
 
-    static JFrame jFrame = new JFrame("Online Shop");
-    static IntroPanel SIGN_REG_PANEL;
+    static final JFrame JFRAME = new JFrame("Online Shop");
+    static IntroPanel INTRO_PANEL;
     static RegPanel REG_PANEL;
     static SignPanel SIGN_PANEL;
-    static buyPanel BUY_PANEL;
+    static BuyPanel BUY_PANEL;
+    static AfterLoginPanel AFTER_LOGIN_PANEL;
 
     public static void main(String[] args) throws SQLException {
         createJFrame();
@@ -21,34 +22,35 @@ public class Main {
     }
 
     private static void createFrontend() throws SQLException {
-        jFrame.setBackground(Color.CYAN);//Color is different from panels to figure possible bugs
+        JFRAME.setBackground(Color.CYAN);//Color is different from panels to figure possible bugs
         UIManager.put("Label.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
         UIManager.put("Button.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
         UIManager.put("TextField.font", new Font("Arial Rounded MT Bold",Font.PLAIN,18));
 
-        SIGN_REG_PANEL = new IntroPanel();
-        REG_PANEL = new RegPanel(SIGN_REG_PANEL);
-        SIGN_PANEL = new SignPanel(SIGN_REG_PANEL);
-        BUY_PANEL = new buyPanel(SIGN_REG_PANEL);
-        setCurrentPanel(SIGN_REG_PANEL);
-        jFrame.setVisible(true);
+        INTRO_PANEL = new IntroPanel();
+        REG_PANEL = new RegPanel(INTRO_PANEL);
+        SIGN_PANEL = new SignPanel(INTRO_PANEL);
+        BUY_PANEL = new BuyPanel(INTRO_PANEL);
+        AFTER_LOGIN_PANEL = new AfterLoginPanel(SIGN_PANEL);
+
+        setCurrentPanel(INTRO_PANEL);
+        JFRAME.setVisible(true);
     }
 
     private static void createBackend() {
-        jFrame.setSize(1000,700);
-        jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        JFRAME.setSize(1000,700);
+        JFRAME.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     public static void setCurrentPanel(JPanel inputPanel){
         try {
-            jFrame.remove(jFrame.getContentPane().getComponent(0));
+            JFRAME.remove(JFRAME.getContentPane().getComponent(0));
         } catch (ArrayIndexOutOfBoundsException e) {
             //first time running program and there is no added panel
         }
-        jFrame.add(inputPanel);
-        jFrame.revalidate();
-        jFrame.repaint();
-        System.out.println();
+        JFRAME.add(inputPanel);
+        JFRAME.revalidate();
+        JFRAME.repaint();
     }
 
 

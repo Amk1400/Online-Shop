@@ -31,6 +31,7 @@ public class RegPanel extends SignAndRegPanel {
             assignErrors();
 
             if (errors.isEmpty()) {
+                //TODO database contains this user?
                 Main.setCurrentPanel(Main.BUY_PANEL);
             } else {
                 try {
@@ -39,7 +40,6 @@ public class RegPanel extends SignAndRegPanel {
                     throw new RuntimeException(ex);
                 }
                 Main.setCurrentPanel(Main.REG_PANEL);
-                //TODO
             }
 
         }
@@ -47,6 +47,7 @@ public class RegPanel extends SignAndRegPanel {
 
     private void assignErrors() {
         errors = Validators.passwordValidator(passwordField.getText());
+        errors.addAll(Validators.userNameValidator(usernameField.getText()));
         if (!repeatedPassMatches()){
             errors.add("You have repeated your password wrongly");
         }
@@ -83,7 +84,6 @@ public class RegPanel extends SignAndRegPanel {
     }
 
     private void putRegButtonInPlace(int errorsNum) {
-        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         registerButton = new JButton();
         createButton(registerButton,"pictures\\regButton.png",150,50, "Register");
         gridConstraints.gridx = 0;

@@ -24,6 +24,28 @@ public class Validators {
         }
         return errors;
     }
+
+    public static ArrayList<String> userNameValidator(String userName){
+        ArrayList<String> errors = new ArrayList<>();
+        if(Pattern.matches("[^A-Z]+",userName)){
+            errors.add("UserName must have A-Z character at least");
+        }
+        if(Pattern.matches("[^a-z]+",userName)){
+            errors.add("UserName must have a-z character at least");
+        }
+        if(Pattern.matches("\\D+",userName)){
+            errors.add("UserName must have 0-9 character at least");
+        }
+        if(!Pattern.matches("\\S+",userName)){
+            errors.add("UserName must not have whitespace character");
+        }
+        if(!Pattern.matches("\\w{4,8}",userName)){
+            errors.add("UserName must have 4-8 character");
+        }
+        return errors;
+    }
+
+
     public static void main(String[] args){
         //TEST:
         ArrayList<String> errors = passwordValidator(TEST_PASSWORD);

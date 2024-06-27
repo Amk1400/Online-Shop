@@ -10,6 +10,7 @@ public class AfterLoginPanel extends ParentPanel implements ActionListener {
         super(lastPanel);
     }
 
+    @Override
     protected void createHeaderPanel(){
         super.createHeaderPanel();
 

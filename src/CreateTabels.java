@@ -12,7 +12,7 @@ public class CreateTabels {
     }
 
     void CreateProductsTable(){
-        //TODO
+
     }
 
     public static void fillProductsTable() throws SQLException, IOException {

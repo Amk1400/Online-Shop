@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 
-public class buyPanel extends AfterLoginPanel implements ActionListener {
+public class BuyPanel extends AfterLoginPanel implements ActionListener {
 
     JPanel productsPanel;
     JButton productButton;
@@ -19,7 +19,7 @@ public class buyPanel extends AfterLoginPanel implements ActionListener {
     Statement statement;
     ResultSet rs;
 
-    public buyPanel(JPanel lastPanel) throws SQLException {
+    public BuyPanel(JPanel lastPanel) throws SQLException {
         super(lastPanel);
     }
 
