@@ -13,7 +13,7 @@ public class SignPanel extends SignAndRegPanel {
 
     protected void createBodyPanel() throws SQLException {
         super.createBodyPanel();
-        putSignButtonInPlace();
+        putSignButtonInPlace(0);
         this.add(bodyPanel, BorderLayout.CENTER);
     }
 
@@ -22,10 +22,13 @@ public class SignPanel extends SignAndRegPanel {
         fillBlankRowOf(4,bodyPanel);
     }
 
-    private void putSignButtonInPlace() {
+    private void putSignButtonInPlace(int errorsNum) {
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         signInButton = new JButton();
-        //TODO assign path,width,height of sign in icon
-        createButton(signInButton,"pictures\\signinButton.png",100,50,"Sign-in");
+        createButton(signInButton,"pictures\\signinButton.png",150,50, "SignIn");
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = errorsNum+4;
+        gridConstraints.gridwidth = 4;
         bodyPanel.add(signInButton,gridConstraints);
     }
 
@@ -40,12 +43,12 @@ public class SignPanel extends SignAndRegPanel {
             if (errors.isEmpty()) {
                 Main.setCurrentPanel(Main.BUY_PANEL);
             } else {
-                try {
-                    Main.REG_PANEL = new RegPanel(lastPanel, errors);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                Main.setCurrentPanel(Main.REG_PANEL);
+                this.bodyPanel.remove(signInButton);
+                putSignButtonInPlace(errors.size());
+                setErrors(errors);
+                this.repaint();
+                this.revalidate();
+                Main.setCurrentPanel(Main.SIGN_PANEL);
             }
         }
     }

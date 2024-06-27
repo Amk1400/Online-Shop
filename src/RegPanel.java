@@ -3,7 +3,6 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class RegPanel extends SignAndRegPanel {
 
@@ -14,13 +13,6 @@ public class RegPanel extends SignAndRegPanel {
     public RegPanel(JPanel lastPanel) throws SQLException {
         super(lastPanel);
         putRegButtonInPlace(0);
-    }
-
-    RegPanel(JPanel lastPanel, ArrayList<String> errors) throws SQLException {
-        super(lastPanel);
-        this.errors = errors;
-        putRegButtonInPlace(errors.size());
-        setErrors(errors);
     }
 
     @Override
@@ -39,11 +31,15 @@ public class RegPanel extends SignAndRegPanel {
                 }
                 Main.setCurrentPanel(Main.INTRO_PANEL);
             } else {
-                try {
-                    Main.REG_PANEL = new RegPanel(lastPanel,errors);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                while (this.bodyPanel.getComponents().length > 10){
+                    System.out.println(this.bodyPanel.getComponent(this.bodyPanel.getComponents().length-1).getBounds());
+                    this.bodyPanel.remove(this.bodyPanel.getComponents().length-1);
                 }
+
+                putRegButtonInPlace(errors.size());
+                setErrors(errors);
+                this.repaint();
+                this.revalidate();
                 Main.setCurrentPanel(Main.REG_PANEL);
             }
 
@@ -72,24 +68,6 @@ public class RegPanel extends SignAndRegPanel {
         super.createBodyPanel();
 
         this.add(bodyPanel,BorderLayout.CENTER);
-    }
-
-    private void setErrors(ArrayList<String> errors){
-        int errorsNum = errors.size();
-        for (int i = 0; i <= errorsNum; i++) {
-            gridConstraints.fill = GridBagConstraints.HORIZONTAL;
-            gridConstraints.gridx = 0;
-            gridConstraints.gridy = 4 + i;
-            gridConstraints.ipady = 5;
-            gridConstraints.gridwidth = 2;
-            try {
-                JLabel label = new JLabel("*"+errors.get(i));
-                label.setFont(new Font("Arial Rounded MT Bold",Font.PLAIN,12));
-                bodyPanel.add(label, gridConstraints);
-            } catch (Exception e) {
-                bodyPanel.add(new JLabel(""), gridConstraints);
-            }
-        }
     }
 
     private void putRegButtonInPlace(int errorsNum) {

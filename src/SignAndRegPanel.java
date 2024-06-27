@@ -86,4 +86,22 @@ public abstract class SignAndRegPanel extends ParentPanel{
             bodyPanel.add(new JLabel("                   "), gridConstraints);
         }
     }
+
+    protected void setErrors(ArrayList<String> errors){
+        int errorsNum = errors.size();
+        for (int i = 0; i <= errorsNum; i++) {
+            gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+            gridConstraints.gridx = 0;
+            gridConstraints.gridy = 4 + i;
+            gridConstraints.ipady = 5;
+            gridConstraints.gridwidth = 2;
+            try {
+                JLabel label = new JLabel("*"+errors.get(i));
+                label.setFont(new Font("Arial Rounded MT Bold",Font.PLAIN,12));
+                bodyPanel.add(label, gridConstraints);
+            } catch (Exception e) {
+                bodyPanel.add(new JLabel(""), gridConstraints);
+            }
+        }
+    }
 }
