@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class Main {
+public abstract class Main {
 
     static final JFrame JFRAME = new JFrame("Online Shop");
     static IntroPanel INTRO_PANEL;
@@ -19,7 +19,6 @@ public class Main {
     private static void createJFrame() throws SQLException {
         createBackend();
         createFrontend();
-        DataBase db = new DataBase();
     }
 
     private static void createFrontend() throws SQLException {

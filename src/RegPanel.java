@@ -48,7 +48,8 @@ public class RegPanel extends SignAndRegPanel {
 
     @Override
     protected void assignErrors(User inputUser) {
-        super.assignErrors(inputUser);//validators
+        errors = Validators.passwordValidator(inputUser.password);
+        errors.addAll(Validators.userNameValidator(inputUser.userName));
 
         if (!repeatedPassMatches()){
             errors.add("You have repeated your password wrongly");

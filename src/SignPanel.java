@@ -34,7 +34,6 @@ public class SignPanel extends SignAndRegPanel {
     }
 
     protected void assignErrors(User inputUser) {
-        super.assignErrors(inputUser);
         if(!alreadyRegistered()){
             errors.add("There is no such user, please register first!");
         }

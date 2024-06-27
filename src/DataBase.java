@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class DataBase {
+public abstract class DataBase {
 
     public static ArrayList<User> users;
     public static ArrayList<Product> products;
@@ -14,15 +14,13 @@ public class DataBase {
     private static Statement STMT;
     private static ResultSet rs;
 
-
-    public DataBase() throws SQLException{
+    public static void main(String[] args) throws SQLException {
         try {
             Connection con = DriverManager.getConnection(HOST, USERNAME, PASSWORD );
             STMT = con.createStatement();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         fetchDB();
     }
 
