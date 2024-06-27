@@ -9,6 +9,7 @@ public class Main {
     static RegPanel REG_PANEL;
     static SignPanel SIGN_PANEL;
     static buyPanel BUY_PANEL;
+    static ManagerBuyPanel MANAGER_BUY_PANEL;
 
     public static void main(String[] args) throws SQLException {
         createJFrame();
@@ -30,6 +31,7 @@ public class Main {
         REG_PANEL = new RegPanel(SIGN_REG_PANEL);
         SIGN_PANEL = new SignPanel(SIGN_REG_PANEL);
         BUY_PANEL = new buyPanel(SIGN_REG_PANEL);
+        MANAGER_BUY_PANEL = new ManagerBuyPanel(SIGN_REG_PANEL);
         setCurrentPanel(SIGN_REG_PANEL);
         jFrame.setVisible(true);
     }

@@ -31,14 +31,13 @@ public class RegPanel extends SignAndRegPanel {
             assignErrors();
 
             if (errors.isEmpty()) {
-                Main.setCurrentPanel(Main.BUY_PANEL);
+                Main.setCurrentPanel(Main.MANAGER_BUY_PANEL);
             } else {
                 try {
                     Main.REG_PANEL = new RegPanel(lastPanel,errors);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-                Main.setCurrentPanel(Main.REG_PANEL);
                 //TODO
             }
 

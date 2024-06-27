@@ -16,15 +16,26 @@ public class buyPanel extends AfterLoginPanel implements ActionListener {
     JPanel[][] panelHolder;
     int pageNumber = 1;
     int maxPageNumber = maxPageNumber();
-    Statement statement;
-    ResultSet rs;
+    static Statement statement;
+    static {
+        try {
+            statement = connectDB();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    static ResultSet rs;
+    static {
+        try {
+            rs = statement.executeQuery("select * from Products");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public buyPanel(JPanel lastPanel) throws SQLException {
         super(lastPanel);
-    }
-
-    protected void createFooterPanel(){
-        super.createFooterPanel();
     }
 
     protected void createBodyPanel() throws SQLException {
@@ -48,14 +59,13 @@ public class buyPanel extends AfterLoginPanel implements ActionListener {
             }
         }
 
-        statement = connectDB();
-        rs = statement.executeQuery("select * from Products");
+        rs.beforeFirst();
         fillProducts();
 
         this.add(bodyPanel,BorderLayout.CENTER);
     }
 
-    public JPanel createProduct(Blob blob, String name, int stock ,String price) throws SQLException, IOException {
+    public JPanel createProduct(Blob blob, String name, int stock ,double price) throws SQLException, IOException {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         panel.setBackground(Color.pink);
@@ -88,7 +98,7 @@ public class buyPanel extends AfterLoginPanel implements ActionListener {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 2;
-        JLabel priceLabel = new JLabel(price,SwingConstants.CENTER);
+        JLabel priceLabel = new JLabel(String.valueOf(price),SwingConstants.CENTER);
         priceLabel.setFont(new Font("Arial Rounded MT Bold",Font.BOLD,12));
         priceLabel.setBorder(new LineBorder(Color.LIGHT_GRAY,1));
         panel.add(priceLabel,gbc);
@@ -135,7 +145,7 @@ public class buyPanel extends AfterLoginPanel implements ActionListener {
         return panel;
     }
 
-    public Statement connectDB() throws SQLException {
+    public static Statement connectDB() throws SQLException {
         String host = "jdbc:derby://localhost:1527/Shop";
         String username="shopadmin", password="shopadmin";
         Connection con = DriverManager.getConnection( host, username, password );
@@ -168,28 +178,31 @@ public class buyPanel extends AfterLoginPanel implements ActionListener {
         }
     }
 
-    private void fillProducts(){
+    protected void fillProducts(){
         for(int a=0; a<2; a++){
             for (int b=0; b<4; b++){
                 try {
                     if(rs.next()) {
                         panelHolder[a][b].removeAll();
-                        panelHolder[a][b].add(createProduct(rs.getBlob(4) , rs.getString(1), rs.getInt(2), String.valueOf(rs.getDouble(3))));
+                        panelHolder[a][b].add(createProduct(rs.getBlob(4) , rs.getString(1), rs.getInt(2), rs.getDouble(3)));
                         panelHolder[a][b].repaint();
                         panelHolder[a][b].revalidate();
                     }
                     else {
                         panelHolder[a][b].removeAll();
+                        panelHolder[a][b].add(newProduct());
                         panelHolder[a][b].repaint();
                         panelHolder[a][b].revalidate();
                     }
-                } catch (SQLException ex) {
+                } catch (SQLException | IOException ex) {
                     throw new RuntimeException(ex);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
                 }
             }
         }
+    }
+
+    protected JPanel newProduct() {
+        return null;
     }
 
     private int maxPageNumber() throws SQLException {
