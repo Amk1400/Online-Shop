@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class AfterLoginPanel extends ParentPanel implements ActionListener {
+public abstract class AfterLoginPanel extends ParentPanel implements ActionListener {
     JPanel headerButtonsPanel;
 
     public AfterLoginPanel(JPanel lastPanel) throws SQLException {

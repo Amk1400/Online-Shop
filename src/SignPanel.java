@@ -31,35 +31,25 @@ public class SignPanel extends SignAndRegPanel {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if(e.getSource().equals(signInButton)){
-            if(infoIsCorrect()){
-                //TODO go to profile
-            }else {//info wrong
-                if(DBcontainsUserName()){
-                    //TODO password is not correct
-                }else {
-                    //TODO please register first, there is no account with this username
+        super.actionPerformed(e);//backButton
+
+        if (e.getSource().equals(signInButton)) {
+            User inputUser = getInputUser();
+            assignErrors(inputUser);
+
+            if (errors.isEmpty()) {
+                Main.setCurrentPanel(Main.BUY_PANEL);
+            } else {
+                try {
+                    Main.REG_PANEL = new RegPanel(lastPanel, errors);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
                 }
+                Main.setCurrentPanel(Main.REG_PANEL);
             }
         }
     }
-
-    private boolean infoIsCorrect() {
-        return DBcontainsUserName() && passwordMatchesThisUser();
-    }
-
-    private boolean DBcontainsUserName() {
-        //TODO check if it contains
-        return true;
-    }
-
-    private boolean passwordMatchesThisUser() {
-        if(DBcontainsUserName()){
-            //TODO check if it matches
-            return true;
-        }else {
-            return false;
-        }
-    }
 }
+
+
+

@@ -2,15 +2,30 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public abstract class SignAndRegPanel extends ParentPanel{
 
 
     JTextField usernameField, passwordField;
+    ArrayList<String> errors = new ArrayList<>();
 
 
     public SignAndRegPanel(JPanel lastPanel) throws SQLException {
         super(lastPanel);
+    }
+
+    protected User getInputUser(){
+        return new User(usernameField.getText(), passwordField.getText());
+    }
+
+    protected void assignErrors(User inputUser) {
+        errors = Validators.passwordValidator(inputUser.password);
+        errors.addAll(Validators.userNameValidator(inputUser.userName));
+    }
+
+    protected boolean alreadyRegistered(){
+        return DataBase.users.contains(getInputUser());
     }
 
     protected void createBodyPanel() throws SQLException {

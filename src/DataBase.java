@@ -4,21 +4,21 @@ import java.util.ArrayList;
 
 public class DataBase {
 
-    static ArrayList<User> users;
-    static ArrayList<Product> products;
-    static final String SQL_USERS = "select * from USERS";
-    static final String SQL_PRODUCTS = "select * from PRODUCTS";
-    static final String HOST = "jdbc:derby://localhost:1527/Shop";
-    static final String USERNAME = "shopadmin";
-    static final String PASSWORD = "shopadmin";
-    static Statement STMT;
-    static ResultSet rs;
+    public static ArrayList<User> users;
+    public static ArrayList<Product> products;
+    private static final String SQL_USERS = "select * from USERS";
+    private static final String SQL_PRODUCTS = "select * from PRODUCTS";
+    private static final String HOST = "jdbc:derby://localhost:1527/Shop";
+    private static final String USERNAME = "shopadmin";
+    private static final String PASSWORD = "shopadmin";
+    private static Statement STMT;
+    private static ResultSet rs;
 
 
     public DataBase() throws SQLException{
         try {
             Connection con = DriverManager.getConnection(HOST, USERNAME, PASSWORD );
-            Statement stmt = con.createStatement();
+            STMT = con.createStatement();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -60,7 +60,7 @@ public class DataBase {
     }
 
 
-    private static void insertUser(User user) throws SQLException {
+    public static void insertUser(User user) throws SQLException {
         rs.moveToInsertRow();
         rs.updateString("USERNAME", user.userName);
         rs.updateString("PASSWORD", user.userName);
@@ -70,7 +70,7 @@ public class DataBase {
         rs = STMT.executeQuery(SQL_USERS);
     }
 
-    private static void insertProduct(Product product) throws SQLException {
+    public static void insertProduct(Product product) throws SQLException {
         rs.moveToInsertRow();
         rs.updateString("NAME", product.name);
         rs.updateInt("STOCK", product.stock);

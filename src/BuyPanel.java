@@ -202,7 +202,9 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
     }
 
     protected JPanel newProduct() {
-        return null;
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.pink);
+        return panel;
     }
 
     private int maxPageNumber() throws SQLException {

@@ -9,7 +9,7 @@ public class RegPanel extends SignAndRegPanel {
 
     JTextField passwordAgainField;
     JButton registerButton;
-    ArrayList<String> errors = new ArrayList<>();
+
 
     public RegPanel(JPanel lastPanel) throws SQLException {
         super(lastPanel);
@@ -25,13 +25,19 @@ public class RegPanel extends SignAndRegPanel {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if(e.getSource().equals(registerButton)){
+        super.actionPerformed(e);//backButton
 
-            assignErrors();
+        if(e.getSource().equals(registerButton)){
+            User inputUser = getInputUser();
+            assignErrors(inputUser);
 
             if (errors.isEmpty()) {
-                Main.setCurrentPanel(Main.MANAGER_BUY_PANEL);
+                try {
+                    DataBase.insertUser(inputUser);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                Main.setCurrentPanel(Main.INTRO_PANEL);
             } else {
                 try {
                     Main.REG_PANEL = new RegPanel(lastPanel,errors);
@@ -44,11 +50,15 @@ public class RegPanel extends SignAndRegPanel {
         }
     }
 
-    private void assignErrors() {
-        errors = Validators.passwordValidator(passwordField.getText());
-        errors.addAll(Validators.userNameValidator(usernameField.getText()));
+    @Override
+    protected void assignErrors(User inputUser) {
+        super.assignErrors(inputUser);//validators
+
         if (!repeatedPassMatches()){
             errors.add("You have repeated your password wrongly");
+        }
+        if (alreadyRegistered()){
+            errors.add("This username is already taken");
         }
     }
 
