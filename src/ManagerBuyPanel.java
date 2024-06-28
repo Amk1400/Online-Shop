@@ -208,8 +208,8 @@ public class ManagerBuyPanel extends BuyPanel{
 
     }
 
-    private void updateQuery() throws SQLException {
-        rs = statement.executeQuery("select * from Products");
+    protected void updateQuery() throws SQLException {
+        rs = statement.executeQuery(sql);
         rs.absolute((pageNumber-1)*8);
         fillProducts();
     }

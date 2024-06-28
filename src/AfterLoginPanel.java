@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
@@ -12,6 +13,7 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
     JMenuBar mb;
     JMenu order;
     JMenuItem name,price;
+    static String sql = "select * from Products Order by Name";
 
     public AfterLoginPanel(JPanel lastPanel) throws SQLException {
         super(lastPanel);
@@ -72,4 +74,5 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
         footerPanel.add(nextPageButton,BorderLayout.EAST);
         footerPanel.add(prevPageButton,BorderLayout.WEST);
     }
+
 }

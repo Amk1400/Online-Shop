@@ -47,7 +47,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
         }
 
         statement = connectDB();
-        rs = statement.executeQuery("select * from Products");
+        rs = statement.executeQuery(sql);
         rs.beforeFirst();
         fillProducts();
 
@@ -144,7 +144,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            rs = statement.executeQuery("select * from Products");
+            rs = statement.executeQuery(sql);
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -169,6 +169,30 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                 throw new RuntimeException(ex);
             }
             fillProducts();
+        }
+        else if(e.getSource().equals(price)){
+            sql = "select * from Products Order by Price";
+            try {
+                updateQuery();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        else if(e.getSource().equals(name)){
+            sql = "select * from Products Order by Name";
+            try {
+                updateQuery();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        else if(e.getSource().equals(searchButton)){
+            sql = "select * from Products where Name like '%" + searchField.getText()+ "%'";
+            try {
+                updateQuery();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         try {
             rs.close();
@@ -212,5 +236,19 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
         resultSet.next();
         int rowsNumber = resultSet.getInt(1);
         return (rowsNumber/8) + 1;
+    }
+
+    protected void updateQuery() throws SQLException {
+        try {
+            rs = statement.executeQuery(sql);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        try {
+            rs.absolute((pageNumber-1)*8);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        fillProducts();
     }
 }
