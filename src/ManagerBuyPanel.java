@@ -17,7 +17,7 @@ public class ManagerBuyPanel extends BuyPanel{
     JFileChooser fileChooser = new JFileChooser();
     File file;
 
-    public ManagerBuyPanel(JPanel lastPanel) throws SQLException {
+    public ManagerBuyPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
     }
 
@@ -79,7 +79,12 @@ public class ManagerBuyPanel extends BuyPanel{
 
         removeButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-
+                try {
+                    CreateTabels.removeProductsTable(name);
+                    updateQuery();
+                } catch (SQLException | FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
@@ -87,12 +92,8 @@ public class ManagerBuyPanel extends BuyPanel{
             public void actionPerformed(ActionEvent e){
                 try {
                     CreateTabels.updateProductsTable(name,nameField.getText(),countField.getText(),priceField.getText());
-                    rs = statement.executeQuery("select * from Products");
-                    rs.absolute((pageNumber-1)*8);
-                    fillProducts();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                } catch (FileNotFoundException ex) {
+                    updateQuery();
+                } catch (SQLException | FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
             }
@@ -171,9 +172,7 @@ public class ManagerBuyPanel extends BuyPanel{
             public void actionPerformed(ActionEvent e){
                 try {
                     CreateTabels.fillProductsTable(file.getPath(),nameField.getText(),countField.getText(),priceField.getText());
-                    rs = statement.executeQuery("select * from Products");
-                    rs.absolute((pageNumber-1)*8);
-                    fillProducts();
+                    updateQuery();
                 } catch (SQLException | IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -207,5 +206,11 @@ public class ManagerBuyPanel extends BuyPanel{
             System.out.println("No image selected!");
         }
 
+    }
+
+    protected void updateQuery() throws SQLException {
+        rs = statement.executeQuery(sql);
+        rs.absolute((pageNumber-1)*8);
+        fillProducts();
     }
 }

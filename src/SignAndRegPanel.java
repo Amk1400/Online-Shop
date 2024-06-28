@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ public abstract class SignAndRegPanel extends ParentPanel{
     ArrayList<String> errors = new ArrayList<>();
 
 
-    public SignAndRegPanel(JPanel lastPanel) throws SQLException {
+    public SignAndRegPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
     }
 
@@ -28,7 +29,7 @@ public abstract class SignAndRegPanel extends ParentPanel{
         return DataBase.users.contains(getInputUser());
     }
 
-    protected void createBodyPanel() throws SQLException {
+    protected void createBodyPanel() throws SQLException, IOException {
         super.createBodyPanel();
         gridConstraints.insets = new Insets(5,0,5,0);
         fillBlankRowOf(0,bodyPanel);

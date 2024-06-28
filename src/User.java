@@ -9,7 +9,8 @@ public class User {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object object) {
+        User user = (User) object;
+        return user.userName.equals(this.userName) && user.password.equals(this.password);
     }
 }

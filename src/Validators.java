@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class Validators {
+public abstract class Validators {
 
     public static final String TEST_PASSWORD = "kj";
 

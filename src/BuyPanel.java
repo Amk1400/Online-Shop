@@ -16,29 +16,16 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
     JPanel[][] panelHolder;
     int pageNumber = 1;
     int maxPageNumber = maxPageNumber();
-    static Statement statement;
-    static {
-        try {
-            statement = connectDB();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    static ResultSet rs;
-    static {
-        try {
-            rs = statement.executeQuery("select * from Products");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    Statement statement;
+    ResultSet rs;
 
 
-    public BuyPanel(JPanel lastPanel) throws SQLException {
+    public BuyPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
+        rs.close();
     }
 
-    protected void createBodyPanel() throws SQLException {
+    protected void createBodyPanel() throws SQLException, IOException {
         super.createBodyPanel();
         bodyPanel.setLayout(new BorderLayout());
 
@@ -59,6 +46,8 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
             }
         }
 
+        statement = connectDB();
+        rs = statement.executeQuery(sql);
         rs.beforeFirst();
         fillProducts();
 
@@ -154,6 +143,11 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        try {
+            rs = statement.executeQuery(sql);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
         if(e.getSource().equals(nextPageButton)){
             if(pageNumber+1 <= maxPageNumber) {
                 pageNumber++;
@@ -175,6 +169,35 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                 throw new RuntimeException(ex);
             }
             fillProducts();
+        }
+        else if(e.getSource().equals(price)){
+            sql = "select * from Products Order by Price";
+            try {
+                updateQuery();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        else if(e.getSource().equals(name)){
+            sql = "select * from Products Order by Name";
+            try {
+                updateQuery();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        else if(e.getSource().equals(searchButton)){
+            sql = "select * from Products where Name like '%" + searchField.getText()+ "%'";
+            try {
+                updateQuery();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        try {
+            rs.close();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -213,5 +236,19 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
         resultSet.next();
         int rowsNumber = resultSet.getInt(1);
         return (rowsNumber/8) + 1;
+    }
+
+    protected void updateQuery() throws SQLException {
+        try {
+            rs = statement.executeQuery(sql);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        try {
+            rs.absolute((pageNumber-1)*8);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        fillProducts();
     }
 }
