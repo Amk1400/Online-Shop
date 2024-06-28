@@ -143,6 +143,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        super.actionPerformed(e);
         try {
             rs = statement.executeQuery(sql);
         } catch (SQLException ex) {

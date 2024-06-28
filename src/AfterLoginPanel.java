@@ -75,5 +75,4 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
         footerPanel.add(nextPageButton,BorderLayout.EAST);
         footerPanel.add(prevPageButton,BorderLayout.WEST);
     }
-
 }
