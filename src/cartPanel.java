@@ -2,12 +2,13 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class cartPanel extends AfterLoginPanel{
+public class cartPanel extends AfterLoginPanel implements ActionListener {
 
     JPanel productsPanel;
     JPanel payPanel;
@@ -30,11 +31,15 @@ public class cartPanel extends AfterLoginPanel{
         payPanel = new JPanel();
         payPanel.setBackground(Color.pink);
         payPanel.setLayout(new BorderLayout());
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.pink);
+        panel.setLayout(new FlowLayout());
         JLabel sumCost = new JLabel(String.valueOf(calculateCost()));
         payButton = new JButton("Pay");
         payButton.setSize(100,20);
-        payPanel.add(sumCost,BorderLayout.EAST);
-        payPanel.add(sumCost,BorderLayout.WEST);
+        payPanel.add(panel,BorderLayout.CENTER);
+        panel.add(payButton,BorderLayout.EAST);
+        panel.add(sumCost,BorderLayout.WEST);
         footerPanel.add(payPanel,BorderLayout.CENTER);
     }
 
@@ -129,6 +134,11 @@ public class cartPanel extends AfterLoginPanel{
                     Product product = products.get(i);
                     panelHolder[a][b].removeAll();
                     panelHolder[a][b].add(createProduct(product.imageIcon, product.name, userCart.get(product), product.price));
+                    panelHolder[a][b].repaint();
+                    panelHolder[a][b].revalidate();
+                }
+                else {
+                    panelHolder[a][b].removeAll();
                     panelHolder[a][b].repaint();
                     panelHolder[a][b].revalidate();
                 }
