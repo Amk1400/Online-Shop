@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public abstract class Main {
@@ -11,17 +12,18 @@ public abstract class Main {
     static BuyPanel BUY_PANEL;
     static ManagerBuyPanel MANAGER_BUY_PANEL;
     static ProfilePanel PROFILE_PANEL;
+    static cartPanel CART_PANEL;
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, IOException {
         createJFrame();
     }
 
-    private static void createJFrame() throws SQLException {
+    private static void createJFrame() throws SQLException, IOException {
         createBackend();
         createFrontend();
     }
 
-    private static void createFrontend() throws SQLException {
+    private static void createFrontend() throws SQLException, IOException {
         JFRAME.setBackground(Color.CYAN);//Color is different from panels to figure possible bugs
         UIManager.put("Label.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
         UIManager.put("Button.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
@@ -31,6 +33,7 @@ public abstract class Main {
         REG_PANEL = new RegPanel(INTRO_PANEL);
         SIGN_PANEL = new SignPanel(INTRO_PANEL);
         BUY_PANEL = new BuyPanel(INTRO_PANEL);
+        CART_PANEL = new cartPanel(INTRO_PANEL);
         MANAGER_BUY_PANEL = new ManagerBuyPanel(SIGN_PANEL);
 
         setCurrentPanel(INTRO_PANEL);

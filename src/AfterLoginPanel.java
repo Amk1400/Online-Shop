@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public abstract class AfterLoginPanel extends ParentPanel implements ActionListener {
@@ -15,7 +16,7 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
     JMenuItem name,price;
     static String sql = "select * from Products Order by Name";
 
-    public AfterLoginPanel(JPanel lastPanel) throws SQLException {
+    public AfterLoginPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
     }
 

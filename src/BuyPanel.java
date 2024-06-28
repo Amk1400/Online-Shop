@@ -20,12 +20,12 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
     ResultSet rs;
 
 
-    public BuyPanel(JPanel lastPanel) throws SQLException {
+    public BuyPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
         rs.close();
     }
 
-    protected void createBodyPanel() throws SQLException {
+    protected void createBodyPanel() throws SQLException, IOException {
         super.createBodyPanel();
         bodyPanel.setLayout(new BorderLayout());
 

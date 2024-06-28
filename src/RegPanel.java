@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class RegPanel extends SignAndRegPanel {
@@ -10,7 +11,7 @@ public class RegPanel extends SignAndRegPanel {
     JButton registerButton;
 
 
-    public RegPanel(JPanel lastPanel) throws SQLException {
+    public RegPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
         putRegButtonInPlace(0);
     }
@@ -65,7 +66,7 @@ public class RegPanel extends SignAndRegPanel {
         return inputPass.equals(repeatPass);
     }
 
-    protected void createBodyPanel() throws SQLException {
+    protected void createBodyPanel() throws SQLException, IOException {
         super.createBodyPanel();
 
         this.add(bodyPanel,BorderLayout.CENTER);

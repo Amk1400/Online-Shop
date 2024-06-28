@@ -17,13 +17,13 @@ public abstract class ParentPanel extends JPanel implements ActionListener {
     JButton prevPageButton = new JButton();
     static GridBagConstraints gridConstraints = new GridBagConstraints();
 
-    public ParentPanel(JPanel lastPanel) throws SQLException {
+    public ParentPanel(JPanel lastPanel) throws SQLException, IOException {
         super();
         this.lastPanel = lastPanel;
         createThis();
     }
 
-    private void createThis() throws SQLException {
+    private void createThis() throws SQLException, IOException {
         this.setSize(1000,700);
         this.setLayout(new BorderLayout());
         this.setBackground(Color.pink);
@@ -36,7 +36,7 @@ public abstract class ParentPanel extends JPanel implements ActionListener {
         this.revalidate();
     }
 
-    protected void createBodyPanel() throws SQLException {
+    protected void createBodyPanel() throws SQLException, IOException {
         bodyPanel = new JPanel();
         bodyPanel.setSize(500,600);
         bodyPanel.setBackground(Color.pink);

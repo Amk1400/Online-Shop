@@ -17,7 +17,7 @@ public class ManagerBuyPanel extends BuyPanel{
     JFileChooser fileChooser = new JFileChooser();
     File file;
 
-    public ManagerBuyPanel(JPanel lastPanel) throws SQLException {
+    public ManagerBuyPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
     }
 

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class SignPanel extends SignAndRegPanel {
@@ -8,11 +9,11 @@ public class SignPanel extends SignAndRegPanel {
     JButton signInButton;
     final private User ADMIN = new User("Admin1","Admin1");
 
-    public SignPanel(JPanel lastPanel) throws SQLException {
+    public SignPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
     }
 
-    protected void createBodyPanel() throws SQLException {
+    protected void createBodyPanel() throws SQLException, IOException {
         super.createBodyPanel();
         putSignButtonInPlace(0);
         this.add(bodyPanel, BorderLayout.CENTER);
@@ -53,7 +54,7 @@ public class SignPanel extends SignAndRegPanel {
                 }else {
                     try {
                         Main.PROFILE_PANEL = new ProfilePanel(Main.SIGN_PANEL, inputUser);
-                    } catch (SQLException ex) {
+                    } catch (SQLException | IOException ex) {
                         throw new RuntimeException(ex);
                     }
                     Main.setCurrentPanel(Main.PROFILE_PANEL);
