@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class SignPanel extends SignAndRegPanel {
 
     JButton signInButton;
-    final private User ADMIN = new User("Admin1","Admin1");
+    final private User ADMIN = new User("Admin1","Admin1",null,null);
 
     public SignPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
@@ -40,6 +40,18 @@ public class SignPanel extends SignAndRegPanel {
         if(!alreadyRegistered()){
             errors.add("There is no such user, please register first!");
         }
+    }
+
+    @Override
+    protected boolean alreadyRegistered() {
+        ArrayList<User> users = DataBase.users;
+        boolean returned = super.alreadyRegistered();
+        try {
+            returned = returned && getInputUser().password.equals(users.get(users.indexOf(getInputUser())).password);
+        } catch (IndexOutOfBoundsException e) {//not found
+            return false;
+        }
+        return returned;
     }
 
     @Override

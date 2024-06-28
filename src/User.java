@@ -1,11 +1,20 @@
+import java.util.HashMap;
+
 public class User {
 
     String userName;
     String password;
+    String address;
+    String phoneNumber;
+    HashMap<Product,Integer> cart;
 
-    public User(String userName, String password){
+
+    public User(String userName, String password, String address, String  phoneNumber){
         this.userName = userName;
         this.password = password;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        cart = new HashMap<>();
     }
 
     @Override

@@ -10,6 +10,7 @@ public abstract class SignAndRegPanel extends ParentPanel{
 
     JTextField usernameField, passwordField;
     ArrayList<String> errors = new ArrayList<>();
+    static final int IPADY = 30;
 
 
     public SignAndRegPanel(JPanel lastPanel) throws SQLException, IOException {
@@ -17,7 +18,7 @@ public abstract class SignAndRegPanel extends ParentPanel{
     }
 
     protected User getInputUser(){
-        return new User(usernameField.getText(), passwordField.getText());
+        return new User(usernameField.getText(), passwordField.getText(),null,null);
     }
 
     protected void assignErrors(User inputUser) {
@@ -26,12 +27,12 @@ public abstract class SignAndRegPanel extends ParentPanel{
     }
 
     protected boolean alreadyRegistered(){
-        return DataBase.users.contains(getInputUser());
+        return DataBase.userNames.contains(getInputUser().userName);
     }
 
     protected void createBodyPanel() throws SQLException, IOException {
         super.createBodyPanel();
-        gridConstraints.insets = new Insets(5,0,5,0);
+        gridConstraints.insets = new Insets(5,0,7,0);
         fillBlankRowOf(0,bodyPanel);
         createUserNameSection();
         createPasswordSection();
@@ -58,7 +59,7 @@ public abstract class SignAndRegPanel extends ParentPanel{
         bodyPanel.add(new JLabel("Password: "), gridConstraints);
         gridConstraints.gridx = 1;
         gridConstraints.gridwidth = 3;
-        gridConstraints.ipady = 30;
+        gridConstraints.ipady = IPADY;
         passwordField = new JTextField();
         passwordField.setBorder(new LineBorder(Color.BLACK,3));
         bodyPanel.add(passwordField, gridConstraints);
@@ -72,7 +73,7 @@ public abstract class SignAndRegPanel extends ParentPanel{
         bodyPanel.add(new JLabel("Username: "), gridConstraints);
         gridConstraints.gridx = 1;
         gridConstraints.gridwidth = 3;
-        gridConstraints.ipady = 30;
+        gridConstraints.ipady = IPADY;
         usernameField = new JTextField();
         usernameField.setBorder(new LineBorder(Color.BLACK,3));
         bodyPanel.add(usernameField, gridConstraints);
@@ -81,8 +82,8 @@ public abstract class SignAndRegPanel extends ParentPanel{
     protected static void fillBlankRowOf(int rowNumber, JPanel bodyPanel) {
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridConstraints.gridwidth = 1;
+        gridConstraints.gridy = rowNumber;
         for (int j = 0; j < 4; j++) {
-            gridConstraints.gridy = rowNumber;
             gridConstraints.gridx = j;
             bodyPanel.add(new JLabel("                   "), gridConstraints);
         }
@@ -93,7 +94,7 @@ public abstract class SignAndRegPanel extends ParentPanel{
         for (int i = 0; i < errorsNum; i++) {
             gridConstraints.fill = GridBagConstraints.HORIZONTAL;
             gridConstraints.gridx = 0;
-            gridConstraints.gridy = 4 + i;
+            gridConstraints.gridy = 6 + i;
             gridConstraints.ipady = 5;
             gridConstraints.gridwidth = 2;
             try {

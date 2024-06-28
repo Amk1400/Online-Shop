@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class DataBase {
 
     public static ArrayList<User> users;
+    public static ArrayList<String> userNames;
     public static ArrayList<Product> products;
     private static final String SQL_USERS = "select * from USERS";
     private static final String SQL_PRODUCTS = "select * from PRODUCTS";
@@ -31,6 +33,10 @@ public abstract class DataBase {
     private static void fetchDB() throws SQLException {
         users       = getUsers();
         products    = getProducts();
+        userNames   = new ArrayList<>();
+        for (User user : users){
+            userNames.add(user.userName);
+        }
     }
 
     private static ArrayList<Product> getProducts() throws SQLException {
@@ -63,7 +69,10 @@ public abstract class DataBase {
         while(rs.next()){
             String userName = rs.getString("USERNAME");
             String password = rs.getString("PASSWORD");
-            returned.add(new User(userName,password));
+            String address = rs.getString("ADDRESS");
+            String phoneNumber = rs.getString("PHONENUMBER");
+
+            returned.add(new User(userName,password,address,phoneNumber));
         }
 
         return returned;
