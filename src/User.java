@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class User {
@@ -26,12 +27,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", cart=" + cart +
-                '}';
+        return "User: " +
+                userName +
+                ", address = " + address +
+                ", phoneNumber = " + phoneNumber+
+                ", cart=" + Arrays.asList(cart);
     }
 }

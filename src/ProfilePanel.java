@@ -10,16 +10,15 @@ public class ProfilePanel extends ParentPanel{
         super(lastPanel);
         currentUser = user;
         if(currentUser.equals(SignPanel.ADMIN)){
-            gridConstraints.insets = new Insets(1,0,DataBase.users.size(),0);
+            gridConstraints.insets = new Insets(5,0,5,0);
             gridConstraints.fill = GridBagConstraints.HORIZONTAL;
-            gridConstraints.gridwidth = 1;
             gridConstraints.gridx = 0;
-            gridConstraints.gridy = 1;
-            bodyPanel.add(new JLabel("test"), gridConstraints);
-            for (int i = 0; i < DataBase.users.size() ; i++) {
+            gridConstraints.gridwidth = 1;
+            for (int i = 1; i < DataBase.users.size() ; i++) {
                 gridConstraints.gridy = i;
                 bodyPanel.add(new JLabel(DataBase.users.get(i).toString()), gridConstraints);
             }
+            this.add(bodyPanel);
 
         }else {
             //TODO normal profile
