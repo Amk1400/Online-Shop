@@ -83,7 +83,7 @@ public abstract class DataBase {
     }
 
 
-    public static void insertUser(User user) throws SQLException {
+    public static void insertUser(User user) throws SQLException, IOException {
         rs = STMT.executeQuery(SQL_USERS);
         rs.moveToInsertRow();
         rs.updateString(1, user.userName);
@@ -96,6 +96,7 @@ public abstract class DataBase {
         rs.close();
         rs = STMT.executeQuery(SQL_USERS);
         users.add(user);
+        userNames.add(user.userName);
         System.out.println(Arrays.toString(users.toArray()));
     }
 

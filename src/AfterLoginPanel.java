@@ -20,6 +20,8 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
         super(lastPanel);
     }
 
+
+
     @Override
     protected void createHeaderPanel(){
         super.createHeaderPanel();

@@ -22,6 +22,12 @@ public class ManagerBuyPanel extends BuyPanel{
     }
 
     @Override
+    protected void createBodyPanel() throws SQLException, IOException {
+        super.createBodyPanel();
+        fetchDBProducts();
+    }
+
+    @Override
     public JPanel createProduct(Blob blob, String name, int stock , double price) throws SQLException, IOException {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());

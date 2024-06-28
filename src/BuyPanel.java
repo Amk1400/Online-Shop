@@ -18,9 +18,9 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
     JPanel[][] panelHolder;
     int pageNumber = 1;
     int maxPageNumber = maxPageNumber();
-    HashMap<Product, Integer> userCart;
     Statement statement;
     ResultSet rs;
+    HashMap<Product, Integer> userCart;
 
 
     public BuyPanel(JPanel lastPanel) throws SQLException, IOException {
@@ -48,10 +48,9 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                 productsPanel.add(panelHolder[m][n]);
             }
         }
+    }
 
-        User user = Main.PROFILE_PANEL.currentUser;
-        userCart = user.cart;
-
+    protected void fetchDBProducts() throws SQLException {
         statement = connectDB();
         rs = statement.executeQuery(sql);
         rs.beforeFirst();

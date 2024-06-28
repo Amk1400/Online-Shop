@@ -29,7 +29,7 @@ public class RegPanel extends SignAndRegPanel {
             if (errors.isEmpty()) {
                 try {
                     DataBase.insertUser(inputUser);
-                } catch (SQLException ex) {
+                } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
                 Main.setCurrentPanel(Main.INTRO_PANEL);
