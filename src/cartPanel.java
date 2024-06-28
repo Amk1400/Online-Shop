@@ -20,6 +20,7 @@ public class cartPanel extends AfterLoginPanel{
     JPanel productsPanel;
     JPanel payPanel;
     JButton productButton;
+    JButton payButton;
     JPanel[][] panelHolder;
     HashMap<Product, Integer> userCart;
     int maxPageNumber;
@@ -35,8 +36,9 @@ public class cartPanel extends AfterLoginPanel{
         payPanel = new JPanel();
         payPanel.setBackground(Color.pink);
         payPanel.setLayout(new BorderLayout());
-        JLabel sumCost = new JLabel("//TODO");
-        JButton payButton = new JButton("Pay");
+        JLabel sumCost = new JLabel(String.valueOf(calculateCost()));
+        payButton = new JButton("Pay");
+        payButton.setSize(100,20);
         payPanel.add(sumCost,BorderLayout.EAST);
         payPanel.add(sumCost,BorderLayout.WEST);
         footerPanel.add(payPanel,BorderLayout.CENTER);
@@ -166,15 +168,26 @@ public class cartPanel extends AfterLoginPanel{
             }
         }
         else if(e.getSource().equals(price)){
-
+            //TODO
         }
         else if(e.getSource().equals(name)){
-
+            //TODO
         }
         else if(e.getSource().equals(searchButton)){
-
+            //TODO
+        }
+        else if(e.getSource().equals(payButton)){
+            //TODO
         }
 
+    }
+
+    private double calculateCost(){
+        double sumCost=0;
+        for(Product product : userCart.keySet()){
+            sumCost += (product.price)*(userCart.get(product));
+        }
+        return sumCost;
     }
 
 }
