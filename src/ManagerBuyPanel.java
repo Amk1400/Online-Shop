@@ -80,7 +80,7 @@ public class ManagerBuyPanel extends BuyPanel{
         removeButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 try {
-                    CreateTabels.removeProductsTable(name);
+                    DataBase.removeProductsTable(name);
                     updateQuery();
                 } catch (SQLException | FileNotFoundException ex) {
                     throw new RuntimeException(ex);
@@ -91,7 +91,7 @@ public class ManagerBuyPanel extends BuyPanel{
         OkButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 try {
-                    CreateTabels.updateProductsTable(name,nameField.getText(),countField.getText(),priceField.getText());
+                    DataBase.updateProductsTable(name,nameField.getText(),countField.getText(),priceField.getText());
                     updateQuery();
                 } catch (SQLException | FileNotFoundException ex) {
                     throw new RuntimeException(ex);
@@ -171,7 +171,7 @@ public class ManagerBuyPanel extends BuyPanel{
         OkButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 try {
-                    CreateTabels.fillProductsTable(file.getPath(),nameField.getText(),countField.getText(),priceField.getText());
+                    DataBase.fillProductsTable(file.getPath(),nameField.getText(),countField.getText(),priceField.getText());
                     updateQuery();
                 } catch (SQLException | IOException ex) {
                     throw new RuntimeException(ex);

@@ -271,13 +271,18 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
     }
 
     private void addInCart(Product p){
-        for(Product product : userCart.keySet()){
-            if(product.name.equals(p.name)){
-                userCart.replace(product,(userCart.get(product))+1);
-                return;
+        try {
+            for (Product product : userCart.keySet()) {
+                if (product.name.equals(p.name)) {
+                    userCart.replace(product, (userCart.get(product)) + 1);
+                    return;
+                }
             }
+            userCart.put(p, 1);
         }
-        userCart.put(p,1);
+        catch (Exception e){
+            userCart.put(p, 1);
+        }
     }
 
     private void removeFromCart(Product p){
