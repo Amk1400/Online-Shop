@@ -30,7 +30,7 @@ public abstract class Main {
         INTRO_PANEL = new IntroPanel();
         REG_PANEL = new RegPanel(INTRO_PANEL);
         SIGN_PANEL = new SignPanel(INTRO_PANEL);
-        //BUY_PANEL = new BuyPanel(INTRO_PANEL);
+        BUY_PANEL = new BuyPanel(INTRO_PANEL);
         MANAGER_BUY_PANEL = new ManagerBuyPanel(SIGN_PANEL);
 
         setCurrentPanel(INTRO_PANEL);

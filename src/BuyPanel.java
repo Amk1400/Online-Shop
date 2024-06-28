@@ -16,26 +16,13 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
     JPanel[][] panelHolder;
     int pageNumber = 1;
     int maxPageNumber = maxPageNumber();
-    static Statement statement;
-    static {
-        try {
-            statement = connectDB();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    static ResultSet rs;
-    static {
-        try {
-            rs = statement.executeQuery("select * from Products");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    Statement statement;
+    ResultSet rs;
 
 
     public BuyPanel(JPanel lastPanel) throws SQLException {
         super(lastPanel);
+        rs.close();
     }
 
     protected void createBodyPanel() throws SQLException {
@@ -59,6 +46,8 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
             }
         }
 
+        statement = connectDB();
+        rs = statement.executeQuery("select * from Products");
         rs.beforeFirst();
         fillProducts();
 
@@ -154,6 +143,11 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        try {
+            rs = statement.executeQuery("select * from Products");
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
         if(e.getSource().equals(nextPageButton)){
             if(pageNumber+1 <= maxPageNumber) {
                 pageNumber++;
@@ -175,6 +169,11 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                 throw new RuntimeException(ex);
             }
             fillProducts();
+        }
+        try {
+            rs.close();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
