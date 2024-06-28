@@ -75,4 +75,18 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
         footerPanel.add(nextPageButton,BorderLayout.EAST);
         footerPanel.add(prevPageButton,BorderLayout.WEST);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource().equals(backButton)){
+            Main.setCurrentPanel(Main.INTRO_PANEL);
+            //TODO log out current user
+        }
+        else if(e.getSource().equals(cartButton)){
+            Main.setCurrentPanel(Main.CART_PANEL);
+        }
+        else if (e.getSource().equals(profileButton)){
+            Main.setCurrentPanel(Main.PROFILE_PANEL);
+        }
+    }
 }
