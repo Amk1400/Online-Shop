@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -7,7 +8,7 @@ public class User {
     String password;
     String address;
     String phoneNumber;
-    double wallet=0;
+    double wallet;
     HashMap<Product,Integer> cart;
 
 
@@ -16,7 +17,13 @@ public class User {
         this.password = password;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.wallet = 0;
         cart = new HashMap<>();
+    }
+
+    public void deposit(double money) throws SQLException {
+        wallet += money;
+        DataBase.updateUserWallet(this,money);
     }
 
     @Override

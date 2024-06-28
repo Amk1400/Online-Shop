@@ -87,12 +87,22 @@ public abstract class DataBase {
         rs.updateString(2, user.password);
         rs.updateString(3, user.phoneNumber);
         rs.updateString(4, user.address);
+        rs.updateDouble(5, user.wallet);
 
         rs.insertRow();
         rs.close();
         rs = STMT.executeQuery(SQL_USERS);
         users.add(user);
         System.out.println(Arrays.toString(users.toArray()));
+    }
+
+    public static void updateUserWallet(User user, double money) throws SQLException {
+
+        rs = STMT.executeQuery("select * from USERS Where Username ='%" + user.userName + "%'");
+        rs.first();
+        rs.updateDouble(5,(user.wallet)+money);
+        rs.updateRow();
+        rs.close();
     }
 
     public static void insertProduct(Product product) throws SQLException {
