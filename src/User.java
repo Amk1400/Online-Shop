@@ -6,6 +6,7 @@ public class User {
     String password;
     String address;
     String phoneNumber;
+    double wallet=0;
     HashMap<Product,Integer> cart;
 
 

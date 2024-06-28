@@ -64,6 +64,8 @@ public class cartPanel extends AfterLoginPanel implements ActionListener {
             }
         }
 
+        User user = Main.PROFILE_PANEL.currentUser;
+        userCart = user.cart;
         products = new ArrayList<>(userCart.keySet());
         searchedProducts = new ArrayList<>(userCart.keySet());
         fillProducts(0);

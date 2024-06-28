@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BuyPanel extends AfterLoginPanel implements ActionListener {
 
@@ -16,6 +18,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
     JPanel[][] panelHolder;
     int pageNumber = 1;
     int maxPageNumber = maxPageNumber();
+    HashMap<Product, Integer> userCart;
     Statement statement;
     ResultSet rs;
 
@@ -45,6 +48,9 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                 productsPanel.add(panelHolder[m][n]);
             }
         }
+
+        User user = Main.PROFILE_PANEL.currentUser;
+        userCart = user.cart;
 
         statement = connectDB();
         rs = statement.executeQuery(sql);
@@ -99,7 +105,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
         addPanel.setLayout(new BorderLayout());
         JButton minusButton = new JButton("-");
         JButton plusButton = new JButton("+");
-        JLabel countLabel = new JLabel("0",SwingConstants.CENTER);
+        JLabel countLabel = new JLabel(String.valueOf(productNumberInCart(name)),SwingConstants.CENTER);
 
         plusButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -107,6 +113,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                 if(number+1 <= stock) {
                     number++;
                     countLabel.setText(String.valueOf(number));
+                    addInCart(name);
                 }
                 else {
                     plusButton.setEnabled(false);
@@ -121,6 +128,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                     number--;
                     countLabel.setText(String.valueOf(number));
                     plusButton.setEnabled(true);
+                    removeFromCart(name);
                 }
             }
         });
@@ -251,5 +259,30 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
             throw new RuntimeException(ex);
         }
         fillProducts();
+    }
+
+    private int productNumberInCart(String name){
+        for(Product product : userCart.keySet()){
+            if(product.name.equals(name)){
+                return userCart.get(product);
+            }
+        }
+        return 0;
+    }
+
+    private void addInCart(String name){
+        for(Product product : userCart.keySet()){
+            if(product.name.equals(name)){
+                userCart.replace(product,(userCart.get(product))+1);
+            }
+        }
+    }
+
+    private void removeFromCart(String name){
+        for(Product product : userCart.keySet()){
+            if(product.name.equals(name)){
+                userCart.replace(product,(userCart.get(product))-1);
+            }
+        }
     }
 }
