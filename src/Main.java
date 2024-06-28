@@ -16,6 +16,7 @@ public abstract class Main {
 
     public static void main(String[] args) throws SQLException, IOException {
         createJFrame();
+        DataBase.main();
     }
 
     private static void createJFrame() throws SQLException, IOException {

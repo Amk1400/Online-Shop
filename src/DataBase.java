@@ -1,4 +1,8 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -14,10 +18,10 @@ public abstract class DataBase {
     private static Statement STMT;
     private static ResultSet rs;
 
-    public static void main(String[] args) throws SQLException {
+    public static void main() throws SQLException {
         try {
             Connection con = DriverManager.getConnection(HOST, USERNAME, PASSWORD );
-            STMT = con.createStatement();
+            STMT = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -37,8 +41,16 @@ public abstract class DataBase {
             String name = rs.getString("NAME");
             int stock = rs.getInt("STOCK");
             Double price = rs.getDouble("PRICE");
-            ImageIcon image = (ImageIcon) rs.getBlob("IMAGE");
-            returned.add(new Product(name,stock,price,image));
+            Blob blob = rs.getBlob("IMAGE");
+            InputStream in = blob.getBinaryStream();
+            BufferedImage bufferedImage = null;
+            try {
+                bufferedImage = ImageIO.read(in);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            ImageIcon imageIcon = new ImageIcon(bufferedImage);
+            returned.add(new Product(name,stock,price,imageIcon));
         }
 
         return returned;//TODO
