@@ -57,7 +57,7 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
         name.addActionListener(this);
         price.addActionListener(this);
         mb=new JMenuBar();
-        order = new JMenu("Order");
+        order = new JMenu("Sort");
         order.add(name);
         order.add(price);
         mb.add(order);
@@ -79,13 +79,13 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource().equals(backButton)){
-            Main.setCurrentPanel(Main.INTRO_PANEL);
-            //TODO log out current user
+            Main.setCurrentPanel(Main.SIGN_PANEL);
         }
         else if(e.getSource().equals(cartButton)){
             Main.setCurrentPanel(Main.CART_PANEL);
         }
         else if (e.getSource().equals(profileButton)){
+            //TODO
             Main.setCurrentPanel(Main.PROFILE_PANEL);
         }
     }

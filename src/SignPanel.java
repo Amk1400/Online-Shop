@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class SignPanel extends SignAndRegPanel {
 
     JButton signInButton;
-    final private User ADMIN = new User("Admin1","Admin1",null,null);
+    public static final User ADMIN = new User("Admin1","Admin1",null,null);
 
     public SignPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
@@ -63,15 +63,17 @@ public class SignPanel extends SignAndRegPanel {
             assignErrors(inputUser);
 
             if (errors.isEmpty()) {
+
+                try {
+                    Main.PROFILE_PANEL = new ProfilePanel(Main.BUY_PANEL, inputUser);
+                } catch (SQLException | IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
                 if(inputUser.equals(ADMIN)){
                     Main.setCurrentPanel(Main.MANAGER_BUY_PANEL);
                 }else {
-                    try {
-                        Main.PROFILE_PANEL = new ProfilePanel(Main.SIGN_PANEL, inputUser);
-                    } catch (SQLException | IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    Main.setCurrentPanel(Main.PROFILE_PANEL);
+                    Main.setCurrentPanel(Main.BUY_PANEL);
                 }
 
             } else {

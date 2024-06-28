@@ -22,4 +22,15 @@ public class User {
         User user = (User) object;
         return user.userName.equals(this.userName) && user.password.equals(this.password);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", cart=" + cart +
+                '}';
+    }
 }
