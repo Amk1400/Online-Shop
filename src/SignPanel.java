@@ -27,7 +27,7 @@ public class SignPanel extends SignAndRegPanel {
     private void putSignButtonInPlace(int errorsNum) {
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         signInButton = new JButton();
-        createButton(signInButton,"pictures\\signinButton.png",150,50, "SignIn");
+        createButton(signInButton,"pictures\\signinButton.png",100,50, "SignIn");
         gridConstraints.gridx = 0;
         gridConstraints.gridy = errorsNum+4;
         gridConstraints.gridwidth = 4;
