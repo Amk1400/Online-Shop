@@ -113,7 +113,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                 if(number+1 <= stock) {
                     number++;
                     countLabel.setText(String.valueOf(number));
-                    addInCart(name);
+                    addInCart(new Product(name,stock,price,imageIcon));
                 }
                 else {
                     plusButton.setEnabled(false);
@@ -128,7 +128,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                     number--;
                     countLabel.setText(String.valueOf(number));
                     plusButton.setEnabled(true);
-                    removeFromCart(name);
+                    removeFromCart(new Product(name,stock,price,imageIcon));
                 }
             }
         });
@@ -270,17 +270,19 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
         return 0;
     }
 
-    private void addInCart(String name){
+    private void addInCart(Product p){
         for(Product product : userCart.keySet()){
-            if(product.name.equals(name)){
+            if(product.name.equals(p.name)){
                 userCart.replace(product,(userCart.get(product))+1);
+                return;
             }
         }
+        userCart.put(p,1);
     }
 
-    private void removeFromCart(String name){
+    private void removeFromCart(Product p){
         for(Product product : userCart.keySet()){
-            if(product.name.equals(name)){
+            if(product.name.equals(p.name)){
                 userCart.replace(product,(userCart.get(product))-1);
             }
         }

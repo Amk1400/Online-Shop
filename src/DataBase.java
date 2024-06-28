@@ -97,10 +97,17 @@ public abstract class DataBase {
     }
 
     public static void updateUserWallet(User user, double money) throws SQLException {
-
         rs = STMT.executeQuery("select * from USERS Where Username ='%" + user.userName + "%'");
         rs.first();
         rs.updateDouble(5,(user.wallet)+money);
+        rs.updateRow();
+        rs.close();
+    }
+
+    public static void updateProductStock(Product product, int number) throws SQLException {
+        rs = STMT.executeQuery("select * from Products Where Name ='%" + product.name + "%'");
+        rs.first();
+        rs.updateDouble(2,(product.stock)-number);
         rs.updateRow();
         rs.close();
     }
