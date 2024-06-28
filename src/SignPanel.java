@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SignPanel extends SignAndRegPanel {
 
@@ -45,6 +46,7 @@ public class SignPanel extends SignAndRegPanel {
     @Override
     protected boolean alreadyRegistered() {
         ArrayList<User> users = DataBase.users;
+        System.out.println(Arrays.toString(users.toArray()));
         boolean returned = super.alreadyRegistered();
         try {
             returned = returned && getInputUser().password.equals(users.get(users.indexOf(getInputUser())).password);
@@ -64,15 +66,21 @@ public class SignPanel extends SignAndRegPanel {
 
             if (errors.isEmpty()) {
 
-                try {
-                    Main.PROFILE_PANEL = new ProfilePanel(Main.BUY_PANEL, inputUser);
-                } catch (SQLException | IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+
 
                 if(inputUser.equals(ADMIN)){
+                    try {
+                        Main.PROFILE_PANEL = new ProfilePanel(Main.MANAGER_BUY_PANEL, inputUser);
+                    } catch (SQLException | IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     Main.setCurrentPanel(Main.MANAGER_BUY_PANEL);
                 }else {
+                    try {
+                        Main.PROFILE_PANEL = new ProfilePanel(Main.BUY_PANEL, inputUser);
+                    } catch (SQLException | IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     Main.setCurrentPanel(Main.BUY_PANEL);
                 }
 

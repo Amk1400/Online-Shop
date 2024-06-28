@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public abstract class DataBase {
@@ -91,6 +92,7 @@ public abstract class DataBase {
         rs.close();
         rs = STMT.executeQuery(SQL_USERS);
         users.add(user);
+        System.out.println(Arrays.toString(users.toArray()));
     }
 
     public static void insertProduct(Product product) throws SQLException {
