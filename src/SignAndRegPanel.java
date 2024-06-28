@@ -90,7 +90,7 @@ public abstract class SignAndRegPanel extends ParentPanel{
 
     protected void setErrors(ArrayList<String> errors){
         int errorsNum = errors.size();
-        for (int i = 0; i <= errorsNum; i++) {
+        for (int i = 0; i < errorsNum; i++) {
             gridConstraints.fill = GridBagConstraints.HORIZONTAL;
             gridConstraints.gridx = 0;
             gridConstraints.gridy = 4 + i;

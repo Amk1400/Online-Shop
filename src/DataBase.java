@@ -53,7 +53,7 @@ public abstract class DataBase {
             returned.add(new Product(name,stock,price,imageIcon));
         }
 
-        return returned;//TODO
+        return returned;
     }
 
     private static ArrayList<User> getUsers() throws SQLException {
@@ -66,7 +66,7 @@ public abstract class DataBase {
             returned.add(new User(userName,password));
         }
 
-        return returned;//TODO
+        return returned;
     }
 
 

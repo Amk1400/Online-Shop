@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SignPanel extends SignAndRegPanel {
 
@@ -27,7 +28,7 @@ public class SignPanel extends SignAndRegPanel {
     private void putSignButtonInPlace(int errorsNum) {
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         signInButton = new JButton();
-        createButton(signInButton,"pictures\\signinButton.png",150,50, "SignIn");
+        createButton(signInButton,"pictures\\signinButton.png",100,50, "SignIn");
         gridConstraints.gridx = 0;
         gridConstraints.gridy = errorsNum+4;
         gridConstraints.gridwidth = 4;
@@ -35,6 +36,7 @@ public class SignPanel extends SignAndRegPanel {
     }
 
     protected void assignErrors(User inputUser) {
+        errors = new ArrayList<>();
         if(!alreadyRegistered()){
             errors.add("There is no such user, please register first!");
         }
@@ -61,11 +63,10 @@ public class SignPanel extends SignAndRegPanel {
                 }
 
             } else {
-                while (this.bodyPanel.getComponents().length > 10){
+                while (this.bodyPanel.getComponents().length > 12){
                     System.out.println(this.bodyPanel.getComponent(this.bodyPanel.getComponents().length-1).getBounds());
                     this.bodyPanel.remove(this.bodyPanel.getComponents().length-1);
                 }
-
                 putSignButtonInPlace(errors.size());
                 setErrors(errors);
                 this.repaint();
