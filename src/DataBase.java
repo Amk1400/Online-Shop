@@ -1,6 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
@@ -20,6 +22,7 @@ public abstract class DataBase {
     private static final String PASSWORD = "shopadmin";
     private static Statement STMT;
     private static ResultSet rs;
+    static PreparedStatement ps;
 
     public static void main() throws SQLException {
         try {
@@ -80,7 +83,7 @@ public abstract class DataBase {
     }
 
 
-    public static void insertUser(User user) throws SQLException {
+    public static void insertUser(User user) throws SQLException, IOException {
         rs = STMT.executeQuery(SQL_USERS);
         rs.moveToInsertRow();
         rs.updateString(1, user.userName);
@@ -93,14 +96,22 @@ public abstract class DataBase {
         rs.close();
         rs = STMT.executeQuery(SQL_USERS);
         users.add(user);
+        userNames.add(user.userName);
         System.out.println(Arrays.toString(users.toArray()));
     }
 
     public static void updateUserWallet(User user, double money) throws SQLException {
-
-        rs = STMT.executeQuery("select * from USERS Where Username ='%" + user.userName + "%'");
-        rs.first();
+        rs = STMT.executeQuery("select * from USERS Where Username like '%" + user.userName + "%'");
+        rs.next();
         rs.updateDouble(5,(user.wallet)+money);
+        rs.updateRow();
+        rs.close();
+    }
+
+    public static void updateProductStock(Product product, int number) throws SQLException {
+        rs = STMT.executeQuery("select * from Products Where Name like '%" + product.name + "%'");
+        rs.next();
+        rs.updateDouble(2,(product.stock)-number);
         rs.updateRow();
         rs.close();
     }
@@ -117,5 +128,45 @@ public abstract class DataBase {
         rs.close();
         rs = STMT.executeQuery(SQL_PRODUCTS);
         products.add(product);
+    }
+
+    public static void fillProductsTable(String imagePath, String name, String stock, String price) throws SQLException, IOException {
+        String host = "jdbc:derby://localhost:1527/Shop";
+        String username="shopadmin", password="shopadmin";
+        Connection con = DriverManager.getConnection( host, username, password );
+        ps = con.prepareStatement("insert into Products values(?,?,?,?)");
+
+        ps.setString(1, name);
+        ps.setInt(2, Integer.parseInt(stock));
+        ps.setDouble(3, Double.parseDouble(price));
+        FileInputStream fin = new FileInputStream(imagePath);
+        ps.setBinaryStream(4, fin, fin.available());
+        ps.executeUpdate();
+        ps.close();
+    }
+
+    public static void updateProductsTable(String name, String newName, String newStock, String newPrice) throws SQLException, FileNotFoundException {
+        String host = "jdbc:derby://localhost:1527/Shop";
+        String username="shopadmin", password="shopadmin";
+        Connection con = DriverManager.getConnection( host, username, password );
+        ps = con.prepareStatement("UPDATE PRODUCTS SET NAME=?,STOCK=?,PRICE=? WHERE NAME=?");
+
+        ps.setString(1,newName);
+        ps.setInt(2, Integer.parseInt(newStock));
+        ps.setDouble(3, Double.parseDouble((newPrice)));
+        ps.setString(4,name);
+        ps.executeUpdate();
+        ps.close();
+    }
+
+    public static void removeProductsTable(String name) throws SQLException, FileNotFoundException {
+        String host = "jdbc:derby://localhost:1527/Shop";
+        String username="shopadmin", password="shopadmin";
+        Connection con = DriverManager.getConnection( host, username, password );
+        ps = con.prepareStatement("DELETE FROM PRODUCTS WHERE NAME = ?");
+
+        ps.setString(1,name);
+        ps.executeUpdate();
+        ps.close();
     }
 }

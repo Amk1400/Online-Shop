@@ -15,6 +15,7 @@ public class cartPanel extends AfterLoginPanel implements ActionListener {
     JButton productButton;
     JButton payButton;
     JPanel[][] panelHolder;
+    JLabel sumCost;
     HashMap<Product, Integer> userCart;
     ArrayList<Product> products;
     ArrayList<Product> searchedProducts;
@@ -34,7 +35,7 @@ public class cartPanel extends AfterLoginPanel implements ActionListener {
         JPanel panel = new JPanel();
         panel.setBackground(Color.pink);
         panel.setLayout(new FlowLayout());
-        JLabel sumCost = new JLabel(String.valueOf(calculateCost()));
+        sumCost = new JLabel(String.valueOf(calculateCost()));
         payButton = new JButton("Pay");
         payButton.setSize(100,20);
         payPanel.add(panel,BorderLayout.CENTER);
@@ -239,7 +240,26 @@ public class cartPanel extends AfterLoginPanel implements ActionListener {
             }
         }
         else if(e.getSource().equals(payButton)){
-            //TODO
+            User user = Main.PROFILE_PANEL.currentUser;
+            if(user.wallet >= calculateCost()){
+                try {
+                    user.deposit(-calculateCost());
+                    for(Product product : userCart.keySet()){
+                        DataBase.updateProductStock(product,userCart.get(product));
+                    }
+                    user.cart.clear();
+                    userCart.clear();
+                    products.clear();
+                    searchedProducts.clear();
+                    sumCost.setText("0");
+                    fillProducts(0);
+                } catch (SQLException | IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            else {
+                sumCost.setText("Not enough money     "+calculateCost());
+            }
         }
 
     }

@@ -18,9 +18,9 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
     JPanel[][] panelHolder;
     int pageNumber = 1;
     int maxPageNumber = maxPageNumber();
-    HashMap<Product, Integer> userCart;
     Statement statement;
     ResultSet rs;
+    HashMap<Product, Integer> userCart;
 
 
     public BuyPanel(JPanel lastPanel) throws SQLException, IOException {
@@ -48,10 +48,9 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                 productsPanel.add(panelHolder[m][n]);
             }
         }
+    }
 
-        User user = Main.PROFILE_PANEL.currentUser;
-        userCart = user.cart;
-
+    protected void fetchDBProducts() throws SQLException {
         statement = connectDB();
         rs = statement.executeQuery(sql);
         rs.beforeFirst();
@@ -113,7 +112,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                 if(number+1 <= stock) {
                     number++;
                     countLabel.setText(String.valueOf(number));
-                    addInCart(name);
+                    addInCart(new Product(name,stock,price,imageIcon));
                 }
                 else {
                     plusButton.setEnabled(false);
@@ -128,7 +127,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                     number--;
                     countLabel.setText(String.valueOf(number));
                     plusButton.setEnabled(true);
-                    removeFromCart(name);
+                    removeFromCart(new Product(name,stock,price,imageIcon));
                 }
             }
         });
@@ -270,17 +269,24 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
         return 0;
     }
 
-    private void addInCart(String name){
-        for(Product product : userCart.keySet()){
-            if(product.name.equals(name)){
-                userCart.replace(product,(userCart.get(product))+1);
+    private void addInCart(Product p){
+        try {
+            for (Product product : userCart.keySet()) {
+                if (product.name.equals(p.name)) {
+                    userCart.replace(product, (userCart.get(product)) + 1);
+                    return;
+                }
             }
+            userCart.put(p, 1);
+        }
+        catch (Exception e){
+            userCart.put(p, 1);
         }
     }
 
-    private void removeFromCart(String name){
+    private void removeFromCart(Product p){
         for(Product product : userCart.keySet()){
-            if(product.name.equals(name)){
+            if(product.name.equals(p.name)){
                 userCart.replace(product,(userCart.get(product))-1);
             }
         }
