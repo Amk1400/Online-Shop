@@ -45,6 +45,17 @@ public abstract class Validators {
         return errors;
     }
 
+    public static ArrayList<String> phoneNumberValidator(String phoneNumber){
+        ArrayList<String> errors = new ArrayList<>();
+        if(!phoneNumber.startsWith("09")){
+            errors.add("Phone number must start with 09");
+        }
+        if(phoneNumber.length() != 11){
+            errors.add("Phone number must have 11 number");
+        }
+        return errors;
+    }
+
 
     public static void main(String[] args){
         //TEST:

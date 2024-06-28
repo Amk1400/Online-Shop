@@ -213,4 +213,5 @@ public class ManagerBuyPanel extends BuyPanel{
         rs.absolute((pageNumber-1)*8);
         fillProducts();
     }
+
 }

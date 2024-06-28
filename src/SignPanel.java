@@ -3,11 +3,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SignPanel extends SignAndRegPanel {
 
     JButton signInButton;
-    final private User ADMIN = new User("Admin1","Admin1");
+    public static final User ADMIN = new User("Admin1","Admin1",null,null);
 
     public SignPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
@@ -35,9 +37,23 @@ public class SignPanel extends SignAndRegPanel {
     }
 
     protected void assignErrors(User inputUser) {
+        errors = new ArrayList<>();
         if(!alreadyRegistered()){
             errors.add("There is no such user, please register first!");
         }
+    }
+
+    @Override
+    protected boolean alreadyRegistered() {
+        ArrayList<User> users = DataBase.users;
+        System.out.println(Arrays.toString(users.toArray()));
+        boolean returned = super.alreadyRegistered();
+        try {
+            returned = returned && getInputUser().password.equals(users.get(users.indexOf(getInputUser())).password);
+        } catch (IndexOutOfBoundsException e) {//not found
+            return false;
+        }
+        return returned;
     }
 
     @Override
@@ -49,23 +65,30 @@ public class SignPanel extends SignAndRegPanel {
             assignErrors(inputUser);
 
             if (errors.isEmpty()) {
+
+
+
                 if(inputUser.equals(ADMIN)){
-                    Main.setCurrentPanel(Main.MANAGER_BUY_PANEL);
-                }else {
                     try {
-                        Main.PROFILE_PANEL = new ProfilePanel(Main.SIGN_PANEL, inputUser);
+                        Main.PROFILE_PANEL = new ProfilePanel(Main.MANAGER_BUY_PANEL, inputUser);
                     } catch (SQLException | IOException ex) {
                         throw new RuntimeException(ex);
                     }
-                    Main.setCurrentPanel(Main.PROFILE_PANEL);
+                    Main.setCurrentPanel(Main.MANAGER_BUY_PANEL);
+                }else {
+                    try {
+                        Main.PROFILE_PANEL = new ProfilePanel(Main.BUY_PANEL, inputUser);
+                    } catch (SQLException | IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    Main.setCurrentPanel(Main.BUY_PANEL);
                 }
 
             } else {
-                while (this.bodyPanel.getComponents().length > 10){
+                while (this.bodyPanel.getComponents().length > 12){
                     System.out.println(this.bodyPanel.getComponent(this.bodyPanel.getComponents().length-1).getBounds());
                     this.bodyPanel.remove(this.bodyPanel.getComponents().length-1);
                 }
-
                 putSignButtonInPlace(errors.size());
                 setErrors(errors);
                 this.repaint();

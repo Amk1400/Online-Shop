@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public abstract class DataBase {
 
     public static ArrayList<User> users;
+    public static ArrayList<String> userNames;
     public static ArrayList<Product> products;
     private static final String SQL_USERS = "select * from USERS";
     private static final String SQL_PRODUCTS = "select * from PRODUCTS";
@@ -31,6 +34,10 @@ public abstract class DataBase {
     private static void fetchDB() throws SQLException {
         users       = getUsers();
         products    = getProducts();
+        userNames   = new ArrayList<>();
+        for (User user : users){
+            userNames.add(user.userName);
+        }
     }
 
     private static ArrayList<Product> getProducts() throws SQLException {
@@ -63,7 +70,10 @@ public abstract class DataBase {
         while(rs.next()){
             String userName = rs.getString("USERNAME");
             String password = rs.getString("PASSWORD");
-            returned.add(new User(userName,password));
+            String address = rs.getString("ADDRESS");
+            String phoneNumber = rs.getString("PHONENUMBER");
+
+            returned.add(new User(userName,password,address,phoneNumber));
         }
 
         return returned;
@@ -71,16 +81,22 @@ public abstract class DataBase {
 
 
     public static void insertUser(User user) throws SQLException {
+        rs = STMT.executeQuery(SQL_USERS);
         rs.moveToInsertRow();
-        rs.updateString("USERNAME", user.userName);
-        rs.updateString("PASSWORD", user.userName);
+        rs.updateString(1, user.userName);
+        rs.updateString(2, user.password);
+        rs.updateString(3, user.phoneNumber);
+        rs.updateString(4, user.address);
 
         rs.insertRow();
         rs.close();
         rs = STMT.executeQuery(SQL_USERS);
+        users.add(user);
+        System.out.println(Arrays.toString(users.toArray()));
     }
 
     public static void insertProduct(Product product) throws SQLException {
+        rs = STMT.executeQuery(SQL_PRODUCTS);
         rs.moveToInsertRow();
         rs.updateString("NAME", product.name);
         rs.updateInt("STOCK", product.stock);
@@ -90,5 +106,6 @@ public abstract class DataBase {
         rs.insertRow();
         rs.close();
         rs = STMT.executeQuery(SQL_PRODUCTS);
+        products.add(product);
     }
 }

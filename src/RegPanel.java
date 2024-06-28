@@ -8,8 +8,8 @@ import java.sql.SQLException;
 public class RegPanel extends SignAndRegPanel {
 
     JTextField passwordAgainField;
-    JTextField adress;
-    JTextField phonenumber;
+    JTextField adressField;
+    JTextField phonenumberField;
     JButton registerButton;
 
 
@@ -34,7 +34,7 @@ public class RegPanel extends SignAndRegPanel {
                 }
                 Main.setCurrentPanel(Main.INTRO_PANEL);
             } else {
-                while (this.bodyPanel.getComponents().length > 10){
+                while (this.bodyPanel.getComponents().length > 14){
                     System.out.println(this.bodyPanel.getComponent(this.bodyPanel.getComponents().length-1).getBounds());
                     this.bodyPanel.remove(this.bodyPanel.getComponents().length-1);
                 }
@@ -49,10 +49,15 @@ public class RegPanel extends SignAndRegPanel {
         }
     }
 
+    protected User getInputUser(){
+        return new User(usernameField.getText(), passwordField.getText(),adressField.getText(),phonenumberField.getText());
+    }
+
     @Override
     protected void assignErrors(User inputUser) {
         errors = Validators.passwordValidator(inputUser.password);
         errors.addAll(Validators.userNameValidator(inputUser.userName));
+        errors.addAll(Validators.phoneNumberValidator(inputUser.phoneNumber));
 
         if (!repeatedPassMatches()){
             errors.add("You have repeated your password wrongly");
@@ -79,7 +84,7 @@ public class RegPanel extends SignAndRegPanel {
         registerButton = new JButton();
         createButton(registerButton,"pictures\\regButton.png",150,50, "Register");
         gridConstraints.gridx = 0;
-        gridConstraints.gridy = errorsNum+6;
+        gridConstraints.gridy = errorsNum+8;
         gridConstraints.gridwidth = 6;
         bodyPanel.add(registerButton,gridConstraints);
     }
@@ -92,7 +97,7 @@ public class RegPanel extends SignAndRegPanel {
         bodyPanel.add(new JLabel("Repeat password: "),gridConstraints);
         gridConstraints.gridx = 1;
         gridConstraints.gridwidth = 3;
-        gridConstraints.ipady = 30;
+        gridConstraints.ipady = IPADY;
         passwordAgainField = new JTextField();
         passwordAgainField.setBorder(new LineBorder(Color.BLACK,3));
         bodyPanel.add(passwordAgainField,gridConstraints);
@@ -105,10 +110,10 @@ public class RegPanel extends SignAndRegPanel {
         bodyPanel.add(new JLabel("Adress: "),gridConstraints);
         gridConstraints.gridx = 1;
         gridConstraints.gridwidth = 4;
-        gridConstraints.ipady = 30;
-        passwordAgainField = new JTextField();
-        passwordAgainField.setBorder(new LineBorder(Color.BLACK,3));
-        bodyPanel.add(passwordAgainField,gridConstraints);
+        gridConstraints.ipady = IPADY;
+        adressField = new JTextField();
+        adressField.setBorder(new LineBorder(Color.BLACK,3));
+        bodyPanel.add(adressField,gridConstraints);
     }
     private void createPhoneNumberSection() {
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -118,10 +123,10 @@ public class RegPanel extends SignAndRegPanel {
         bodyPanel.add(new JLabel("Phonenumber: "),gridConstraints);
         gridConstraints.gridx = 1;
         gridConstraints.gridwidth = 5;
-        gridConstraints.ipady = 30;
-        passwordAgainField = new JTextField();
-        passwordAgainField.setBorder(new LineBorder(Color.BLACK,3));
-        bodyPanel.add(passwordAgainField,gridConstraints);
+        gridConstraints.ipady = IPADY;
+        phonenumberField = new JTextField();
+        phonenumberField.setBorder(new LineBorder(Color.BLACK,3));
+        bodyPanel.add(phonenumberField,gridConstraints);
     }
 
 

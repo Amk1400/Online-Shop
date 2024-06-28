@@ -1,28 +1,24 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
-public class cartPanel extends AfterLoginPanel{
+public class cartPanel extends AfterLoginPanel implements ActionListener {
 
     JPanel productsPanel;
     JPanel payPanel;
     JButton productButton;
+    JButton payButton;
     JPanel[][] panelHolder;
     HashMap<Product, Integer> userCart;
-    int maxPageNumber;
+    ArrayList<Product> products;
+    ArrayList<Product> searchedProducts;
+    int maxPageNumber = maxPageNumber();
     int pageNumber = 1;
 
     public cartPanel(JPanel lastPanel) throws SQLException, IOException {
@@ -35,10 +31,15 @@ public class cartPanel extends AfterLoginPanel{
         payPanel = new JPanel();
         payPanel.setBackground(Color.pink);
         payPanel.setLayout(new BorderLayout());
-        JLabel sumCost = new JLabel("//TODO");
-        JButton payButton = new JButton("Pay");
-        payPanel.add(sumCost,BorderLayout.EAST);
-        payPanel.add(sumCost,BorderLayout.WEST);
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.pink);
+        panel.setLayout(new FlowLayout());
+        JLabel sumCost = new JLabel(String.valueOf(calculateCost()));
+        payButton = new JButton("Pay");
+        payButton.setSize(100,20);
+        payPanel.add(panel,BorderLayout.CENTER);
+        panel.add(payButton,BorderLayout.EAST);
+        panel.add(sumCost,BorderLayout.WEST);
         footerPanel.add(payPanel,BorderLayout.CENTER);
     }
 
@@ -63,6 +64,10 @@ public class cartPanel extends AfterLoginPanel{
             }
         }
 
+        User user = Main.PROFILE_PANEL.currentUser;
+        userCart = user.cart;
+        products = new ArrayList<>(userCart.keySet());
+        searchedProducts = new ArrayList<>(userCart.keySet());
         fillProducts(0);
 
         this.add(bodyPanel,BorderLayout.CENTER);
@@ -123,24 +128,29 @@ public class cartPanel extends AfterLoginPanel{
 
     protected void fillProducts(int start) throws SQLException, IOException {
 
-        ArrayList<Product> products = new ArrayList<>(userCart.keySet());
         int i = start;
 
         for(int a=0; a<2; a++) {
             for (int b = 0; b < 4; b++) {
-                if(i < userCart.size()) {
+                if(i < products.size()) {
                     Product product = products.get(i);
                     panelHolder[a][b].removeAll();
                     panelHolder[a][b].add(createProduct(product.imageIcon, product.name, userCart.get(product), product.price));
                     panelHolder[a][b].repaint();
                     panelHolder[a][b].revalidate();
                 }
+                else {
+                    panelHolder[a][b].removeAll();
+                    panelHolder[a][b].repaint();
+                    panelHolder[a][b].revalidate();
+                }
+                i++;
             }
         }
     }
 
     private int maxPageNumber() throws SQLException {
-        return (userCart.size()/8) + 1;
+        return (products.size()/8) + 1;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -166,15 +176,80 @@ public class cartPanel extends AfterLoginPanel{
             }
         }
         else if(e.getSource().equals(price)){
-
+            double temp;
+            int index;
+            for(int i=0; i<products.size(); i++){
+                temp=products.get(i).price;
+                index=i;
+                for (int j=i; j<products.size(); j++){
+                    if(products.get(j).price < temp){
+                        temp = products.get(j).price;
+                        index=j;
+                    }
+                }
+                Product product = products.get(i);
+                products.set(i,products.get(index));
+                products.set(index,product);
+            }
+            try {
+                fillProducts((pageNumber-1)*8);
+            } catch (SQLException | IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         else if(e.getSource().equals(name)){
-
+            String temp;
+            int index;
+            for(int i=0; i<products.size(); i++){
+                temp=products.get(i).name;
+                index=i;
+                for (int j=i; j<products.size(); j++){
+                    if(products.get(j).name.compareTo(temp) < 0){
+                        temp = products.get(j).name;
+                        index=j;
+                    }
+                }
+                Product product = products.get(i);
+                products.set(i,products.get(index));
+                products.set(index,product);
+                try {
+                    fillProducts((pageNumber-1)*8);
+                } catch (SQLException | IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
         else if(e.getSource().equals(searchButton)){
-
+            if(searchField.getText().isEmpty()){
+                products = searchedProducts;
+            }
+            else {
+                products.clear();
+                String key = searchField.getText();
+                for(Product product : searchedProducts){
+                    if(product.name.contains(key)){
+                        products.add(product);
+                    }
+                }
+            }
+            try {
+                fillProducts((pageNumber-1)*8);
+            } catch (SQLException | IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        else if(e.getSource().equals(payButton)){
+            //TODO
         }
 
+    }
+
+    private double calculateCost(){
+        double sumCost=0;
+        for(Product product : userCart.keySet()){
+            sumCost += (product.price)*(userCart.get(product));
+        }
+        return sumCost;
     }
 
 }
