@@ -8,8 +8,8 @@ import java.sql.SQLException;
 public class RegPanel extends SignAndRegPanel {
 
     JTextField passwordAgainField;
-    JTextField adress;
-    JTextField phonenumber;
+    JTextField adressField;
+    JTextField phonenumberField;
     JButton registerButton;
 
 
@@ -49,10 +49,15 @@ public class RegPanel extends SignAndRegPanel {
         }
     }
 
+    protected User getInputUser(){
+        return new User(usernameField.getText(), passwordField.getText(),adressField.getText(),phonenumberField.getText());
+    }
+
     @Override
     protected void assignErrors(User inputUser) {
         errors = Validators.passwordValidator(inputUser.password);
         errors.addAll(Validators.userNameValidator(inputUser.userName));
+        errors.addAll(Validators.phoneNumberValidator(inputUser.phoneNumber));
 
         if (!repeatedPassMatches()){
             errors.add("You have repeated your password wrongly");
@@ -106,9 +111,9 @@ public class RegPanel extends SignAndRegPanel {
         gridConstraints.gridx = 1;
         gridConstraints.gridwidth = 4;
         gridConstraints.ipady = IPADY;
-        passwordAgainField = new JTextField();
-        passwordAgainField.setBorder(new LineBorder(Color.BLACK,3));
-        bodyPanel.add(passwordAgainField,gridConstraints);
+        adressField = new JTextField();
+        adressField.setBorder(new LineBorder(Color.BLACK,3));
+        bodyPanel.add(adressField,gridConstraints);
     }
     private void createPhoneNumberSection() {
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -119,9 +124,9 @@ public class RegPanel extends SignAndRegPanel {
         gridConstraints.gridx = 1;
         gridConstraints.gridwidth = 5;
         gridConstraints.ipady = IPADY;
-        passwordAgainField = new JTextField();
-        passwordAgainField.setBorder(new LineBorder(Color.BLACK,3));
-        bodyPanel.add(passwordAgainField,gridConstraints);
+        phonenumberField = new JTextField();
+        phonenumberField.setBorder(new LineBorder(Color.BLACK,3));
+        bodyPanel.add(phonenumberField,gridConstraints);
     }
 
 

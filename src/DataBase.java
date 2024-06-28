@@ -80,16 +80,21 @@ public abstract class DataBase {
 
 
     public static void insertUser(User user) throws SQLException {
+        rs = STMT.executeQuery(SQL_USERS);
         rs.moveToInsertRow();
-        rs.updateString("USERNAME", user.userName);
-        rs.updateString("PASSWORD", user.userName);
+        rs.updateString(1, user.userName);
+        rs.updateString(2, user.password);
+        rs.updateString(3, user.phoneNumber);
+        rs.updateString(4, user.address);
 
         rs.insertRow();
         rs.close();
         rs = STMT.executeQuery(SQL_USERS);
+        users.add(user);
     }
 
     public static void insertProduct(Product product) throws SQLException {
+        rs = STMT.executeQuery(SQL_PRODUCTS);
         rs.moveToInsertRow();
         rs.updateString("NAME", product.name);
         rs.updateInt("STOCK", product.stock);
@@ -99,5 +104,6 @@ public abstract class DataBase {
         rs.insertRow();
         rs.close();
         rs = STMT.executeQuery(SQL_PRODUCTS);
+        products.add(product);
     }
 }
