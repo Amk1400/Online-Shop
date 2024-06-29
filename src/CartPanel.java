@@ -37,6 +37,7 @@ public class CartPanel extends AfterLoginPanel implements ActionListener {
         panel.setLayout(new FlowLayout());
         sumCost = new JLabel(String.valueOf(calculateCost()));
         payButton = new JButton("Pay");
+        payButton.addActionListener(this);
         payButton.setSize(100,20);
         payPanel.add(panel,BorderLayout.CENTER);
         panel.add(payButton,BorderLayout.EAST);
@@ -251,7 +252,7 @@ public class CartPanel extends AfterLoginPanel implements ActionListener {
                     userCart.clear();
                     products.clear();
                     searchedProducts.clear();
-                    sumCost.setText("0");
+                    sumCost.setText("payed successfully     0");
                     fillProducts(0);
                 } catch (SQLException | IOException ex) {
                     throw new RuntimeException(ex);

@@ -75,8 +75,8 @@ public abstract class DataBase {
             String password = rs.getString("PASSWORD");
             String address = rs.getString("ADDRESS");
             String phoneNumber = rs.getString("PHONENUMBER");
-
-            returned.add(new User(userName,password,address,phoneNumber));
+            double wallet = rs.getDouble("WALLET");
+            returned.add(new User(userName,password,address,phoneNumber,wallet));
         }
 
         return returned;
@@ -168,5 +168,11 @@ public abstract class DataBase {
         ps.setString(1,name);
         ps.executeUpdate();
         ps.close();
+    }
+
+    public static double getWallet(String username) throws SQLException {
+        rs = STMT.executeQuery("select * from USERS Where Username like '%" + username + "%'");
+        rs.next();
+        return rs.getDouble("WALLET");
     }
 }

@@ -24,7 +24,11 @@ public class RegPanel extends SignAndRegPanel {
 
         if(e.getSource().equals(registerButton)){
             User inputUser = getInputUser();
-            assignErrors(inputUser);
+            try {
+                assignErrors(inputUser);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
 
             if (errors.isEmpty()) {
                 try {
@@ -50,11 +54,11 @@ public class RegPanel extends SignAndRegPanel {
     }
 
     protected User getInputUser(){
-        return new User(usernameField.getText(), passwordField.getText(),adressField.getText(),phonenumberField.getText());
+        return new User(usernameField.getText(), passwordField.getText(),adressField.getText(),phonenumberField.getText(),0);
     }
 
     @Override
-    protected void assignErrors(User inputUser) {
+    protected void assignErrors(User inputUser) throws SQLException {
         errors = Validators.passwordValidator(inputUser.password);
         errors.addAll(Validators.userNameValidator(inputUser.userName));
         errors.addAll(Validators.phoneNumberValidator(inputUser.phoneNumber));

@@ -12,12 +12,12 @@ public class User {
     HashMap<Product,Integer> cart;
 
 
-    public User(String userName, String password, String address, String  phoneNumber){
+    public User(String userName, String password, String address, String  phoneNumber, double wallet){
         this.userName = userName;
         this.password = password;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.wallet = 0;
+        this.wallet = wallet;
         cart = new HashMap<>();
     }
 

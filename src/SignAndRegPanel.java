@@ -17,16 +17,16 @@ public abstract class SignAndRegPanel extends ParentPanel{
         super(lastPanel);
     }
 
-    protected User getInputUser(){
-        return new User(usernameField.getText(), passwordField.getText(),null,null);
+    protected User getInputUser() throws SQLException {
+        return new User(usernameField.getText(), passwordField.getText(),null,null,DataBase.getWallet(usernameField.getText()));
     }
 
-    protected void assignErrors(User inputUser) {
+    protected void assignErrors(User inputUser) throws SQLException {
         errors = Validators.passwordValidator(inputUser.password);
         errors.addAll(Validators.userNameValidator(inputUser.userName));
     }
 
-    protected boolean alreadyRegistered(){
+    protected boolean alreadyRegistered() throws SQLException {
         return DataBase.userNames.contains(getInputUser().userName);
     }
 

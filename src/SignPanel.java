@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class SignPanel extends SignAndRegPanel {
 
     JButton signInButton;
-    public static final User ADMIN = new User("Admin1","Admin1",null,null);
+    public static final User ADMIN = new User("Admin1","Admin1",null,null,0);
 
     public SignPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
@@ -36,7 +36,7 @@ public class SignPanel extends SignAndRegPanel {
         bodyPanel.add(signInButton,gridConstraints);
     }
 
-    protected void assignErrors(User inputUser) {
+    protected void assignErrors(User inputUser) throws SQLException {
         errors = new ArrayList<>();
         if(!alreadyRegistered()){
             errors.add("There is no such user, please register first!");
@@ -44,7 +44,7 @@ public class SignPanel extends SignAndRegPanel {
     }
 
     @Override
-    protected boolean alreadyRegistered() {
+    protected boolean alreadyRegistered() throws SQLException {
         ArrayList<User> users = DataBase.users;
         System.out.println(Arrays.toString(users.toArray()));
         boolean returned = super.alreadyRegistered();
@@ -62,9 +62,18 @@ public class SignPanel extends SignAndRegPanel {
         super.actionPerformed(e);//backButton
 
         if (e.getSource().equals(signInButton)) {
-            User inputUser = getInputUser();
+            User inputUser = null;
+            try {
+                inputUser = getInputUser();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
             System.out.println("I am assigning errors");
-            assignErrors(inputUser);
+            try {
+                assignErrors(inputUser);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
 
             if (errors.isEmpty()) {
                 if(inputUser.equals(ADMIN)){
