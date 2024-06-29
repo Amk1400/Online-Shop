@@ -93,6 +93,13 @@ public class SignPanel extends SignAndRegPanel {
                     }
                     Main.setCurrentPanel(Main.USER_BUY_PANEL);
                 }
+                try {
+                    Main.CART_PANEL = new CartPanel(Main.USER_BUY_PANEL);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             } else {
                 while (this.bodyPanel.getComponents().length > 12){
                     System.out.println(this.bodyPanel.getComponent(this.bodyPanel.getComponents().length-1).getBounds());
