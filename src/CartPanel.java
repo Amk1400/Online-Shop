@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class CartPanel extends AfterLoginPanel implements ActionListener {
@@ -248,6 +251,7 @@ public class CartPanel extends AfterLoginPanel implements ActionListener {
                     for(Product product : userCart.keySet()){
                         DataBase.updateProductStock(product,userCart.get(product));
                     }
+                    DataBase.insertHistory(new History(String.valueOf(new Date()), user.userName, userCart.toString(), calculateCost(), String.valueOf(DataBase.assignId())));
                     user.cart.clear();
                     userCart.clear();
                     products.clear();

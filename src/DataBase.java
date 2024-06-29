@@ -15,8 +15,10 @@ public abstract class DataBase {
     public static ArrayList<User> users;
     public static ArrayList<String> userNames;
     public static ArrayList<Product> products;
+    public static ArrayList<History> histories;
     private static final String SQL_USERS = "select * from USERS";
     private static final String SQL_PRODUCTS = "select * from PRODUCTS";
+    private static final String SQL_HISTORY = "select * from HISTORY";
     private static final String HOST = "jdbc:derby://localhost:1527/Shop";
     private static final String USERNAME = "shopadmin";
     private static final String PASSWORD = "shopadmin";
@@ -38,6 +40,7 @@ public abstract class DataBase {
         users       = getUsers();
         products    = getProducts();
         userNames   = new ArrayList<>();
+        histories = getHistory();
         for (User user : users){
             userNames.add(user.userName);
         }
@@ -82,6 +85,22 @@ public abstract class DataBase {
         return returned;
     }
 
+    private static ArrayList<History> getHistory() throws SQLException {
+        ArrayList<History> returned = new ArrayList<>();
+        rs = STMT.executeQuery(SQL_HISTORY);
+
+        while(rs.next()){
+            String id = rs.getString("ID");
+            String date = rs.getString("DATE");
+            String time = rs.getString("TIME");
+            String user = rs.getString("USER");
+            String products = rs.getString("PRODUCTS");
+            double cost = rs.getDouble("COST");
+            returned.add(new History(date,user,products,cost,id));
+        }
+
+        return returned;
+    }
 
     public static void insertUser(User user) throws SQLException, IOException {
         rs = STMT.executeQuery(SQL_USERS);
@@ -98,6 +117,22 @@ public abstract class DataBase {
         users.add(user);
         userNames.add(user.userName);
         System.out.println(Arrays.toString(users.toArray()));
+    }
+
+    public static void insertHistory(History history) throws SQLException, IOException {
+        rs = STMT.executeQuery(SQL_HISTORY);
+        rs.moveToInsertRow();
+        rs.updateString(1, String.valueOf(history.Id));
+        rs.updateString(2, history.date);
+        rs.updateString(3, history.time);
+        rs.updateString(4, history.user);
+        rs.updateString(5, history.products);
+        rs.updateDouble(6, history.cost);
+
+        rs.insertRow();
+        rs.close();
+        rs = STMT.executeQuery(SQL_USERS);
+        histories.add(history);
     }
 
     public static void updateUserWallet(User user, double money) throws SQLException {
@@ -174,5 +209,10 @@ public abstract class DataBase {
         rs = STMT.executeQuery("select * from USERS Where Username like '%" + username + "%'");
         rs.next();
         return rs.getDouble("WALLET");
+    }
+
+    public static int assignId() throws SQLException {
+        rs = STMT.executeQuery(SQL_HISTORY);
+        return rs.getRow()+1;
     }
 }
