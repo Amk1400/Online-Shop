@@ -88,6 +88,7 @@ public class SignPanel extends SignAndRegPanel {
                     try {
                         Main.PROFILE_PANEL = new ProfilePanel(Main.USER_BUY_PANEL, inputUser);
                         Main.USER_BUY_PANEL = new UserBuyPanel(Main.SIGN_PANEL);
+                        Main.PROFILE_PANEL.lastPanel = Main.USER_BUY_PANEL;
                     } catch (SQLException | IOException ex) {
                         throw new RuntimeException(ex);
                     }
