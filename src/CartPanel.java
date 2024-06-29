@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class cartPanel extends AfterLoginPanel implements ActionListener {
+public class CartPanel extends AfterLoginPanel implements ActionListener {
 
     JPanel productsPanel;
     JPanel payPanel;
@@ -22,7 +22,7 @@ public class cartPanel extends AfterLoginPanel implements ActionListener {
     int maxPageNumber = maxPageNumber();
     int pageNumber = 1;
 
-    public cartPanel(JPanel lastPanel) throws SQLException, IOException {
+    public CartPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
     }
 

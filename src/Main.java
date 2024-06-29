@@ -9,10 +9,10 @@ public abstract class Main {
     static IntroPanel INTRO_PANEL;
     static RegPanel REG_PANEL;
     static SignPanel SIGN_PANEL;
-    static BuyPanel BUY_PANEL;
+    static UserBuyPanel USER_BUY_PANEL;
     static ManagerBuyPanel MANAGER_BUY_PANEL;
     static ProfilePanel PROFILE_PANEL;
-    static cartPanel CART_PANEL;
+    static CartPanel CART_PANEL;
 
     public static void main(String[] args) throws SQLException, IOException {
         createJFrame();
