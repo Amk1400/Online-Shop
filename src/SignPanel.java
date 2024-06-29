@@ -69,22 +69,21 @@ public class SignPanel extends SignAndRegPanel {
             if (errors.isEmpty()) {
                 if(inputUser.equals(ADMIN)){
                     try {
-                        Main.BUY_PANEL = new BuyPanel(Main.INTRO_PANEL);
                         Main.PROFILE_PANEL = new ProfilePanel(Main.MANAGER_BUY_PANEL, inputUser);
+                        Main.USER_BUY_PANEL = new UserBuyPanel(Main.SIGN_PANEL);
                     } catch (SQLException | IOException ex) {
                         throw new RuntimeException(ex);
                     }
                     Main.setCurrentPanel(Main.MANAGER_BUY_PANEL);
                 }else {
                     try {
-                        Main.BUY_PANEL = new BuyPanel(Main.INTRO_PANEL);
-                        Main.PROFILE_PANEL = new ProfilePanel(Main.BUY_PANEL, inputUser);
+                        Main.PROFILE_PANEL = new ProfilePanel(Main.USER_BUY_PANEL, inputUser);
+                        Main.USER_BUY_PANEL = new UserBuyPanel(Main.SIGN_PANEL);
                     } catch (SQLException | IOException ex) {
                         throw new RuntimeException(ex);
                     }
-                    Main.setCurrentPanel(Main.BUY_PANEL);
+                    Main.setCurrentPanel(Main.USER_BUY_PANEL);
                 }
-
             } else {
                 while (this.bodyPanel.getComponents().length > 12){
                     System.out.println(this.bodyPanel.getComponent(this.bodyPanel.getComponents().length-1).getBounds());

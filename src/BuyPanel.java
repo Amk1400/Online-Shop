@@ -16,6 +16,9 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
     JPanel productsPanel;
     JButton productButton;
     JPanel[][] panelHolder;
+    JPanel searchPanel;
+    JTextField searchField;
+    JButton searchButton;
     int pageNumber = 1;
     int maxPageNumber = maxPageNumber();
     Statement statement;
@@ -25,7 +28,11 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
 
     public BuyPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
-        rs.close();
+        try {
+            rs.close();
+        } catch (NullPointerException e) {
+
+        }
     }
 
     protected void createBodyPanel() throws SQLException, IOException {
@@ -290,5 +297,19 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                 userCart.replace(product,(userCart.get(product))-1);
             }
         }
+    }
+
+    protected void createSearchSection() {
+        searchPanel = new JPanel();
+        searchPanel.setBackground(Color.pink);
+        searchPanel.setLayout(new FlowLayout());
+        headerCenterButtonsPanel.add(searchPanel,BorderLayout.EAST);
+        searchButton = new JButton();
+        createButton(searchButton,"pictures\\search.png",30,30,"search");
+        searchField = new JTextField();
+        searchField.setSize(100,20);
+        searchField.setColumns(10);
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
     }
 }

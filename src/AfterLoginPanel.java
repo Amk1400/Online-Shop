@@ -8,7 +8,6 @@ import java.sql.SQLException;
 public abstract class AfterLoginPanel extends ParentPanel implements ActionListener {
     JPanel headerEastButtonsPanel;
     JPanel headerCenterButtonsPanel;
-    JPanel searchPanel;
     JTextField searchField;
     JButton searchButton;
     JMenuBar mb;
@@ -33,7 +32,7 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
 
         createButton(cartButton, "pictures\\cartButton.png", 40, 40, "cart");
         createButton(profileButton, "pictures\\profileButton.png", 40, 40, "profile");
-        createButton(backButton,"pictures\\introButton.png",40,40, "Back");
+        createButton(backButton,"pictures\\backButton.png",40,40, "Back");
         headerPanel.add(backButton,BorderLayout.WEST);
         headerEastButtonsPanel.add(cartButton);
         headerEastButtonsPanel.add(profileButton);
@@ -42,17 +41,7 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
         headerPanel.add(headerCenterButtonsPanel,BorderLayout.CENTER);
         headerCenterButtonsPanel.setLayout(new BorderLayout());
         headerCenterButtonsPanel.setBackground(Color.pink);
-        searchPanel = new JPanel();
-        searchPanel.setBackground(Color.pink);
-        searchPanel.setLayout(new FlowLayout());
-        headerCenterButtonsPanel.add(searchPanel,BorderLayout.EAST);
-        searchButton = new JButton();
-        createButton(searchButton,"pictures\\search.png",30,30,"search");
-        searchField = new JTextField();
-        searchField.setSize(100,20);
-        searchField.setColumns(10);
-        searchPanel.add(searchField);
-        searchPanel.add(searchButton);
+        createSearchSection();
 
         name = new JMenuItem("name");
         price = new JMenuItem("price");
@@ -65,6 +54,10 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
         mb.add(order);
         mb.setBackground(Color.pink);
         headerCenterButtonsPanel.add(mb, BorderLayout.WEST);
+
+    }
+
+    protected void createSearchSection() {
 
     }
 
@@ -81,13 +74,9 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource().equals(backButton)){
-            Main.setCurrentPanel(Main.SIGN_PANEL);
-        }
-        else if(e.getSource().equals(cartButton)){
-            Main.setCurrentPanel(Main.CART_PANEL);
+            Main.setCurrentPanel(lastPanel);
         }
         else if (e.getSource().equals(profileButton)){
-            //TODO
             Main.setCurrentPanel(Main.PROFILE_PANEL);
         }
     }
