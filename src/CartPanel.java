@@ -155,7 +155,7 @@ public class CartPanel extends AfterLoginPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-
+        super.actionPerformed(e);
         if(e.getSource().equals(nextPageButton)){
             if(pageNumber+1 <= maxPageNumber) {
                 pageNumber++;
