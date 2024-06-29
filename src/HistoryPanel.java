@@ -28,7 +28,7 @@ public class HistoryPanel extends ParentPanel implements ActionListener {
         }
         else {
             for (History history : DataBase.histories) {
-                if (history.user.equals(currentUser.userName)) {
+                if (history.owner.equals(currentUser.userName)) {
                     createHistoryRecord(history);
                 }
             }
@@ -39,8 +39,7 @@ public class HistoryPanel extends ParentPanel implements ActionListener {
 
     private void createHistoryRecord(History history){
 
-        gridConstraints.insets = new Insets(3,3,3,3);
-        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridConstraints.insets = new Insets(3,3,3,5);
         gridConstraints.gridx = 0;
         gridConstraints.gridy = gridY;
         date = new JLabel(history.date);
@@ -55,7 +54,7 @@ public class HistoryPanel extends ParentPanel implements ActionListener {
         bodyPanel.add(products,gridConstraints);
 
         gridConstraints.gridx++;
-        user = new JLabel(history.user);
+        user = new JLabel(history.owner);
         bodyPanel.add(user,gridConstraints);
 
         gridY++;

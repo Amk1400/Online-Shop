@@ -17,4 +17,9 @@ public class Product {
             this.imageIcon = NO_IMAGE;
         }
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

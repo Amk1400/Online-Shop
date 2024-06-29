@@ -92,11 +92,10 @@ public abstract class DataBase {
         while(rs.next()){
             String id = rs.getString("ID");
             String date = rs.getString("DATE");
-            String time = rs.getString("TIME");
-            String user = rs.getString("USER");
+            String owner = rs.getString("OWNER");
             String products = rs.getString("PRODUCTS");
             double cost = rs.getDouble("COST");
-            returned.add(new History(date,user,products,cost,id));
+            returned.add(new History(date,owner,products,cost,id));
         }
 
         return returned;
@@ -124,10 +123,9 @@ public abstract class DataBase {
         rs.moveToInsertRow();
         rs.updateString(1, String.valueOf(history.Id));
         rs.updateString(2, history.date);
-        rs.updateString(3, history.time);
-        rs.updateString(4, history.user);
-        rs.updateString(5, history.products);
-        rs.updateDouble(6, history.cost);
+        rs.updateString(3, history.owner);
+        rs.updateString(4, history.products);
+        rs.updateDouble(5, history.cost);
 
         rs.insertRow();
         rs.close();
@@ -213,6 +211,7 @@ public abstract class DataBase {
 
     public static int assignId() throws SQLException {
         rs = STMT.executeQuery(SQL_HISTORY);
+        rs.last();
         return rs.getRow()+1;
     }
 }

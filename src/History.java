@@ -6,13 +6,13 @@ public class History {
     String Id;
     String date;
     String time;
-    String user;
+    String owner;
     String products;
     double cost;
 
-    History(String date, String user, String products, double cost, String Id) throws SQLException {
+    History(String date, String owner, String products, double cost, String Id) throws SQLException {
         this.date = date;
-        this.user = user;
+        this.owner = owner;
         this.products = products;
         this.cost = cost;
         this.Id = Id;
