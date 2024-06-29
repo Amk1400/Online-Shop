@@ -16,6 +16,11 @@ public class UserBuyPanel extends BuyPanel{
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
         if(e.getSource().equals(cartButton)){
+            try {
+                Main.CART_PANEL = new CartPanel(Main.USER_BUY_PANEL);
+            } catch (SQLException | IOException ex) {
+                throw new RuntimeException(ex);
+            }
             Main.setCurrentPanel(Main.CART_PANEL);
         }
     }
