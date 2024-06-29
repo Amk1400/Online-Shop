@@ -12,7 +12,7 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
     JButton searchButton;
     JMenuBar mb;
     JMenu order;
-    JMenuItem name,price;
+    JMenuItem nameA_Z,nameZ_A,priceASC,priceDESC;
     static String sql = "select * from Products Order by Name";
 
     public AfterLoginPanel(JPanel lastPanel) throws SQLException, IOException {
@@ -43,14 +43,20 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
         headerCenterButtonsPanel.setBackground(Color.pink);
         createSearchSection();
 
-        name = new JMenuItem("name");
-        price = new JMenuItem("price");
-        name.addActionListener(this);
-        price.addActionListener(this);
+        nameA_Z = new JMenuItem("name A_Z");
+        nameZ_A = new JMenuItem("name Z_A");
+        priceASC = new JMenuItem("price ascending");
+        priceDESC = new JMenuItem("price descending");
+        nameA_Z.addActionListener(this);
+        priceASC.addActionListener(this);
+        nameZ_A.addActionListener(this);
+        priceDESC.addActionListener(this);
         mb=new JMenuBar();
         order = new JMenu("Sort");
-        order.add(name);
-        order.add(price);
+        order.add(nameA_Z);
+        order.add(priceASC);
+        order.add(nameZ_A);
+        order.add(priceDESC);
         mb.add(order);
         mb.setBackground(Color.pink);
         headerCenterButtonsPanel.add(mb, BorderLayout.WEST);

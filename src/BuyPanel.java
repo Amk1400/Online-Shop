@@ -185,16 +185,32 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
             }
             fillProducts();
         }
-        else if(e.getSource().equals(price)){
-            sql = "select * from Products Order by Price";
+        else if(e.getSource().equals(priceASC)){
+            sql = "select * from Products Order by Price ASC";
             try {
                 updateQuery();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         }
-        else if(e.getSource().equals(name)){
-            sql = "select * from Products Order by Name";
+        else if(e.getSource().equals(priceDESC)){
+            sql = "select * from Products Order by Price DESC";
+            try {
+                updateQuery();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        else if(e.getSource().equals(nameA_Z)){
+            sql = "select * from Products Order by Name ASC";
+            try {
+                updateQuery();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        else if(e.getSource().equals(nameZ_A)){
+            sql = "select * from Products Order by Name DESC";
             try {
                 updateQuery();
             } catch (SQLException ex) {

@@ -180,7 +180,7 @@ public class CartPanel extends AfterLoginPanel implements ActionListener {
                 throw new RuntimeException(ex);
             }
         }
-        else if(e.getSource().equals(price)){
+        else if(e.getSource().equals(priceASC)){
             double temp;
             int index;
             for(int i=0; i<products.size(); i++){
@@ -202,7 +202,29 @@ public class CartPanel extends AfterLoginPanel implements ActionListener {
                 throw new RuntimeException(ex);
             }
         }
-        else if(e.getSource().equals(name)){
+        else if(e.getSource().equals(priceDESC)){
+            double temp;
+            int index;
+            for(int i=0; i<products.size(); i++){
+                temp=products.get(i).price;
+                index=i;
+                for (int j=i; j<products.size(); j++){
+                    if(products.get(j).price > temp){
+                        temp = products.get(j).price;
+                        index=j;
+                    }
+                }
+                Product product = products.get(i);
+                products.set(i,products.get(index));
+                products.set(index,product);
+            }
+            try {
+                fillProducts((pageNumber-1)*8);
+            } catch (SQLException | IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        else if(e.getSource().equals(nameA_Z)){
             String temp;
             int index;
             for(int i=0; i<products.size(); i++){
@@ -210,6 +232,28 @@ public class CartPanel extends AfterLoginPanel implements ActionListener {
                 index=i;
                 for (int j=i; j<products.size(); j++){
                     if(products.get(j).name.compareTo(temp) < 0){
+                        temp = products.get(j).name;
+                        index=j;
+                    }
+                }
+                Product product = products.get(i);
+                products.set(i,products.get(index));
+                products.set(index,product);
+                try {
+                    fillProducts((pageNumber-1)*8);
+                } catch (SQLException | IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
+        else if(e.getSource().equals(nameZ_A)){
+            String temp;
+            int index;
+            for(int i=0; i<products.size(); i++){
+                temp=products.get(i).name;
+                index=i;
+                for (int j=i; j<products.size(); j++){
+                    if(products.get(j).name.compareTo(temp) > 0){
                         temp = products.get(j).name;
                         index=j;
                     }

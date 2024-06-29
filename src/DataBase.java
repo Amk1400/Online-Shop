@@ -40,10 +40,10 @@ public abstract class DataBase {
         users       = getUsers();
         products    = getProducts();
         userNames   = new ArrayList<>();
-        histories = getHistory();
         for (User user : users){
             userNames.add(user.userName);
         }
+        histories = getHistory();
     }
 
     private static ArrayList<Product> getProducts() throws SQLException {
