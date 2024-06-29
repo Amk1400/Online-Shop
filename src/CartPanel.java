@@ -292,6 +292,7 @@ public class CartPanel extends AfterLoginPanel implements ActionListener {
             if(user.wallet >= calculateCost()){
                 try {
                     user.deposit(-calculateCost());
+                    SignPanel.ADMIN.deposit(calculateCost());
                     for(Product product : userCart.keySet()){
                         DataBase.updateProductStock(product,userCart.get(product));
                     }
