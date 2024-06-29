@@ -254,6 +254,8 @@ public class CartPanel extends AfterLoginPanel implements ActionListener {
                     searchedProducts.clear();
                     sumCost.setText("payed successfully     0");
                     fillProducts(0);
+                    Main.USER_BUY_PANEL.pageNumber = 1;
+                    Main.USER_BUY_PANEL.fetchDBProducts();
                 } catch (SQLException | IOException ex) {
                     throw new RuntimeException(ex);
                 }

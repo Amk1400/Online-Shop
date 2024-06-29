@@ -22,8 +22,8 @@ public class User {
     }
 
     public void deposit(double money) throws SQLException {
-        wallet += money;
         DataBase.updateUserWallet(this,money);
+        wallet += money;
     }
 
     @Override
