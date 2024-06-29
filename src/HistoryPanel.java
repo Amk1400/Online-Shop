@@ -11,6 +11,7 @@ public class HistoryPanel extends ParentPanel implements ActionListener {
     JLabel time;
     JLabel user;
     JLabel products;
+    JLabel cost;
 
     public HistoryPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
@@ -40,6 +41,7 @@ public class HistoryPanel extends ParentPanel implements ActionListener {
     private void createHistoryRecord(History history){
 
         gridConstraints.insets = new Insets(3,3,3,5);
+        gridConstraints.gridwidth = 1;
         gridConstraints.gridx = 0;
         gridConstraints.gridy = gridY;
         date = new JLabel(history.date);
@@ -56,6 +58,10 @@ public class HistoryPanel extends ParentPanel implements ActionListener {
         gridConstraints.gridx++;
         user = new JLabel(history.owner);
         bodyPanel.add(user,gridConstraints);
+
+        gridConstraints.gridx++;
+        cost = new JLabel(String.valueOf(history.cost));
+        bodyPanel.add(cost,gridConstraints);
 
         gridY++;
     }

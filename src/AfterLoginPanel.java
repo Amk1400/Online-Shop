@@ -83,7 +83,11 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
             Main.setCurrentPanel(lastPanel);
         }
         else if (e.getSource().equals(profileButton)){
-            Main.setCurrentPanel(Main.PROFILE_PANEL);
+            try {
+                Main.setCurrentPanel(new HistoryPanel(Main.USER_BUY_PANEL));
+            } catch (SQLException | IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 }
