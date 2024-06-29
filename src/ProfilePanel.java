@@ -133,6 +133,7 @@ public class ProfilePanel extends ParentPanel implements ActionListener {
             try {
                 DataBase.updateUser(new User(usernameField.getText(),passwordField.getText(),phoneField.getText(),addressField.getText(),currentUser.wallet),currentUser.userName);
                 DataBase.fetchDB();
+                // TODO
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
