@@ -36,7 +36,7 @@ public abstract class DataBase {
         fetchDB();
     }
 
-    private static void fetchDB() throws SQLException {
+    protected static void fetchDB() throws SQLException {
         users       = getUsers();
         products    = getProducts();
         userNames   = new ArrayList<>();
@@ -137,6 +137,17 @@ public abstract class DataBase {
         rs = STMT.executeQuery("select * from USERS Where Username like '%" + user.userName + "%'");
         rs.next();
         rs.updateDouble(5,(user.wallet)+money);
+        rs.updateRow();
+        rs.close();
+    }
+
+    public static void updateUser(User user, String name) throws SQLException {
+        rs = STMT.executeQuery("select * from USERS Where Username like '%" + name + "%'");
+        rs.next();
+        rs.updateString(1,user.userName);
+        rs.updateString(2,user.password);
+        rs.updateString(3,user.phoneNumber);
+        rs.updateString(4,user.address);
         rs.updateRow();
         rs.close();
     }

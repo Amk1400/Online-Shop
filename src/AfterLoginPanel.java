@@ -22,7 +22,7 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
 
 
     @Override
-    protected void createHeaderPanel(){
+    protected void createHeaderPanel() throws SQLException {
         super.createHeaderPanel();
 
         headerEastButtonsPanel = new JPanel();
@@ -83,11 +83,7 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
             Main.setCurrentPanel(lastPanel);
         }
         else if (e.getSource().equals(profileButton)){
-            try {
-                Main.setCurrentPanel(new HistoryPanel(Main.USER_BUY_PANEL));
-            } catch (SQLException | IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            Main.setCurrentPanel(Main.PROFILE_PANEL);
         }
     }
 }

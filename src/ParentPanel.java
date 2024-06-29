@@ -43,7 +43,7 @@ public abstract class ParentPanel extends JPanel implements ActionListener {
         bodyPanel.setLayout(new GridBagLayout());
     }
 
-    protected void createHeaderPanel() {
+    protected void createHeaderPanel() throws SQLException {
         headerPanel = new JPanel();
         this.add(headerPanel,BorderLayout.NORTH);
         headerPanel.setLayout(new BorderLayout());
