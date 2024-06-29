@@ -70,7 +70,7 @@ public class SignPanel extends SignAndRegPanel {
                 if(inputUser.equals(ADMIN)){
                     try {
                         Main.PROFILE_PANEL = new ProfilePanel(Main.MANAGER_BUY_PANEL, inputUser);
-                        Main.USER_BUY_PANEL = new UserBuyPanel(Main.INTRO_PANEL);
+                        Main.USER_BUY_PANEL = new UserBuyPanel(Main.SIGN_PANEL);
                     } catch (SQLException | IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -78,7 +78,7 @@ public class SignPanel extends SignAndRegPanel {
                 }else {
                     try {
                         Main.PROFILE_PANEL = new ProfilePanel(Main.USER_BUY_PANEL, inputUser);
-                        Main.USER_BUY_PANEL = new UserBuyPanel(Main.INTRO_PANEL);
+                        Main.USER_BUY_PANEL = new UserBuyPanel(Main.SIGN_PANEL);
                     } catch (SQLException | IOException ex) {
                         throw new RuntimeException(ex);
                     }

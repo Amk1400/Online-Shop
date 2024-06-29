@@ -32,7 +32,7 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
 
         createButton(cartButton, "pictures\\cartButton.png", 40, 40, "cart");
         createButton(profileButton, "pictures\\profileButton.png", 40, 40, "profile");
-        createButton(backButton,"pictures\\introButton.png",40,40, "Back");
+        createButton(backButton,"pictures\\backButton.png",40,40, "Back");
         headerPanel.add(backButton,BorderLayout.WEST);
         headerEastButtonsPanel.add(cartButton);
         headerEastButtonsPanel.add(profileButton);
@@ -74,7 +74,7 @@ public abstract class AfterLoginPanel extends ParentPanel implements ActionListe
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource().equals(backButton)){
-            Main.setCurrentPanel(Main.SIGN_PANEL);
+            Main.setCurrentPanel(lastPanel);
         }
         else if (e.getSource().equals(profileButton)){
             Main.setCurrentPanel(Main.PROFILE_PANEL);
