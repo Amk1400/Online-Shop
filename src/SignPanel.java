@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class SignPanel extends SignAndRegPanel {
 
     JButton signInButton;
-    public static final User ADMIN = new User("Admin1","Admin1",null,null,0);
+    public static final User ADMIN = new User("Admin1",String.valueOf("Admin1".hashCode()),null,null,0);
 
     public SignPanel(JPanel lastPanel) throws SQLException, IOException {
         super(lastPanel);
