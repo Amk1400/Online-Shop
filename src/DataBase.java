@@ -143,8 +143,8 @@ public abstract class DataBase {
         rs.close();
     }
 
-    public static void updateUser(User user, String name) throws SQLException {
-        rs = STMT.executeQuery("select * from USERS Where Username like '%" + name + "%'");
+    public static void updateUser(User user, String userName) throws SQLException {
+        rs = STMT.executeQuery("select * from USERS Where Username like '%" + userName + "%'");
         rs.next();
         rs.updateString(1,user.userName);
         rs.updateString(2,user.password);

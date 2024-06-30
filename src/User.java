@@ -37,7 +37,6 @@ public class User {
         return "User: " +
                 userName +
                 ", address = " + address +
-                ", phoneNumber = " + phoneNumber+
-                ", cart=" + Arrays.asList(cart);
+                ", phoneNumber = " + phoneNumber;
     }
 }

@@ -132,105 +132,58 @@ public class ProfilePanel extends ParentPanel implements ActionListener {
         }
         else if(e.getSource().equals(applyChanges)){
             try {
-                DataBase.updateUser(new User(usernameField.getText(),passwordField.getText(),phoneField.getText(),addressField.getText(),currentUser.wallet),currentUser.userName);
-                DataBase.fetchDB();
+                //assign New User
+                String newUserName = usernameField.getText();
+                String newPassword = passwordField.getText();
+                String newPhone = phoneField.getText();
+                String newAddres = addressField.getText();
 
-                String newusername = usernameField.getText();
-                String newpassword = passwordField.getText();
-                String newphone = phoneField.getText();
-                String newaddres = addressField.getText();
+                //assign validating errors
+                clearOldErrors();
+                ArrayList<String> errors = assignNewErrors(newPassword, newUserName, newPhone);
 
-                ArrayList<String> errors = Validators.passwordValidator(newpassword);
-                errors.addAll(Validators.userNameValidator(newusername));
-                errors.addAll(Validators.phoneNumberValidator(newphone));
-                //TODO
                 if (errors.isEmpty()) {
-                    while (this.bodyPanel.getComponents().length > 14) {
-                        System.out.println(this.bodyPanel.getComponent(this.bodyPanel.getComponents().length - 1).getBounds());
-                        this.bodyPanel.remove(this.bodyPanel.getComponents().length - 1);
+                    if(newUserName == null){
+                        newUserName = currentUser.userName;
+                    }if(newPassword == null){
+                        newUserName = currentUser.password;
+                    }if(newPhone == null){
+                        newPhone = currentUser.phoneNumber;
+                    }if(newAddres == null){
+                        newUserName = currentUser.address;
                     }
+
+                    DataBase.updateUser(new User(newUserName,newPassword,newPhone,newAddres,currentUser.wallet),currentUser.userName);
+                    DataBase.fetchDB();
+
+                }else {
+                    showErrors(errors);
                 }
 
-                setErrors(errors);
                 this.repaint();
                 this.revalidate();
                 Main.setCurrentPanel(Main.PROFILE_PANEL);
-                //TODO
-                boolean u = newusername == null;
-                boolean pa = newpassword == null;
-                boolean a = newaddres == null;
-                boolean ph = newphone == null;
-                if (u && pa && ph ){
-                    currentUser.address = newaddres;
-                }
-                if (pa && ph && a){
-                    currentUser.userName = newusername;
-                }
-                if (u && pa && a){
-                    currentUser.phoneNumber = newphone;
-                }
-                if (u && ph && a){
-                    currentUser.password = newpassword;
-                }
-                if (u && pa){
-                    currentUser.phoneNumber = newphone;
-                    currentUser.address = newaddres;
-                }
-                if (u && a ){
-                    currentUser.password = newpassword;
-                    currentUser.phoneNumber = newphone;
-                }
-                if (u && ph){
-                    currentUser.password = newpassword;
-                    currentUser.address = newaddres;
-                }
-                if (pa && a){
-                    currentUser.userName = newusername;
-                    currentUser.phoneNumber = newphone;
-                }
-                if (pa && ph){
-                    currentUser.userName = newusername;
-                    currentUser.address = newaddres;
-                }
-                if (a && ph){
-                    currentUser.password = newpassword;
-                    currentUser.userName = newusername;
-                }
-                if (u){
-                    currentUser.password = newpassword;
-                    currentUser.address = newaddres;
-                    currentUser.phoneNumber = newphone;
-                }
-                if (pa){
-                    currentUser.userName = newusername;
-                    currentUser.address = newaddres;
-                    currentUser.phoneNumber = newphone;
-                }
-                if (a){
-                    currentUser.password = newpassword;
-                    currentUser.userName = newusername;
-                    currentUser.phoneNumber = newphone;
-                }
-                if (ph){
-                    currentUser.password = newpassword;
-                    currentUser.address = newaddres;
-                    currentUser.userName = newusername;
-                }
-
-
-                else{
-                    currentUser.password = newpassword;
-                    currentUser.address = newaddres;
-                    currentUser.userName = newusername;
-                    currentUser.phoneNumber = newphone;
-                }
-
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         }
     }
-    protected void setErrors(ArrayList<String> errors) {
+
+    private static ArrayList<String> assignNewErrors(String newPassword, String newUserName, String newPhone) {
+        ArrayList<String> errors = Validators.passwordValidator(newPassword);
+        errors.addAll(Validators.userNameValidator(newUserName));
+        errors.addAll(Validators.phoneNumberValidator(newPhone));
+        return errors;
+    }
+
+    private void clearOldErrors() {
+        while (this.bodyPanel.getComponents().length > 12) {
+            System.out.println(this.bodyPanel.getComponent(this.bodyPanel.getComponents().length - 1).getClass());
+            this.bodyPanel.remove(this.bodyPanel.getComponents().length - 1);
+        }
+    }
+
+    protected void showErrors(ArrayList<String> errors) {
         int errorsNum = errors.size();
         for (int i = 0; i < errorsNum; i++) {
             gridConstraints.fill = GridBagConstraints.HORIZONTAL;
