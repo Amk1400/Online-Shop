@@ -305,6 +305,7 @@ public class CartPanel extends AfterLoginPanel implements ActionListener {
                     fillProducts(0);
                     Main.USER_BUY_PANEL.pageNumber = 1;
                     Main.USER_BUY_PANEL.fetchDBProducts();
+                    Main.PROFILE_PANEL = new ProfilePanel(Main.USER_BUY_PANEL,user);
                 } catch (SQLException | IOException ex) {
                     throw new RuntimeException(ex);
                 }

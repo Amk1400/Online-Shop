@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BuyPanel extends AfterLoginPanel implements ActionListener {
@@ -31,7 +30,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
         super(lastPanel);
         try {
             rs.close();
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
 
         }
     }
