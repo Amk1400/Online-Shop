@@ -153,7 +153,7 @@ public class ProfilePanel extends ParentPanel implements ActionListener {
                         newUserName = currentUser.address;
                     }
 
-                    DataBase.updateUser(new User(newUserName,newPassword,newPhone,newAddres,currentUser.wallet),currentUser.userName);
+                    DataBase.updateUser(new User(newUserName,newPassword,newAddres,newPhone,currentUser.wallet),currentUser.userName);
                     DataBase.fetchDB();
 
                 }else {

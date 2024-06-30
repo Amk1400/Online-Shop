@@ -31,6 +31,7 @@ public class RegPanel extends SignAndRegPanel {
             }
 
             if (errors.isEmpty()) {
+                inputUser.password = String.valueOf(inputUser.password.hashCode());
                 try {
                     DataBase.insertUser(inputUser);
                 } catch (Exception ex) {
@@ -54,7 +55,7 @@ public class RegPanel extends SignAndRegPanel {
     }
 
     protected User getInputUser(){
-        return new User(usernameField.getText(), passwordField.getText(),adressField.getText(),phonenumberField.getText(),0);
+        return new User(usernameField.getText(), passwordField.getText(), adressField.getText(),phonenumberField.getText(),0);
     }
 
     @Override

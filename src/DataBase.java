@@ -150,7 +150,7 @@ public abstract class DataBase {
         rs = STMT.executeQuery("select * from USERS Where Username like '%" + userName + "%'");
         rs.next();
         rs.updateString(1,user.userName);
-        rs.updateString(2,user.password);
+        rs.updateString(2, String.valueOf(user.password.hashCode()));
         rs.updateString(3,user.phoneNumber);
         rs.updateString(4,user.address);
         rs.updateRow();
