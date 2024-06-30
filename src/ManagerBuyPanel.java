@@ -177,9 +177,9 @@ public class ManagerBuyPanel extends BuyPanel{
         OkButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 try {
-                    DataBase.fillProductsTable(file.getPath(),nameField.getText(),countField.getText(),priceField.getText(),0,"");
+                    DataBase.insertProductToDB(file.getPath(),nameField.getText(),countField.getText(),priceField.getText(),0,"");
                     updateQuery();
-                } catch (SQLException | IOException ex) {
+                } catch (SQLException | IOException | NullPointerException ex) {
                     throw new RuntimeException(ex);
                 }
             }

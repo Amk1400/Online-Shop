@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public abstract class DataBase {
 
@@ -16,19 +15,23 @@ public abstract class DataBase {
     public static ArrayList<String> userNames;
     public static ArrayList<Product> products;
     public static ArrayList<History> histories;
+
     private static final String SQL_USERS = "select * from USERS";
     private static final String SQL_PRODUCTS = "select * from PRODUCTS";
     private static final String SQL_HISTORY = "select * from HISTORY";
+
     private static final String HOST = "jdbc:derby://localhost:1527/Shop";
     private static final String USERNAME = "shopadmin";
     private static final String PASSWORD = "shopadmin";
+
     private static Statement STMT;
     private static ResultSet rs;
     static PreparedStatement ps;
+    static Connection con;
 
     public static void main() throws SQLException {
         try {
-            Connection con = DriverManager.getConnection(HOST, USERNAME, PASSWORD );
+            con = DriverManager.getConnection(HOST, USERNAME, PASSWORD );
             STMT = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -138,7 +141,7 @@ public abstract class DataBase {
     public static void updateUserWallet(User user, double money) throws SQLException {
         rs = STMT.executeQuery("select * from USERS Where Username like '%" + user.userName + "%'");
         rs.next();
-        rs.updateDouble(5,(user.wallet)+money);
+        rs.updateDouble(5,(user.wallet) + money);
         rs.updateRow();
         rs.close();
     }
@@ -178,26 +181,7 @@ public abstract class DataBase {
         rs.close();
     }
 
-    public static void insertProduct(Product product) throws SQLException {
-        rs = STMT.executeQuery(SQL_PRODUCTS);
-        rs.moveToInsertRow();
-        rs.updateString("NAME", product.name);
-        rs.updateInt("STOCK", product.stock);
-        rs.updateDouble("PRICE", product.price);
-        rs.updateBlob("IMAGE",(Blob) product.imageIcon);
-        rs.updateDouble("POINT", product.point);
-        rs.updateString("VOTEDUSERS",product.votedUsers);
-
-        rs.insertRow();
-        rs.close();
-        rs = STMT.executeQuery(SQL_PRODUCTS);
-        products.add(product);
-    }
-
-    public static void fillProductsTable(String imagePath, String name, String stock, String price, double point, String votedusers) throws SQLException, IOException {
-        String host = "jdbc:derby://localhost:1527/Shop";
-        String username="shopadmin", password="shopadmin";
-        Connection con = DriverManager.getConnection( host, username, password );
+    public static void insertProductToDB(String imagePath, String name, String stock, String price, double point, String votedusers) throws SQLException, IOException {
         ps = con.prepareStatement("insert into Products values(?,?,?,?,?,?)");
 
         ps.setString(1, name);
@@ -212,9 +196,6 @@ public abstract class DataBase {
     }
 
     public static void updateProductsTable(String name, String newName, String newStock, String newPrice, Double newPoint, String newVotedUsers) throws SQLException, FileNotFoundException {
-        String host = "jdbc:derby://localhost:1527/Shop";
-        String username="shopadmin", password="shopadmin";
-        Connection con = DriverManager.getConnection( host, username, password );
         ps = con.prepareStatement("UPDATE PRODUCTS SET NAME=?,STOCK=?,PRICE=?,POINT=?,VOTEDUSERS=? WHERE NAME=?");
 
         ps.setString(1,newName);
@@ -229,9 +210,6 @@ public abstract class DataBase {
     }
 
     public static void removeProductsTable(String name) throws SQLException, FileNotFoundException {
-        String host = "jdbc:derby://localhost:1527/Shop";
-        String username="shopadmin", password="shopadmin";
-        Connection con = DriverManager.getConnection( host, username, password );
         ps = con.prepareStatement("DELETE FROM PRODUCTS WHERE NAME = ?");
 
         ps.setString(1,name);
@@ -251,7 +229,7 @@ public abstract class DataBase {
         return rs.getString("PHONENUMBER");
     }
 
-    public static String getaddress(String username) throws SQLException {
+    public static String getAddress(String username) throws SQLException {
         rs = STMT.executeQuery("select * from USERS Where Username like '%" + username + "%'");
         rs.next();
         return rs.getString("ADDRESS");

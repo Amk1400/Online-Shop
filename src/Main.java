@@ -15,16 +15,13 @@ public abstract class Main {
     static CartPanel CART_PANEL;
 
     public static void main(String[] args) throws SQLException, IOException {
-        createJFrame();
+        createBackend();
+        createFrontend();
         DataBase.main();
     }
 
-    private static void createJFrame() throws SQLException, IOException {
-        createBackend();
-        createFrontend();
-    }
-
     private static void createFrontend() throws SQLException, IOException {
+        //UI assigning
         JFRAME.setBackground(Color.CYAN);//Color is different from panels to figure possible bugs
         UIManager.put("Label.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
         UIManager.put("Button.font", new Font("Arial Rounded MT Bold",Font.BOLD,18));
@@ -33,7 +30,6 @@ public abstract class Main {
         INTRO_PANEL = new IntroPanel();
         REG_PANEL = new RegPanel(INTRO_PANEL);
         SIGN_PANEL = new SignPanel(INTRO_PANEL);
-        //CART_PANEL = new cartPanel(INTRO_PANEL);
         MANAGER_BUY_PANEL = new ManagerBuyPanel(SIGN_PANEL);
 
         setCurrentPanel(INTRO_PANEL);
