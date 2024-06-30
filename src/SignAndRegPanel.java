@@ -18,7 +18,7 @@ public abstract class SignAndRegPanel extends ParentPanel{
     }
 
     protected User getInputUser() throws SQLException {
-        return new User(usernameField.getText(), passwordField.getText(),null,null,DataBase.getWallet(usernameField.getText()));
+        return new User(usernameField.getText(), passwordField.getText(),DataBase.getaddress(usernameField.getText()),DataBase.getPhone(usernameField.getText()),DataBase.getWallet(usernameField.getText()));
     }
 
     protected void assignErrors(User inputUser) throws SQLException {

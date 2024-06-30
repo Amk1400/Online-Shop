@@ -6,15 +6,19 @@ public class Product {
     ImageIcon imageIcon;
     int stock;
     double price;
+    double point;
+    String votedUsers;
 
-    public Product(String name, int stock, double price, ImageIcon imageIcon){
+    public Product(String name, int stock, double price, ImageIcon imageIcon, double point, String votedUsers){
         this.name = name;
         this.stock = stock;
         this.price = price;
+        this.point = point;
+        this.votedUsers = votedUsers;
         try {
             this.imageIcon = imageIcon;
-        } catch (NullPointerException e) {//
-            this.imageIcon = NO_IMAGE;
+        } catch (Exception e) {
+            this.imageIcon = new ImageIcon("pictures\\default-product.png");
         }
     }
 

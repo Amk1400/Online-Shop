@@ -46,4 +46,5 @@ public class UserBuyPanel extends BuyPanel{
         userCart = user.cart;
         fetchDBProducts();
     }
+
 }

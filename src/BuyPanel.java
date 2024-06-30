@@ -15,6 +15,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
 
     JPanel productsPanel;
     JButton productButton;
+    JButton[] starButtons;
     JPanel[][] panelHolder;
     JPanel searchPanel;
     JTextField searchField;
@@ -66,7 +67,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
         this.add(bodyPanel,BorderLayout.CENTER);
     }
 
-    public JPanel createProduct(Blob blob, String name, int stock ,double price) throws SQLException, IOException {
+    public JPanel createProduct(Blob blob, String name, int stock ,double price, double point, String votedUsers) throws SQLException, IOException {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         panel.setBackground(Color.pink);
@@ -119,7 +120,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                 if(number+1 <= stock) {
                     number++;
                     countLabel.setText(String.valueOf(number));
-                    addInCart(new Product(name,stock,price,imageIcon));
+                    addInCart(new Product(name,stock,price,imageIcon,point,votedUsers));
                 }
                 else {
                     plusButton.setEnabled(false);
@@ -134,7 +135,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                     number--;
                     countLabel.setText(String.valueOf(number));
                     plusButton.setEnabled(true);
-                    removeFromCart(new Product(name,stock,price,imageIcon));
+                    removeFromCart(new Product(name,stock,price,imageIcon,point,votedUsers));
                 }
             }
         });
@@ -144,6 +145,46 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
         addPanel.add(plusButton,BorderLayout.EAST);
         addPanel.add(countLabel,BorderLayout.CENTER);
         panel.add(addPanel,gbc);
+
+        gbc.gridy = 4;
+        gbc.gridx=0;
+        User user = Main.PROFILE_PANEL.currentUser;
+        JPanel starsPanel = new JPanel();
+        starsPanel.setBackground(Color.pink);
+
+        if(!votedUsers.contains(user.userName)) {
+            starButtons = new JButton[4];
+            starsPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 5));
+            for (int i = 0; i < 4; i++) {
+                starButtons[i] = new JButton();
+                createButton(starButtons[i], "pictures\\star.png", 10, 10, "star" + i);
+                starsPanel.add(starButtons[i]);
+
+                double newVote = i+1;
+                starButtons[i].addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            DataBase.updateProductPoint(name, (point + newVote) / 2);
+                            DataBase.updateProductVotedUsers(name, (votedUsers + "," + user.userName));
+                            starsPanel.removeAll();
+                            starsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
+                            JLabel pointLabel = new JLabel(String.valueOf(DataBase.getPoint(name)),SwingConstants.CENTER);
+                            starsPanel.add(pointLabel);
+                            starsPanel.repaint();
+                            starsPanel.revalidate();
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                });
+            }
+
+        }
+        else {
+            JLabel pointLabel = new JLabel(String.valueOf(DataBase.getPoint(name)),SwingConstants.CENTER);
+            starsPanel.add(pointLabel);
+        }
+        panel.add(starsPanel, gbc);
 
         return panel;
     }
@@ -238,7 +279,7 @@ public class BuyPanel extends AfterLoginPanel implements ActionListener {
                 try {
                     if(rs.next()) {
                         panelHolder[a][b].removeAll();
-                        panelHolder[a][b].add(createProduct(rs.getBlob(4) , rs.getString(1), rs.getInt(2), rs.getDouble(3)));
+                        panelHolder[a][b].add(createProduct(rs.getBlob(4) , rs.getString(1), rs.getInt(2), rs.getDouble(3), rs.getDouble(5), rs.getString(6)));
                         panelHolder[a][b].repaint();
                         panelHolder[a][b].revalidate();
                     }

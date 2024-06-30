@@ -28,7 +28,7 @@ public class ManagerBuyPanel extends BuyPanel{
     }
 
     @Override
-    public JPanel createProduct(Blob blob, String name, int stock , double price) throws SQLException, IOException {
+    public JPanel createProduct(Blob blob, String name, int stock , double price, double point, String votedUsers) throws SQLException, IOException {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         panel.setBackground(Color.pink);
@@ -97,7 +97,7 @@ public class ManagerBuyPanel extends BuyPanel{
         OkButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 try {
-                    DataBase.updateProductsTable(name,nameField.getText(),countField.getText(),priceField.getText());
+                    DataBase.updateProductsTable(name,nameField.getText(),countField.getText(),priceField.getText(),point,votedUsers);
                     updateQuery();
                 } catch (SQLException | FileNotFoundException ex) {
                     throw new RuntimeException(ex);
@@ -177,7 +177,7 @@ public class ManagerBuyPanel extends BuyPanel{
         OkButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 try {
-                    DataBase.fillProductsTable(file.getPath(),nameField.getText(),countField.getText(),priceField.getText());
+                    DataBase.fillProductsTable(file.getPath(),nameField.getText(),countField.getText(),priceField.getText(),0,"");
                     updateQuery();
                 } catch (SQLException | IOException ex) {
                     throw new RuntimeException(ex);

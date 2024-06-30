@@ -53,8 +53,10 @@ public abstract class DataBase {
         while(rs.next()){
             String name = rs.getString("NAME");
             int stock = rs.getInt("STOCK");
-            Double price = rs.getDouble("PRICE");
+            double price = rs.getDouble("PRICE");
             Blob blob = rs.getBlob("IMAGE");
+            double point = rs.getDouble("POINT");
+            String votedUsers = rs.getString("VOTEDUSERS");
             InputStream in = blob.getBinaryStream();
             BufferedImage bufferedImage = null;
             try {
@@ -63,7 +65,7 @@ public abstract class DataBase {
                 throw new RuntimeException(e);
             }
             ImageIcon imageIcon = new ImageIcon(bufferedImage);
-            returned.add(new Product(name,stock,price,imageIcon));
+            returned.add(new Product(name,stock,price,imageIcon,point,votedUsers));
         }
 
         return returned;
@@ -160,6 +162,22 @@ public abstract class DataBase {
         rs.close();
     }
 
+    public static void updateProductPoint(String name, double newPoint) throws SQLException {
+        rs = STMT.executeQuery("select * from Products Where Name like '%" + name + "%'");
+        rs.next();
+        rs.updateDouble(5,newPoint);
+        rs.updateRow();
+        rs.close();
+    }
+
+    public static void updateProductVotedUsers(String name, String newVoted) throws SQLException {
+        rs = STMT.executeQuery("select * from Products Where Name like '%" + name + "%'");
+        rs.next();
+        rs.updateString(6,newVoted);
+        rs.updateRow();
+        rs.close();
+    }
+
     public static void insertProduct(Product product) throws SQLException {
         rs = STMT.executeQuery(SQL_PRODUCTS);
         rs.moveToInsertRow();
@@ -167,6 +185,8 @@ public abstract class DataBase {
         rs.updateInt("STOCK", product.stock);
         rs.updateDouble("PRICE", product.price);
         rs.updateBlob("IMAGE",(Blob) product.imageIcon);
+        rs.updateDouble("POINT", product.point);
+        rs.updateString("VOTEDUSERS",product.votedUsers);
 
         rs.insertRow();
         rs.close();
@@ -174,31 +194,36 @@ public abstract class DataBase {
         products.add(product);
     }
 
-    public static void fillProductsTable(String imagePath, String name, String stock, String price) throws SQLException, IOException {
+    public static void fillProductsTable(String imagePath, String name, String stock, String price, double point, String votedusers) throws SQLException, IOException {
         String host = "jdbc:derby://localhost:1527/Shop";
         String username="shopadmin", password="shopadmin";
         Connection con = DriverManager.getConnection( host, username, password );
-        ps = con.prepareStatement("insert into Products values(?,?,?,?)");
+        ps = con.prepareStatement("insert into Products values(?,?,?,?,?,?)");
 
         ps.setString(1, name);
         ps.setInt(2, Integer.parseInt(stock));
         ps.setDouble(3, Double.parseDouble(price));
         FileInputStream fin = new FileInputStream(imagePath);
         ps.setBinaryStream(4, fin, fin.available());
+        ps.setDouble(5,point);
+        ps.setString(6,votedusers);
         ps.executeUpdate();
         ps.close();
     }
 
-    public static void updateProductsTable(String name, String newName, String newStock, String newPrice) throws SQLException, FileNotFoundException {
+    public static void updateProductsTable(String name, String newName, String newStock, String newPrice, Double newPoint, String newVotedUsers) throws SQLException, FileNotFoundException {
         String host = "jdbc:derby://localhost:1527/Shop";
         String username="shopadmin", password="shopadmin";
         Connection con = DriverManager.getConnection( host, username, password );
-        ps = con.prepareStatement("UPDATE PRODUCTS SET NAME=?,STOCK=?,PRICE=? WHERE NAME=?");
+        ps = con.prepareStatement("UPDATE PRODUCTS SET NAME=?,STOCK=?,PRICE=?,POINT=?,VOTEDUSERS=? WHERE NAME=?");
 
         ps.setString(1,newName);
         ps.setInt(2, Integer.parseInt(newStock));
         ps.setDouble(3, Double.parseDouble((newPrice)));
-        ps.setString(4,name);
+        ps.setDouble(4,newPoint);
+        ps.setString(5,newVotedUsers);
+        ps.setString(6,name);
+
         ps.executeUpdate();
         ps.close();
     }
@@ -218,6 +243,24 @@ public abstract class DataBase {
         rs = STMT.executeQuery("select * from USERS Where Username like '%" + username + "%'");
         rs.next();
         return rs.getDouble("WALLET");
+    }
+
+    public static String getPhone(String username) throws SQLException {
+        rs = STMT.executeQuery("select * from USERS Where Username like '%" + username + "%'");
+        rs.next();
+        return rs.getString("PHONENUMBER");
+    }
+
+    public static String getaddress(String username) throws SQLException {
+        rs = STMT.executeQuery("select * from USERS Where Username like '%" + username + "%'");
+        rs.next();
+        return rs.getString("ADDRESS");
+    }
+
+    public static double getPoint(String name) throws SQLException {
+        rs = STMT.executeQuery("select * from PRODUCTS Where Name like '%" + name + "%'");
+        rs.next();
+        return rs.getDouble("POINT");
     }
 
     public static int assignId() throws SQLException {
