@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ProfilePanel extends ParentPanel implements ActionListener {
 
@@ -133,9 +134,116 @@ public class ProfilePanel extends ParentPanel implements ActionListener {
             try {
                 DataBase.updateUser(new User(usernameField.getText(),passwordField.getText(),phoneField.getText(),addressField.getText(),currentUser.wallet),currentUser.userName);
                 DataBase.fetchDB();
-                // TODO
+
+                String newusername = usernameField.getText();
+                String newpassword = passwordField.getText();
+                String newphone = phoneField.getText();
+                String newaddres = addressField.getText();
+
+                ArrayList<String> errors = Validators.passwordValidator(newpassword);
+                errors.addAll(Validators.userNameValidator(newusername));
+                errors.addAll(Validators.phoneNumberValidator(newphone));
+                //TODO
+                if (errors.isEmpty()) {
+                    while (this.bodyPanel.getComponents().length > 14) {
+                        System.out.println(this.bodyPanel.getComponent(this.bodyPanel.getComponents().length - 1).getBounds());
+                        this.bodyPanel.remove(this.bodyPanel.getComponents().length - 1);
+                    }
+                }
+
+                setErrors(errors);
+                this.repaint();
+                this.revalidate();
+                Main.setCurrentPanel(Main.PROFILE_PANEL);
+                //TODO
+                boolean u = newusername == null;
+                boolean pa = newpassword == null;
+                boolean a = newaddres == null;
+                boolean ph = newphone == null;
+                if (u && pa && ph ){
+                    currentUser.address = newaddres;
+                }
+                if (pa && ph && a){
+                    currentUser.userName = newusername;
+                }
+                if (u && pa && a){
+                    currentUser.phoneNumber = newphone;
+                }
+                if (u && ph && a){
+                    currentUser.password = newpassword;
+                }
+                if (u && pa){
+                    currentUser.phoneNumber = newphone;
+                    currentUser.address = newaddres;
+                }
+                if (u && a ){
+                    currentUser.password = newpassword;
+                    currentUser.phoneNumber = newphone;
+                }
+                if (u && ph){
+                    currentUser.password = newpassword;
+                    currentUser.address = newaddres;
+                }
+                if (pa && a){
+                    currentUser.userName = newusername;
+                    currentUser.phoneNumber = newphone;
+                }
+                if (pa && ph){
+                    currentUser.userName = newusername;
+                    currentUser.address = newaddres;
+                }
+                if (a && ph){
+                    currentUser.password = newpassword;
+                    currentUser.userName = newusername;
+                }
+                if (u){
+                    currentUser.password = newpassword;
+                    currentUser.address = newaddres;
+                    currentUser.phoneNumber = newphone;
+                }
+                if (pa){
+                    currentUser.userName = newusername;
+                    currentUser.address = newaddres;
+                    currentUser.phoneNumber = newphone;
+                }
+                if (a){
+                    currentUser.password = newpassword;
+                    currentUser.userName = newusername;
+                    currentUser.phoneNumber = newphone;
+                }
+                if (ph){
+                    currentUser.password = newpassword;
+                    currentUser.address = newaddres;
+                    currentUser.userName = newusername;
+                }
+
+
+                else{
+                    currentUser.password = newpassword;
+                    currentUser.address = newaddres;
+                    currentUser.userName = newusername;
+                    currentUser.phoneNumber = newphone;
+                }
+
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
+            }
+        }
+    }
+    protected void setErrors(ArrayList<String> errors) {
+        int errorsNum = errors.size();
+        for (int i = 0; i < errorsNum; i++) {
+            gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+            gridConstraints.gridx = 0;
+            gridConstraints.gridy = 6 + i;
+            gridConstraints.ipady = 5;
+            gridConstraints.gridwidth = 2;
+            try {
+                JLabel label = new JLabel("*" + errors.get(i));
+                label.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
+                bodyPanel.add(label, gridConstraints);
+            } catch (Exception e) {
+                bodyPanel.add(new JLabel(""), gridConstraints);
             }
         }
     }
